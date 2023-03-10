@@ -1,0 +1,38 @@
+<resources>
+    <string name="app_name">Super Routes</string>
+
+    Strings in sing in activity
+    <string name="logo_description">Logo de la Aplicación</string>
+    <string name="title_sing_in">Super routes</string>
+    <string name="user_edit_text_placeholder">User</string>
+    <string name="password_edit_text_placeholder">Password</string>
+    <string name="text_button_ok">Ok</string>
+    <string name="text_button_cancel">Cancel</string>
+
+    Strings in routes activity
+    <string name="select_route_button">Pick!</string>
+    <string name="welcome_text">Welcome back </string>
+    <string name="routes_presentation_text">Check out the routes available today!</string>
+
+    Strings in menu activity
+    <string name="menu_text">What do you want to check?</string>
+    <string name="send_message_fell_down">Sending message...</string>
+    <string name="title_activity_maps">MapsActivity</string>
+    <string name="make_video">Make a video</string>
+    <string name="send_file">Send a file</string>
+    <string name="check_symptoms">Check symptoms</string>
+    <string name="finish_route">Finish Route</string>
+
+    Strings in position
+    <string name="position_label">Position</string>
+    <string name="latitud_label">Latitude</string>
+    <string name="longitud_label">Longitude</string>
+    <string name="title_activity_position">Position</string>
+
+    Strings in position
+    <string name="location_text">Coordinates</string>
+    <string name="latitude_label">Latitude</string>
+    <string name="longitude_label">Longitude</string>
+    <string name="button_position_location">See position on map</string>
+
+</resources>
