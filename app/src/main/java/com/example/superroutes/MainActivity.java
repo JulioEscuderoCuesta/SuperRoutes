@@ -6,9 +6,15 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.TextView;
+import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
-    public static final String USER = "user";
+    private static final String USER ="Julio Escudero";
+    private static final String PASSWORD ="1234";
+    private static final String LOGIN_ERROR = "User or password incorrect";
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -18,8 +24,12 @@ public class MainActivity extends AppCompatActivity {
     public void sendMessage(View view) {
         Intent intent = new Intent(this, Routes.class);
         EditText user = findViewById(R.id.user_edit_text);
+        EditText password = findViewById(R.id.password_edit_text);
         String user_string = user.getText().toString();
-        intent.putExtra(USER, user_string);
-        startActivity(intent);
+        String password_string = password.getText().toString();
+        if(user_string.equals(USER) && password_string.equals(PASSWORD))
+            startActivity(intent);
+        else
+            Toast.makeText(this, LOGIN_ERROR, Toast.LENGTH_SHORT).show();
     }
 }

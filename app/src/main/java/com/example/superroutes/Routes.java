@@ -30,10 +30,6 @@ public class Routes extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_routes);
 
-        //Get the Intent that started this activity and extract the string
-        Intent intent = getIntent();
-        String user = intent.getStringExtra(MainActivity.USER);
-
         //Capture the layout's TextView and set the string as its text
         TextView welcome_text = findViewById(R.id.title_text);
         //welcome_text.setText(welcome_text.getText() + user);
