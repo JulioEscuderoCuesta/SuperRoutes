@@ -6,8 +6,13 @@
     <string name="title_sing_in">Super routes</string>
     <string name="user_edit_text_placeholder">User</string>
     <string name="password_edit_text_placeholder">Password</string>
-    <string name="text_button_ok">Ok</string>
-    <string name="text_button_cancel">Cancel</string>
+    <string name="ask_for_role">Who are you?</string>
+    <string name="guide_option">Guide</string>
+    <string name="senderist_option">Senderist</string>
+    <string name="text_button_ok">Log in</string>
+    <string name="button_sign_in_google">Log in using Google</string>
+    <string name="ask_no_account_yet">Don´t have an account?</string>
+    <string name="sign_up_text">Sign up</string>
 
     Strings in routes activity
     <string name="select_route_button">Pick!</string>
