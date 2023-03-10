@@ -137,7 +137,7 @@ public class Menu extends AppCompatActivity implements SensorEventListener {
         long hours = tempTime.until(timeRouteFinish, ChronoUnit.HOURS);
         long minutes = tempTime.until(timeRouteFinish, ChronoUnit.MINUTES);
         long seconds = tempTime.until(timeRouteFinish, ChronoUnit.SECONDS);
-        String message = "Has tardado " + hours + " horas, " + minutes + " minutos y " + seconds + " segundos.";
+        String message = "It took you " + hours + " hours, " + minutes + " minutes and " + seconds + " seconds.";
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
         Thread.sleep(5000);
         Intent intent = new Intent(this, Routes.class);
