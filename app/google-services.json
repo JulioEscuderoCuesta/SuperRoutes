@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "620904884910",
+    "project_id": "superroutes-5378d",
+    "storage_bucket": "superroutes-5378d.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:620904884910:android:e26abce4cf4f61d604db3f",
+        "android_client_info": {
+          "package_name": "com.example.superroutes"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "620904884910-ek5c9khnu4a24gii8srpqg6m2s2mg3kh.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAHXKDI31oAlCpz06eL_j6iiubb8PnaZew"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "620904884910-ek5c9khnu4a24gii8srpqg6m2s2mg3kh.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

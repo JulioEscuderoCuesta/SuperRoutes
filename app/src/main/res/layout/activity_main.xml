@@ -125,6 +125,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="12dp"
+        android:onClick="onClickLogInUsingGoogle"
         android:text="@string/button_sign_in_google"
         app:layout_constraintEnd_toStartOf="@+id/guideline_margin_right"
         app:layout_constraintHorizontal_bias="1.0"
