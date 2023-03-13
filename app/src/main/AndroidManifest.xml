@@ -18,9 +18,6 @@
             android:name=".custom_classes.MyListAdapter"
             android:exported="false"/>
         <activity
-            android:name=".custom_classes.MyActivity"
-            android:exported="false"/>
-        <activity
             android:name=".PositionCoordinates"
             android:exported="false" />
         <activity

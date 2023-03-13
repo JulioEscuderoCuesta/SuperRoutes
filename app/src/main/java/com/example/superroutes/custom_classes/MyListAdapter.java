@@ -11,19 +11,20 @@ import android.widget.TextView;
 
 import com.example.superroutes.R;
 
+import java.util.ArrayList;
+
 public class MyListAdapter extends ArrayAdapter<String> {
 
     private final Activity context;
-    private final String[] maintitle;
-    private final Integer[] imgid;
+    private ArrayList<String> routes;
+    private ArrayList<Integer> images;
 
-    public MyListAdapter(Activity context, String[] maintitle, Integer[] imgid) {
-        super(context, R.layout.mylistview_routes, maintitle);
-        // TODO Auto-generated constructor stub
+    public MyListAdapter(Activity context, ArrayList<String> routes, ArrayList<Integer> images) {
+        super(context, R.layout.mylistview_routes, routes);
 
         this.context=context;
-        this.maintitle=maintitle;
-        this.imgid=imgid;
+        this.routes=routes;
+        this.images=images;
 
     }
 
@@ -34,8 +35,8 @@ public class MyListAdapter extends ArrayAdapter<String> {
         TextView titleText = rowView.findViewById(R.id.title);
         ImageView imageView = rowView.findViewById(R.id.icon);
 
-        titleText.setText(maintitle[position]);
-        imageView.setImageResource(imgid[position]);
+        titleText.setText(routes.get(position));
+        imageView.setImageResource(images.get(position));
 
         return rowView;
 

@@ -32,15 +32,6 @@
         app:layout_constraintTop_toTopOf="@+id/guideline_first_horizontal"
         app:layout_constraintVertical_bias="0.007" />
 
-    <ListView
-        android:id="@+id/list_of_routes"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        app:layout_constraintBottom_toTopOf="@+id/guideline_third_horizontal"
-        app:layout_constraintEnd_toEndOf="@id/guideline_margin_right"
-        app:layout_constraintStart_toStartOf="@+id/guideline_margin_left"
-        app:layout_constraintTop_toTopOf="@+id/guideline_second_horizontal" />
-
     <Button
         android:id="@+id/select_route_button"
         android:layout_width="wrap_content"

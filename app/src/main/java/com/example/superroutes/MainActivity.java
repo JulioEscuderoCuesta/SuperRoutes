@@ -6,10 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
-
-import com.example.superroutes.custom_classes.MyActivity;
 
 public class MainActivity extends AppCompatActivity {
     private static final String USER ="Julio Escudero";
@@ -30,7 +27,7 @@ public class MainActivity extends AppCompatActivity {
         String user_string = user.getText().toString();
         String password_string = password.getText().toString();
         if(user_string.equals(USER) && password_string.equals(PASSWORD)) {
-            intent = new Intent(this, MyActivity.class);
+            intent = new Intent(this, Routes.class);
             startActivity(intent);
         }
         else
