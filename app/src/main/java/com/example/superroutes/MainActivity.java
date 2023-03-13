@@ -22,13 +22,15 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void sendMessage(View view) {
-        Intent intent = new Intent(this, Routes.class);
+        Intent intent;
         EditText user = findViewById(R.id.user_edit_text);
         EditText password = findViewById(R.id.password_edit_text);
         String user_string = user.getText().toString();
         String password_string = password.getText().toString();
-        if(user_string.equals(USER) && password_string.equals(PASSWORD))
+        if(user_string.equals(USER) && password_string.equals(PASSWORD)) {
+            intent = new Intent(this, Routes.class);
             startActivity(intent);
+        }
         else
             Toast.makeText(this, LOGIN_ERROR, Toast.LENGTH_SHORT).show();
     }

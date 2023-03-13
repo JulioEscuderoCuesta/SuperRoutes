@@ -17,7 +17,7 @@
     Strings in routes activity
     <string name="select_route_button">Pick!</string>
     <string name="welcome_text">Welcome back </string>
-    <string name="routes_presentation_text">Check out the routes available today!</string>
+    <string name="routes_presentation_text">Here are a few routes you might be interested in!</string>
 
     Strings in menu activity
     <string name="menu_text">What do you want to check?</string>
