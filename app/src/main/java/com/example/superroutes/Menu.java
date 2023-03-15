@@ -83,7 +83,7 @@ public class Menu extends AppCompatActivity implements SensorEventListener {
                     launcher = new Intent(Menu.this, Position.class);
                     break;*/
                 case "Position":
-                    launcher = new Intent(Menu.this, PositionCoordinates.class);
+                    launcher = new Intent(Menu.this, Position.class);
                     break;
             }
             startActivity(launcher);

@@ -15,8 +15,14 @@
         android:theme="@style/Theme.SuperRoutes"
         tools:targetApi="31">
         <activity
+            android:name=".ChooseRol"
+            android:exported="false" />
+        <activity
+            android:name=".SignUp"
+            android:exported="false" />
+        <activity
             android:name=".custom_classes.MyListAdapter"
-            android:exported="false"/>
+            android:exported="false" />
         <activity
             android:name=".PositionCoordinates"
             android:exported="false" />
@@ -36,7 +42,7 @@
         -->
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="YOUR_API_KEY" />
+            android:value="19A9-A77U-RNC5-R9TE" />
 
         <activity
             android:name=".Position"

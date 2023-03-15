@@ -1,10 +1,10 @@
 <resources>
     <string name="app_name">Super Routes</string>
 
-    Strings in sing in activity
+    Strings in main activity
     <string name="logo_description">Logo de la Aplicación</string>
     <string name="title_sing_in">Super routes</string>
-    <string name="user_edit_text_placeholder">User</string>
+    <string name="email_edit_text_placeholder">Email</string>
     <string name="password_edit_text_placeholder">Password</string>
     <string name="ask_for_role">Who are you?</string>
     <string name="guide_option">Guide</string>
@@ -13,6 +13,13 @@
     <string name="button_sign_in_google">Log in using Google</string>
     <string name="ask_no_account_yet">Don´t have an account?</string>
     <string name="sign_up_text">Sign up</string>
+
+    Strings in sign in activity
+    <string name="ask_already_account">Already have an account?</string>
+
+    Strings in choose rol activity
+    <string name="choose_rol_text">Choose a rol</string>
+    <string name="button_text_go">Go!</string>
 
     Strings in routes activity
     <string name="select_route_button">Pick!</string>

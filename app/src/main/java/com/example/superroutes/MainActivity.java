@@ -10,6 +10,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.RadioGroup;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.superroutes.model.Rol;
@@ -17,6 +18,9 @@ import com.example.superroutes.model.User;
 import com.firebase.ui.auth.AuthUI;
 import com.firebase.ui.auth.FirebaseAuthUIActivityResultContract;
 import com.firebase.ui.auth.data.model.FirebaseAuthUIAuthenticationResult;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -29,12 +33,16 @@ import java.util.Arrays;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
+    private static final String USER ="Julio Escudero";
+    private static final String PASSWORD ="1234";
+    private static final String LOGIN_ERROR = "User or password incorrect";
     private static final String TAG = "FirebaseAuthActivity";
     private static final String ERROR_LOG_IN = "Error login";
     private FirebaseDatabase database;
     private DatabaseReference usuarios;
 
-    private RadioGroup radioGroup;
+    private FirebaseAuth mAuth;
+    private TextView signUpText;
 
     private final ActivityResultLauncher<Intent> signInLauncher = registerForActivityResult(
             new FirebaseAuthUIActivityResultContract(),
@@ -43,9 +51,7 @@ public class MainActivity extends AppCompatActivity {
 
     private final List<AuthUI.IdpConfig> providers = Arrays.asList(
             new AuthUI.IdpConfig.GoogleBuilder().build());
-    private static final String USER ="Julio Escudero";
-    private static final String PASSWORD ="1234";
-    private static final String LOGIN_ERROR = "User or password incorrect";
+
 
 
     @Override
@@ -53,7 +59,15 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         database = FirebaseDatabase.getInstance("https://superroutes-5378d-default-rtdb.europe-west1.firebasedatabase.app/");
-        radioGroup = findViewById(R.id.senderist_guide_radio_buttons);
+        mAuth = FirebaseAuth.getInstance();
+        signUpText = findViewById(R.id.sign_up_text);
+
+        signUpText.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(MainActivity.this, SignUp.class));
+            }
+        });
     }
 
     /**
@@ -75,7 +89,8 @@ public class MainActivity extends AppCompatActivity {
      */
     private void onSignInResult(FirebaseAuthUIAuthenticationResult result) {
         if (result.getResultCode() == RESULT_OK) {
-            checkNewUser();
+            Toast.makeText(this, "Log in succesful", Toast.LENGTH_SHORT).show();
+            startActivity(new Intent(this, ChooseRol.class));
         } else {
             if(result.getResultCode() == RESULT_CANCELED) {
                 Log.d(TAG, ERROR_LOG_IN);
@@ -85,61 +100,25 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    //Comprueba si el usuario estaba registrado en la base de datos
-    private void checkNewUser() {
-        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-        usuarios = database.getReference().child("Users");
-        usuarios.addListenerForSingleValueEvent(new ValueEventListener() {
-            boolean existe = false;
+    public void logIn(View view) {
+        final Intent[] intent = new Intent[1];
+        EditText email = findViewById(R.id.email_edit_text);
+        EditText password = findViewById(R.id.password_edit_text);
+        String emailString = email.getText().toString();
+        String passwordString = password.getText().toString();
+        mAuth.signInWithEmailAndPassword(emailString, passwordString).addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
             @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                for(DataSnapshot singleSnapshot: snapshot.getChildren()) {
-                    User user = singleSnapshot.getValue(User.class);
-                    if(user.getEmail().equals(user.getEmail()))
-                        existe = true;
+            public void onComplete(@NonNull Task<AuthResult> task) {
+                if (task.isSuccessful()) {
+                    FirebaseUser user = mAuth.getCurrentUser();
+                    intent[0] = new Intent(MainActivity.this, ChooseRol.class);
+                    startActivity(intent[0]);
+                } else {
+                    // If sign in fails, display a message to the user.
+                    Toast.makeText(MainActivity.this, LOGIN_ERROR,
+                            Toast.LENGTH_SHORT).show();
                 }
-                if(!existe)
-                    putNewUserInFirebase();
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-                //TODO
             }
         });
-        Intent intent = new Intent();
-        if(radioGroup.getCheckedRadioButtonId() == 2)
-            intent.putExtra("ROL", Rol.GUIDE);
-        else
-            intent.putExtra("ROL", Rol.SENDERIST);
-        startActivity(new Intent(this, Routes.class));
-    }
-
-    private void putNewUserInFirebase() {
-        FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
-        if(radioGroup.getCheckedRadioButtonId() == -1) {
-            Log.d(TAG, ERROR_LOG_IN);
-            Intent intent = new Intent(this, MainActivity.class).addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
-            startActivity(intent);
-        }
-        else {
-            User user = new User(currentUser.getDisplayName(), currentUser.getEmail(), currentUser.getPhoneNumber());
-            database.getReference().child("User/"+currentUser.getUid()).setValue(user);
-        }
-
-    }
-
-    public void sendMessage(View view) {
-        Intent intent;
-        EditText user = findViewById(R.id.user_edit_text);
-        EditText password = findViewById(R.id.password_edit_text);
-        String user_string = user.getText().toString();
-        String password_string = password.getText().toString();
-        if(user_string.equals(USER) && password_string.equals(PASSWORD)) {
-            intent = new Intent(this, Routes.class);
-            startActivity(intent);
-        }
-        else
-            Toast.makeText(this, LOGIN_ERROR, Toast.LENGTH_SHORT).show();
     }
 }
