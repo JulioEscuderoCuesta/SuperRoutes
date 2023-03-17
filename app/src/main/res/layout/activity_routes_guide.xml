@@ -7,19 +7,7 @@
     tools:context=".custom_classes.MyListAdapter">
 
     <TextView
-        android:id="@+id/title_text"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/welcome_text"
-        android:textColor="@color/black"
-        android:textSize="30sp"
-        app:layout_constraintBottom_toTopOf="@+id/guideline_first_horizontal"
-        app:layout_constraintEnd_toStartOf="@+id/guideline_margin_right"
-        app:layout_constraintStart_toStartOf="@+id/guideline_margin_left"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id="@+id/routes_presentation_text"
+        android:id="@+id/routes_presentation_text_guide"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:gravity="center"
@@ -72,12 +60,12 @@
         app:layout_constraintTop_toTopOf="@+id/guideline_third_horizontal" />
 
     <Button
-        android:id="@+id/select_route_button"
+        android:id="@+id/create_new_route_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:onClick="startRoute"
+        android:onClick="createNewRout"
         android:text="@string/create_new_route"
         android:textColor="@color/white"
         app:layout_constraintBottom_toBottomOf="parent"

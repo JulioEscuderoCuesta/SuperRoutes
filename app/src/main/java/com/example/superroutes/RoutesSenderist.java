@@ -22,7 +22,6 @@ public class RoutesSenderist extends AppCompatActivity {
     private ListView list;
     private String routeSelected;
     private ArrayList<String> routes;
-
     private ArrayList<Integer> guidesIcons;
     private ArrayList<Integer> weatherIcons;
 
