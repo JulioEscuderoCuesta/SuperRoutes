@@ -46,6 +46,8 @@ public class RoutesSenderist extends AppCompatActivity {
         Button selectRouteButton = findViewById(R.id.select_route_button);
         selectRouteButton.setClickable(false);
 
+        showRoutesInformation();
+
         routes.add("Ruta 1");
         routes.add("Ruta 2");
         routes.add("Ruta 3");
@@ -76,6 +78,10 @@ public class RoutesSenderist extends AppCompatActivity {
 
             }
         });
+    }
+
+    private void showRoutesInformation() {
+
     }
 
     public void startRoute(View view) {

@@ -10,23 +10,21 @@ import com.example.superroutes.model.Route;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
-import java.util.ArrayList;
+public class CreateNewRoute extends AppCompatActivity {
 
-public class RoutesGuide extends AppCompatActivity {
+    private FirebaseDatabase database;
+    private DatabaseReference routes;
 
-
-    private ArrayList<String> routes;
-    private ArrayList<Integer> weatherIcons;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_routes_guide);
-
+        setContentView(R.layout.activity_create_new_route);
     }
 
+    public void confirmNewRoute(View view) {
+        String key = database.getReference().child("Routes").push().getKey();
 
-
-    public void createNewRoute(View view) {
-        startActivity(new Intent(this, RoutesGuide.class));
+        //Route route = new Route()
+        startActivity(new Intent(this, CreateNewRoute.class));
     }
 }

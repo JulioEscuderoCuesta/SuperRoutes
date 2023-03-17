@@ -65,7 +65,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:onClick="createNewRout"
+        android:onClick="createNewRoute"
         android:text="@string/create_new_route"
         android:textColor="@color/white"
         app:layout_constraintBottom_toBottomOf="parent"
