@@ -27,11 +27,14 @@ public class ChooseRol extends AppCompatActivity {
             Toast.makeText(this, NO_ROOL_SELECTED, Toast.LENGTH_SHORT).show();
         }
         else {
-            if(radioGroup.getCheckedRadioButtonId() == 2)
+            if(radioGroup.getCheckedRadioButtonId() == 2) {
                 intent.putExtra("ROL", Rol.GUIDE);
-            else
+                startActivity(new Intent(this, RoutesGuide.class));
+            }
+            else {
                 intent.putExtra("ROL", Rol.SENDERIST);
-            startActivity(new Intent(this, Routes.class));
+                startActivity(new Intent(this, RoutesSenderist.class));
+            }
         }
 
     }

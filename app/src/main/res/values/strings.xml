@@ -21,6 +21,10 @@
     <string name="choose_rol_text">Choose a rol</string>
     <string name="button_text_go">Go!</string>
 
+    Strings in routes guide activity
+    <string name="routes_need_guide">These routes need a guide... Sign up!</string>
+    <string name="create_new_route">Create new route</string>
+
     Strings in routes activity
     <string name="select_route_button">Pick!</string>
     <string name="welcome_text">Welcome back </string>

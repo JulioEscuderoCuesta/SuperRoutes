@@ -10,21 +10,15 @@ import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.media.MediaPlayer;
 import android.os.Bundle;
-import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ArrayAdapter;
-import android.widget.CompoundButton;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.time.Duration;
 import java.time.LocalTime;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
-import java.util.Date;
-
-import javax.xml.parsers.FactoryConfigurationError;
 
 public class Menu extends AppCompatActivity implements SensorEventListener {
 
@@ -41,7 +35,7 @@ public class Menu extends AppCompatActivity implements SensorEventListener {
         setContentView(R.layout.activity_menu);
 
         Intent intent = getIntent();
-        String routeSelected = intent.getStringExtra(Routes.ROUTE_SELECTED);
+        String routeSelected = intent.getStringExtra(RoutesSenderist.ROUTE_SELECTED);
         TextView routeTitle = findViewById(R.id.route_selected);
         routeTitle.setText(routeSelected);
 
@@ -140,7 +134,7 @@ public class Menu extends AppCompatActivity implements SensorEventListener {
         String message = "It took you " + hours + " hours, " + minutes + " minutes and " + seconds + " seconds.";
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
         Thread.sleep(5000);
-        Intent intent = new Intent(this, Routes.class);
+        Intent intent = new Intent(this, RoutesSenderist.class);
         startActivity(intent);
     }
 

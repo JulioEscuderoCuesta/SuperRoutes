@@ -9,24 +9,22 @@ import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import java.util.ArrayList;
 
 import com.example.superroutes.custom_classes.MyListAdapter;
 
-import java.util.ArrayList;
-
-public class Routes extends AppCompatActivity {
+public class RoutesSenderist extends AppCompatActivity {
 
     public static final String ROUTE_SELECTED = "";
     private ListView list;
     private String routeSelected;
     private ArrayList<String> routes;
-    private ArrayList<Integer> icons;
+
+    private ArrayList<Integer> guidesIcons;
+    private ArrayList<Integer> weatherIcons;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,9 +32,10 @@ public class Routes extends AppCompatActivity {
         setContentView(R.layout.listview_routes);
 
         routes = new ArrayList<>();
-        icons = new ArrayList<>();
+        guidesIcons = new ArrayList<>();
+        weatherIcons = new ArrayList<>();
 
-        MyListAdapter adapter=new MyListAdapter(this, routes, icons);
+        MyListAdapter adapter=new MyListAdapter(this, routes, guidesIcons, weatherIcons);
         list=findViewById(R.id.list);
         list.setAdapter(adapter);
 
@@ -53,11 +52,16 @@ public class Routes extends AppCompatActivity {
         routes.add("Ruta 3");
         routes.add("Ruta 4");
         routes.add("Ruta 5");
-        icons.add(R.drawable.mountain);
-        icons.add(R.drawable.mountain);
-        icons.add(R.drawable.mountain);
-        icons.add(R.drawable.mountains);
-        icons.add(R.drawable.mountains);
+        guidesIcons.add(R.drawable.icons8_tour_guide_48);
+        guidesIcons.add(R.drawable.icons8_tour_guide_48);
+        guidesIcons.add(R.drawable.icons8_tour_guide_48);
+        guidesIcons.add(R.drawable.icons8_tourist_guide_50);
+        guidesIcons.add(R.drawable.icons8_tourist_guide_50);
+        weatherIcons.add(R.drawable.mountain);
+        weatherIcons.add(R.drawable.mountain);
+        weatherIcons.add(R.drawable.mountain);
+        weatherIcons.add(R.drawable.mountains);
+        weatherIcons.add(R.drawable.mountains);
 
         //Make the items clikeable
         list.setOnItemClickListener(new AdapterView.OnItemClickListener() {

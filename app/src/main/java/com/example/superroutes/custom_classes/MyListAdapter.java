@@ -17,14 +17,16 @@ public class MyListAdapter extends ArrayAdapter<String> {
 
     private final Activity context;
     private ArrayList<String> routes;
-    private ArrayList<Integer> images;
+    private ArrayList<Integer> routesWithGuide;
+    private ArrayList<Integer> weatherOfRoutes;
 
-    public MyListAdapter(Activity context, ArrayList<String> routes, ArrayList<Integer> images) {
+    public MyListAdapter(Activity context, ArrayList<String> routes, ArrayList<Integer> routesWithGuide, ArrayList<Integer> weatherOfRoutes) {
         super(context, R.layout.mylistview_routes, routes);
 
         this.context=context;
         this.routes=routes;
-        this.images=images;
+        this.routesWithGuide = routesWithGuide;
+        this.weatherOfRoutes=weatherOfRoutes;
 
     }
 
@@ -33,10 +35,12 @@ public class MyListAdapter extends ArrayAdapter<String> {
         View rowView=inflater.inflate(R.layout.mylistview_routes, null,true);
 
         TextView titleText = rowView.findViewById(R.id.title);
-        ImageView imageView = rowView.findViewById(R.id.icon);
+        ImageView guideIcon = rowView.findViewById(R.id.icon_guide);
+        ImageView weatherIcon = rowView.findViewById(R.id.icon_weather);
 
         titleText.setText(routes.get(position));
-        imageView.setImageResource(images.get(position));
+        guideIcon.setImageResource(routesWithGuide.get(position));
+        weatherIcon.setImageResource(weatherOfRoutes.get(position));
 
         return rowView;
 
