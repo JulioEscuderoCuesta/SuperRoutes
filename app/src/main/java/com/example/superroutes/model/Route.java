@@ -3,15 +3,15 @@ package com.example.superroutes.model;
 import com.google.firebase.database.Exclude;
 
 import java.io.Serializable;
+import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
 public class Route implements Serializable{
 
     private String name;
-    private Date whichDay;
+    private LocalDate whichDay;
     private Difficulty difficulty;
     private int maxParticipants;
     private ArrayList<User> participants;
@@ -22,7 +22,7 @@ public class Route implements Serializable{
 
     }
 
-    public Route(String name, Date whichDay, Difficulty difficulty, int maxParticipants, double durationInHours, User guide) {
+    public Route(String name, LocalDate whichDay, Difficulty difficulty, int maxParticipants, double durationInHours, User guide) {
         this.name = name;
         this.whichDay = whichDay;
         this.difficulty = difficulty;
@@ -36,7 +36,7 @@ public class Route implements Serializable{
         return name;
     }
 
-    public Date getDay() {
+    public LocalDate getDay() {
         return whichDay;
     }
 
@@ -59,7 +59,7 @@ public class Route implements Serializable{
     }
 
     private void setName(String name) { this.name = name; }
-    public void setDay(Date whichDay) {
+    public void setDay(LocalDate whichDay) {
         this.whichDay = whichDay;
     }
 
@@ -85,7 +85,7 @@ public class Route implements Serializable{
     public Map<String, Object> toMap() {
         HashMap<String, Object> result = new HashMap<>();
         result.put("name", name);
-        result.put("whichDay", whichDay);
+        result.put("whichDay", whichDay.toString());
         result.put("difficulty", difficulty);
         result.put("maxParticipants", maxParticipants);
         result.put("durationInHours", durationInHours);

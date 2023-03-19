@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Toast;
 
@@ -14,11 +15,16 @@ public class ChooseRol extends AppCompatActivity {
 
     private static final String NO_ROOL_SELECTED = "You have to choose a rol";
     private RadioGroup radioGroup;
+    private RadioButton senderistOption;
+    private RadioButton guideOption;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_choose_rol);
         radioGroup = findViewById(R.id.senderist_guide_radio_buttons);
+        senderistOption = findViewById(R.id.rol_senderist);
+        guideOption = findViewById(R.id.rol_guide);
+
     }
 
     public void onClickGo(View view) {
@@ -27,7 +33,7 @@ public class ChooseRol extends AppCompatActivity {
             Toast.makeText(this, NO_ROOL_SELECTED, Toast.LENGTH_SHORT).show();
         }
         else {
-            if(radioGroup.getCheckedRadioButtonId() == 2) {
+            if(radioGroup.getCheckedRadioButtonId() == guideOption.getId()) {
                 intent.putExtra("ROL", Rol.GUIDE);
                 startActivity(new Intent(this, RoutesGuide.class));
             }

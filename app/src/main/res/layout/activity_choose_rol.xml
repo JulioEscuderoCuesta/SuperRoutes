@@ -28,13 +28,13 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <RadioButton
-            android:id="@+id/rol_guide"
+            android:id="@+id/rol_senderist"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/senderist_option" />
 
         <RadioButton
-            android:id="@+id/rol_senderist"
+            android:id="@+id/rol_guide"
             android:layout_width="100dp"
             android:layout_height="wrap_content"
             android:text="@string/guide_option" />

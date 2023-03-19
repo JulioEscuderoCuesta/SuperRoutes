@@ -24,7 +24,6 @@
         android:inputType="numberDecimal"
         android:hint="@string/duration_hint"
         app:layout_constraintEnd_toStartOf="@+id/guideline_margin_right"
-        app:layout_constraintHorizontal_bias="0.487"
         app:layout_constraintStart_toStartOf="@+id/guideline_margin_left"
         app:layout_constraintTop_toTopOf="@+id/guideline_second_horizontal" />
 
@@ -41,19 +40,21 @@
 
     <Spinner
         android:id="@+id/difficulty_route_spinner"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        app:layout_constraintEnd_toStartOf="@+id/guideline_margin_right"
-        app:layout_constraintStart_toStartOf="@+id/guideline_margin_left"
+        app:layout_constraintEnd_toStartOf="@+id/guideline_spinner_margin_right"
+        app:layout_constraintStart_toStartOf="@+id/guideline_spinner_margin_left"
         app:layout_constraintTop_toTopOf="@+id/guideline_fourth_horizontal" />
 
-    <DatePicker
-        android:id="@+id/datepicker_new_route"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:background="@color/nav_white_mode"
-        android:datePickerMode="calendar"
-        app:layout_constraintBottom_toTopOf="@+id/guideline_sixth_horizontal"
+    <EditText
+        android:id="@+id/date_route"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:hint="@string/date_route"
+        android:inputType="date"
+        android:focusable="false"
+        android:clickable="true"
         app:layout_constraintEnd_toStartOf="@+id/guideline_margin_right"
         app:layout_constraintStart_toStartOf="@+id/guideline_margin_left"
         app:layout_constraintTop_toTopOf="@+id/guideline_fith_horizontal" />
@@ -63,6 +64,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/confirm_new_route_button"
+        android:textColor="@color/white"
         android:onClick="confirmNewRoute"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/guideline_margin_right"
@@ -102,7 +104,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.52" />
+        app:layout_constraintGuide_percent="0.50" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline_sixth_horizontal"
@@ -117,6 +119,20 @@
         android:layout_height="wrap_content"
         android:orientation="vertical"
         app:layout_constraintGuide_percent="0.15" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline_spinner_margin_left"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.23" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline_spinner_margin_right"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.79" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline_margin_right"
