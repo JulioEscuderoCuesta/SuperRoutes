@@ -6,4 +6,124 @@
     android:layout_height="match_parent"
     tools:context=".CreateNewRoute">
 
+    <EditText
+        android:id="@+id/name_route_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:hint="@string/name_route_hint"
+        android:ems="10"
+        app:layout_constraintEnd_toStartOf="@+id/guideline_margin_right"
+        app:layout_constraintStart_toStartOf="@+id/guideline_margin_left"
+        app:layout_constraintTop_toTopOf="@+id/guideline_first_horizontal" />
+
+    <EditText
+        android:id="@+id/duration_hours_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:inputType="numberDecimal"
+        android:hint="@string/duration_hint"
+        app:layout_constraintEnd_toStartOf="@+id/guideline_margin_right"
+        app:layout_constraintHorizontal_bias="0.487"
+        app:layout_constraintStart_toStartOf="@+id/guideline_margin_left"
+        app:layout_constraintTop_toTopOf="@+id/guideline_second_horizontal" />
+
+    <EditText
+        android:id="@+id/max_participants_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:hint="@string/max_participants_hint"
+        android:ems="10"
+        android:inputType="number"
+        app:layout_constraintEnd_toStartOf="@+id/guideline_margin_right"
+        app:layout_constraintStart_toStartOf="@+id/guideline_margin_left"
+        app:layout_constraintTop_toTopOf="@+id/guideline_third_horizontal" />
+
+    <Spinner
+        android:id="@+id/difficulty_route_spinner"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toStartOf="@+id/guideline_margin_right"
+        app:layout_constraintStart_toStartOf="@+id/guideline_margin_left"
+        app:layout_constraintTop_toTopOf="@+id/guideline_fourth_horizontal" />
+
+    <DatePicker
+        android:id="@+id/datepicker_new_route"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="@color/nav_white_mode"
+        android:datePickerMode="calendar"
+        app:layout_constraintBottom_toTopOf="@+id/guideline_sixth_horizontal"
+        app:layout_constraintEnd_toStartOf="@+id/guideline_margin_right"
+        app:layout_constraintStart_toStartOf="@+id/guideline_margin_left"
+        app:layout_constraintTop_toTopOf="@+id/guideline_fith_horizontal" />
+
+    <Button
+        android:id="@+id/confirm_new_route_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/confirm_new_route_button"
+        android:onClick="confirmNewRoute"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/guideline_margin_right"
+        app:layout_constraintStart_toStartOf="@+id/guideline_margin_left"
+        app:layout_constraintTop_toTopOf="@+id/guideline_sixth_horizontal" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline_first_horizontal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.20" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline_second_horizontal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.28" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline_third_horizontal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.36" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline_fourth_horizontal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.44" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline_fith_horizontal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.52" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline_sixth_horizontal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.8" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline_margin_left"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.15" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline_margin_right"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.85" />
+
+
 </androidx.constraintlayout.widget.ConstraintLayout>

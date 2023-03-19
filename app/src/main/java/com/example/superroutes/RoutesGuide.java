@@ -27,6 +27,6 @@ public class RoutesGuide extends AppCompatActivity {
 
 
     public void createNewRoute(View view) {
-        startActivity(new Intent(this, RoutesGuide.class));
+        startActivity(new Intent(this, CreateNewRoute.class));
     }
 }

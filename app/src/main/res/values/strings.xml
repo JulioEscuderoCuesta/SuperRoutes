@@ -51,4 +51,17 @@
     <string name="longitude_label">Longitude</string>
     <string name="button_position_location">See position on map</string>
 
+    Strings in create new route
+    <string name="name_route_hint">Name</string>
+    <string name="duration_hint">Duration (hours)</string>
+    <string name="max_participants_hint">Number participants</string>
+    List of difficulty routes
+    <string-array name="levels_of_difficulty_route">
+        <item>Easy</item>
+        <item>Medium</item>
+        <item>Hard</item>
+        <item>Experienced</item>
+    </string-array>
+    <string name="confirm_new_route_button">Done</string>
+
 </resources>
