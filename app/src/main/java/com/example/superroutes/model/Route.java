@@ -62,7 +62,7 @@ public class Route implements Serializable{
         return guide;
     }
 
-    private void setName(String name) { this.name = name; }
+    public void setName(String name) { this.name = name; }
     public void setWhichDay(String whichDayString) {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         this.whichDay = LocalDate.parse(whichDayString, formatter);
@@ -74,8 +74,11 @@ public class Route implements Serializable{
         this.maxParticipants = maxParticipants;
     }
 
-    /*public void setParticipants(ArrayList<User> participants) {
-        this.participants = participants;
+    /*public void setParticipants(HashMap<String, Object> participantsWithId) {
+        for(Object o : participantsWithId.values()) {
+            User senderist = (User)o;
+            participants.add(senderist);
+        }
     }*/
 
     public void setDurationInHours(double durationInHours) {

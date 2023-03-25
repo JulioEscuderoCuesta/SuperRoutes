@@ -23,7 +23,7 @@
     <string name="button_text_go">Go!</string>
 
     Strings in routes guide activity
-    <string name="routes_need_guide">These routes need a guide... Sign up!</string>
+    <string name="routes_of_the_guide">You signed up as guide for these routes</string>
     <string name="create_new_route">Create new route</string>
 
     Strings in routes activity

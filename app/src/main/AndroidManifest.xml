@@ -27,7 +27,7 @@
             android:name=".SignUp"
             android:exported="false" />
         <activity
-            android:name=".custom_classes.MyListAdapter"
+            android:name=".custom_classes.ListAdapterRoutesSenderist"
             android:exported="false" />
         <activity
             android:name=".PositionCoordinates"

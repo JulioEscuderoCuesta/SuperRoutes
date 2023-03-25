@@ -1,7 +1,10 @@
 package com.example.superroutes.model;
 import org.json.JSONException;
 import org.json.JSONObject;
-public class User {
+
+import java.io.Serializable;
+
+public class User implements Serializable {
 
     private String nombre;
     private String email;

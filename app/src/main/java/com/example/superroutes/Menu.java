@@ -35,7 +35,7 @@ public class Menu extends AppCompatActivity implements SensorEventListener {
         setContentView(R.layout.activity_menu);
 
         Intent intent = getIntent();
-        String routeSelected = intent.getStringExtra(RoutesSenderist.ROUTE_SELECTED);
+        String routeSelected = intent.getStringExtra("route_selected");
         TextView routeTitle = findViewById(R.id.route_selected);
         routeTitle.setText(routeSelected);
 
