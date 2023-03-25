@@ -96,6 +96,7 @@ public class CreateNewRoute extends AppCompatActivity implements AdapterView.OnI
 
     @Override
     public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+
         spinnerValueString = adapterView.getItemAtPosition(i).toString().toUpperCase();
     }
 

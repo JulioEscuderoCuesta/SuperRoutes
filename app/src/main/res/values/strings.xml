@@ -28,8 +28,9 @@
 
     Strings in routes activity
     <string name="select_route_button">Pick!</string>
-    <string name="welcome_text">Welcome back </string>
-    <string name="routes_presentation_text">Here are a few routes you might be interested in!</string>
+    <string name="see_routes_label_button">Welcome back!</string>
+    <string name="routes_presentation_text">Or you can sign up for these routes</string>
+    <string name="see_routes_button">My Routes</string>
 
     Strings in menu activity
     <string name="menu_text">What do you want to check?</string>
@@ -58,6 +59,7 @@
     <string name="max_participants_hint">Number participants</string>
     List of difficulty routes
     <string-array name="levels_of_difficulty_route">
+        <item>Select difficulty</item>
         <item>Easy</item>
         <item>Medium</item>
         <item>Hard</item>

@@ -1,12 +1,16 @@
 package com.example.superroutes.model;
 
+import android.util.Log;
+
 import com.google.firebase.database.Exclude;
 
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 public class Route implements Serializable{
 
@@ -36,7 +40,7 @@ public class Route implements Serializable{
         return name;
     }
 
-    public LocalDate getDay() {
+    public LocalDate getWhichDay() {
         return whichDay;
     }
 
@@ -59,8 +63,9 @@ public class Route implements Serializable{
     }
 
     private void setName(String name) { this.name = name; }
-    public void setDay(LocalDate whichDay) {
-        this.whichDay = whichDay;
+    public void setWhichDay(String whichDayString) {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        this.whichDay = LocalDate.parse(whichDayString, formatter);
     }
 
     public void setDifficulty(Difficulty difficulty) { this.difficulty = difficulty; }
@@ -69,9 +74,9 @@ public class Route implements Serializable{
         this.maxParticipants = maxParticipants;
     }
 
-    public void setParticipants(ArrayList<User> participants) {
+    /*public void setParticipants(ArrayList<User> participants) {
         this.participants = participants;
-    }
+    }*/
 
     public void setDurationInHours(double durationInHours) {
         this.durationInHours = durationInHours;
@@ -94,4 +99,13 @@ public class Route implements Serializable{
         return result;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if(this == o) return true;
+        if(o == null || getClass() != o.getClass()) return false;
+        Route that = (Route) o;
+        return Objects.equals(this.name, that.name)
+                && Objects.equals(this.whichDay, that.whichDay)
+                && Objects.equals(this.guide.getEmail(), that.guide.getEmail());
+    }
 }
