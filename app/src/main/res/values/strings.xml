@@ -11,9 +11,14 @@
     <string name="guide_option">Guide</string>
     <string name="senderist_option">Senderist</string>
     <string name="text_button_ok">Log in</string>
+    <string name="forgot_password_text">Forgot password?</string>
     <string name="button_sign_in_google">Log in using Google</string>
     <string name="ask_no_account_yet">Don´t have an account?</string>
     <string name="sign_up_text">Sign up</string>
+
+    Strings in toolbar
+    <string name="text_toolbar_super">SUPER</string>
+    <string name="text_toolbar_routes">ROUTES</string>
 
     Strings in sign in activity
     <string name="ask_already_account">Already have an account?</string>

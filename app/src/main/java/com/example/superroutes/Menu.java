@@ -22,6 +22,7 @@ import java.util.ArrayList;
 
 public class Menu extends AppCompatActivity implements SensorEventListener {
 
+    private static final String FALL_DOWN_MESSAGE = "Oh no, you fell down!";
     private ArrayList<String> options;
     private SwitchCompat accelerometerSwitch;
     private static boolean isTouched = false;
@@ -35,8 +36,8 @@ public class Menu extends AppCompatActivity implements SensorEventListener {
         setContentView(R.layout.activity_menu);
 
         Intent intent = getIntent();
-        String routeSelected = intent.getStringExtra("route_selected");
-        TextView routeTitle = findViewById(R.id.route_selected);
+        String routeSelected = intent.getStringExtra("route_name");
+        TextView routeTitle = findViewById(R.id.route_title);
         routeTitle.setText(routeSelected);
 
         timeRouteStarts = LocalTime.now();
@@ -78,16 +79,18 @@ public class Menu extends AppCompatActivity implements SensorEventListener {
                     break;*/
                 case "Position":
                     launcher = new Intent(Menu.this, Position.class);
+                    startActivity(launcher);
                     break;
+                default:
+                    notImplementedYet(null);
             }
-            startActivity(launcher);
         });
 
-        //Check accelerometer options is checked or not
+        /*//Check accelerometer options is checked or not
         accelerometerSwitch.setOnTouchListener((view, motionEvent) -> {
             isTouched = true;
             return false;
-        });
+        });*/
 
         accelerometerSwitch.setOnCheckedChangeListener((compoundButton, isChecked) -> {
             if(isTouched) {
@@ -110,7 +113,7 @@ public class Menu extends AppCompatActivity implements SensorEventListener {
                 lastFall = newFall;
                 MediaPlayer mediaPlayer = MediaPlayer.create(this, R.raw.caida);
                 mediaPlayer.start();
-                Toast.makeText(this, "Sending message...", Toast.LENGTH_LONG).show();
+                Toast.makeText(this, FALL_DOWN_MESSAGE, Toast.LENGTH_LONG).show();
             }
         }
     }

@@ -6,12 +6,23 @@
     <color name="teal_200">#FF03DAC5</color>
     <color name="teal_700">#FF018786</color>
     <color name="black">#FF000000</color>
-    <color name="white">#FFFFFFFF</color>
+    <color name="white">#DFE2DE</color>
     <color name="green_login">#81B622</color>
 
     App colors
-    <color name="nav_white_mode">#9AE991</color>
-    <color name="green_gray_white_mode">#56AD2B</color>
+    <color name="text_color">#333333</color>
+    <color name="nav_white_mode">#BFF28D</color>
+    <color name="green_gray_white_mode">#43BD41</color>
+    <color name="background_color">#DFFCD8</color>
+    <color name="editText_background_color">#FFFFFF</color>
+    <color name="editText_border_color">#AAADAA</color>
+    <color name="black_text_clicked">#AAADAA</color>
+
+
+
+
+
+    <color name="little_gray">#687E6F</color>
 
     <drawable name="item_selected_gray">#C3C2C3</drawable>
 </resources>

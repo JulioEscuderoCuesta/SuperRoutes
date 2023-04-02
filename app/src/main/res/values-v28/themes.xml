@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="SecondaryButtonsStyle" parent="Widget.AppCompat.Button">
+        <item name="android:textSize">14sp</item>
+        <item name="android:textFontWeight">1000</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:fontFamily">@font/fonts_style</item>
+        <item name="android:background">@drawable/main_button</item>
+    </style>
+
+    <style name="MainButtonsStyle" parent="Widget.AppCompat.Button">
+        <item name="android:textSize">18sp</item>
+        <item name="android:textFontWeight">1000</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:fontFamily">@font/fonts_style</item>
+        <item name="android:background">@drawable/main_button</item>
+    </style>
+</resources>

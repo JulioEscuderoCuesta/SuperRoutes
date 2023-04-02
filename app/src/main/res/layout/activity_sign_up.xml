@@ -4,16 +4,28 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/background_color"
+
     tools:context=".SignUp">
+
+    <ImageView
+        android:id="@+id/logo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:contentDescription="@string/logo_description"
+        app:layout_constraintBottom_toTopOf="@+id/guideline_first_horizontal"
+        app:layout_constraintEnd_toStartOf="@+id/guideline_margin_right"
+        app:layout_constraintStart_toStartOf="@+id/guideline_margin_left"
+        app:layout_constraintTop_toTopOf="@+id/guideline_zero_horizontal"
+        app:srcCompat="@drawable/iconoruta" />
 
     <EditText
         android:id="@+id/email_edit_text"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:ems="12"
-        android:hint="@string/email_edit_text_placeholder"
+        android:layout_height="0dp"
         android:inputType="text"
-        android:textSize="18sp"
+        style="@style/editTextViewStyle"
+        android:hint="@string/email_edit_text_placeholder"
         app:layout_constraintBottom_toTopOf="@+id/guideline_second_horizontal"
         app:layout_constraintEnd_toStartOf="@+id/guideline_margin_right"
         app:layout_constraintStart_toStartOf="@+id/guideline_margin_left"
@@ -22,10 +34,10 @@
     <EditText
         android:id="@+id/password_edit_text"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
         android:hint="@string/password_edit_text_placeholder"
+        style="@style/editTextViewStyle"
         android:inputType="textPassword"
-        android:textSize="18sp"
         app:layout_constraintBottom_toTopOf="@+id/guideline_third_horizontal"
         app:layout_constraintEnd_toStartOf="@+id/guideline_margin_right"
         app:layout_constraintStart_toStartOf="@+id/guideline_margin_left"
@@ -37,7 +49,8 @@
         android:layout_height="wrap_content"
         android:onClick="signUp"
         android:text="@string/sign_up_text"
-        android:textSize="20sp"
+        style="@style/MainButtonsStyle"
+        android:layout_marginTop="10dp"
         app:layout_constraintEnd_toStartOf="@+id/guideline_margin_right"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="@+id/guideline_margin_left"

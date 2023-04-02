@@ -3,8 +3,10 @@ package com.example.superroutes;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -31,10 +33,11 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class MainActivity extends AppCompatActivity {
-    private static final String USER ="Julio Escudero";
-    private static final String PASSWORD ="1234";
+
     private static final String LOGIN_ERROR = "User or password incorrect";
     private static final String TAG = "FirebaseAuthActivity";
     private static final String ERROR_LOG_IN = "Error login";
@@ -53,13 +56,17 @@ public class MainActivity extends AppCompatActivity {
             new AuthUI.IdpConfig.GoogleBuilder().build());
 
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         database = FirebaseDatabase.getInstance("https://superroutes-5378d-default-rtdb.europe-west1.firebasedatabase.app/");
         mAuth = FirebaseAuth.getInstance();
+        //Get permissions to access to user position
+        if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED)
+            ActivityCompat.requestPermissions(this,
+                    new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION, android.Manifest.permission.ACCESS_COARSE_LOCATION}, 123);
+
         signUpText = findViewById(R.id.sign_up_text);
 
         signUpText.setOnClickListener(new View.OnClickListener() {
@@ -84,9 +91,34 @@ public class MainActivity extends AppCompatActivity {
         //                .setLogo(R.mipmap.room_choice)
     }
 
+    public void logIn(View view) {
+        final Intent[] intent = new Intent[1];
+        EditText email = findViewById(R.id.email_edit_text);
+        EditText password = findViewById(R.id.password_edit_text);
+        String emailString = email.getText().toString();
+        String passwordString = password.getText().toString();
+        if(!ValidateCredentials(emailString, passwordString)) Toast.makeText(this, LOGIN_ERROR, Toast.LENGTH_SHORT).show();
+        else {
+            mAuth.signInWithEmailAndPassword(emailString, passwordString).addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                @Override
+                public void onComplete(@NonNull Task<AuthResult> task) {
+                    if (task.isSuccessful()) {
+                        FirebaseUser user = mAuth.getCurrentUser();
+                        intent[0] = new Intent(MainActivity.this, ChooseRol.class);
+                        startActivity(intent[0]);
+                    } else {
+                        // If sign in fails, display a message to the user.
+                        Toast.makeText(MainActivity.this, LOGIN_ERROR,
+                                Toast.LENGTH_SHORT).show();
+                    }
+                }
+            });
+        }
+    }
+
     /*
-        Verify login was succesful. Otherwise, returns error
-     */
+      Verify login was succesful. Otherwise, returns error
+   */
     private void onSignInResult(FirebaseAuthUIAuthenticationResult result) {
         if (result.getResultCode() == RESULT_OK) {
             Toast.makeText(this, "Log in succesful", Toast.LENGTH_SHORT).show();
@@ -100,25 +132,11 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    public void logIn(View view) {
-        final Intent[] intent = new Intent[1];
-        EditText email = findViewById(R.id.email_edit_text);
-        EditText password = findViewById(R.id.password_edit_text);
-        String emailString = email.getText().toString();
-        String passwordString = password.getText().toString();
-        mAuth.signInWithEmailAndPassword(emailString, passwordString).addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-            @Override
-            public void onComplete(@NonNull Task<AuthResult> task) {
-                if (task.isSuccessful()) {
-                    FirebaseUser user = mAuth.getCurrentUser();
-                    intent[0] = new Intent(MainActivity.this, ChooseRol.class);
-                    startActivity(intent[0]);
-                } else {
-                    // If sign in fails, display a message to the user.
-                    Toast.makeText(MainActivity.this, LOGIN_ERROR,
-                            Toast.LENGTH_SHORT).show();
-                }
-            }
-        });
+    private boolean ValidateCredentials(String email, String password) {
+        if(email.isEmpty() || password.isEmpty())
+            return false;
+        return true;
     }
+
+
 }

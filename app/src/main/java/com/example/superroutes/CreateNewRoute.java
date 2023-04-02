@@ -38,7 +38,6 @@ public class CreateNewRoute extends AppCompatActivity implements AdapterView.OnI
     private static final String ERROR_NEW_ROUTE = "There was an error creating the new route";
     private static final String SUCCESS_NEW_ROUTE = "New route created";
     private FirebaseDatabase database;
-    private DatabaseReference routes;
     private FirebaseUser user;
 
     Spinner spinner;
@@ -88,7 +87,9 @@ public class CreateNewRoute extends AppCompatActivity implements AdapterView.OnI
             }
             else {
                 Toast.makeText(CreateNewRoute.this, SUCCESS_NEW_ROUTE, Toast.LENGTH_SHORT).show();
-                startActivity(new Intent(CreateNewRoute.this, RoutesGuide.class));
+                Intent intent = new Intent();
+                intent.putExtra("route_code", key);
+                startActivity(new Intent(CreateNewRoute.this, WatchRouteInformation.class));
 
             }
         });

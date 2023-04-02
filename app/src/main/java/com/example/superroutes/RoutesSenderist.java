@@ -99,6 +99,9 @@ public class RoutesSenderist extends AppCompatActivity {
                         senderistInRoutesDatabase.child(routesSnapshot.getKey()).child(user.getUid()).setValue(senderist);
                         done = true;
                         Toast.makeText(RoutesSenderist.this, SENDERIST_ADDED_TO_ROUTE, Toast.LENGTH_SHORT).show();
+                        Intent intent = new Intent(RoutesSenderist.this, Menu.class);
+                        intent.putExtra("route_name", routeSelected.getName());
+                        startActivity(intent);
                     }
                 }
                 if(!done)

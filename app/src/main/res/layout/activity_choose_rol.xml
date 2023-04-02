@@ -12,7 +12,6 @@
         android:layout_height="wrap_content"
         android:text="@string/choose_rol_text"
         android:textColor="@color/black"
-        android:textSize="24dp"
         app:layout_constraintBottom_toTopOf="@+id/guideline_first_horizontal"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
