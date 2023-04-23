@@ -15,6 +15,8 @@ public class RouteProposal{
     private LocalDate whichDay;
     private int maxParticipants;
 
+    private RouteProposalState routeProposalState;
+
     private ArrayList<User> participants;
     private String comments;
     private User guide;
@@ -26,6 +28,7 @@ public class RouteProposal{
         this.routeId = routeId;
         this.whichDay = whichDay;
         this.maxParticipants = maxParticipants;
+        routeProposalState = RouteProposalState.PROPOSED;
         participants = new ArrayList<>();
         this.comments = comments;
         this.guide = guide;
@@ -35,6 +38,10 @@ public class RouteProposal{
 
     public LocalDate getWhichDay() {
         return whichDay;
+    }
+
+    public RouteProposalState getRouteProposalState() {
+        return routeProposalState;
     }
 
     public int getMaxParticipants() {
@@ -53,6 +60,10 @@ public class RouteProposal{
         this.whichDay = LocalDate.parse(whichDayString, formatter);
     }
 
+    public void setRouteProposalState(RouteProposalState routeProposalState) {
+        this.routeProposalState = routeProposalState;
+    }
+
     public void setComments(String comments) { this.comments = comments; }
 
     public void setMaxParticipants(int maxParticipants) {
@@ -67,6 +78,7 @@ public class RouteProposal{
         HashMap<String, Object> result = new HashMap<>();
         result.put("routeId", routeId);
         result.put("whichDay", whichDay.toString());
+        result.put("routeProposalState", routeProposalState);
         result.put("maxParticipants", maxParticipants);
         result.put("comments", comments);
         result.put("guide", guide);

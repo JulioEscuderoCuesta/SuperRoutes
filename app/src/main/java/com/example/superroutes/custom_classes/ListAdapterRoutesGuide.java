@@ -29,7 +29,6 @@ public class ListAdapterRoutesGuide extends ArrayAdapter<String> {
         this.numberOfParticipantsSlashTotal = numberOfParticipantsSlashTotal;
         this.mainImageOfRoute = mainImageOfRoute;
         this.datesOfRoutes = datesOfRoutes;
-        Log.d("en el constructor guide", "hola");
 
     }
 
@@ -42,6 +41,8 @@ public class ListAdapterRoutesGuide extends ArrayAdapter<String> {
         ImageView mainImageOfRouteImage = rowView.findViewById(R.id.main_image_of_route);
         TextView datesOfRouteTextView = rowView.findViewById(R.id.date_of_route_guide_routes);
 
+        Log.d("datesOfRoutes", datesOfRoutes.get(position).toString());
+        Log.d("numberOfParticipantsTextView", numberOfParticipantsSlashTotal.get(position).toString());
         nameOfRouteTextView.setText(routesNames.get(position));
         numberOfParticipantsTextView.setText(numberOfParticipantsSlashTotal.get(position));
         mainImageOfRouteImage.setImageResource(mainImageOfRoute.get(position));

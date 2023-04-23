@@ -3,6 +3,7 @@ package com.example.superroutes;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -13,6 +14,7 @@ import android.widget.ListView;
 import com.example.superroutes.custom_classes.ListAdapterRoutesGuide;
 import com.example.superroutes.model.Route;
 import com.example.superroutes.model.RouteProposal;
+import com.firebase.ui.auth.AuthUI;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -30,7 +32,7 @@ public class MainMenuGuide extends AppCompatActivity {
     private FirebaseUser user;
     private DatabaseReference routesInDatabase;
     private DatabaseReference routesProposalsInDatabase;
-    private DatabaseReference senderistInRoutesDatabase;
+    private DatabaseReference participants;
 
     private ListView list;
     private ArrayList<String> routesIds;
@@ -54,7 +56,7 @@ public class MainMenuGuide extends AppCompatActivity {
         user = FirebaseAuth.getInstance().getCurrentUser();
         routesInDatabase = database.getReference().child("Routes");
         routesProposalsInDatabase = database.getReference().child("RoutesProposals");
-        senderistInRoutesDatabase = database.getReference().child("SenderistInRoutes");
+        participants = database.getReference().child("Participants");
         routesIds = new ArrayList<>();
         routesProposalsIds = new ArrayList<>();
         routesNames = new ArrayList<>();
@@ -114,11 +116,27 @@ public class MainMenuGuide extends AppCompatActivity {
                                         Route routeAux = routeSnapshot.getValue(Route.class);
                                         routesIds.add(routeProposalAux.getRouteId());
                                         routesNames.add(routeAux.getName());
-                                        int numberOfParticipants = getNumberOfParticipants(routesSnapshot.getKey());
-                                        showNumberOfParticipantsSlashTotal(numberOfParticipants, routeProposalAux.getMaxParticipants());
-                                        showMainImageOfRoutes();
-                                        datesOfRoutes.add(routeProposalAux.getWhichDay().toString());
-                                        listAdapterRoutesGuide.notifyDataSetChanged();
+                                        participants.addListenerForSingleValueEvent(new ValueEventListener() {
+                                            @Override
+                                            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                                int numberOfParticipants = 0;
+                                                for (DataSnapshot routeProposal : snapshot.getChildren()) {
+                                                    if (routeProposal.getKey().equals(routesSnapshot.getKey())) {
+                                                        numberOfParticipants = (int) snapshot.getChildrenCount();
+
+                                                    }
+                                                }
+                                                showNumberOfParticipantsSlashTotal(numberOfParticipants, routeProposalAux.getMaxParticipants());
+                                                showMainImageOfRoutes();
+                                                datesOfRoutes.add(routeProposalAux.getWhichDay().toString());
+                                                listAdapterRoutesGuide.notifyDataSetChanged();
+                                            }
+                                            @Override
+                                            public void onCancelled(@NonNull DatabaseError error) {
+
+                                            }
+                                        });
+
                                     }
                                 }
                             }
@@ -135,31 +153,12 @@ public class MainMenuGuide extends AppCompatActivity {
             public void onCancelled(@NonNull DatabaseError error) {
             }
         });
-
-
-    }
-    private int getNumberOfParticipants(String key) {
-        final int[] numberOfParticipants = {0};
-        senderistInRoutesDatabase.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                for (DataSnapshot routeProposal : snapshot.getChildren()) {
-                    if (routeProposal.getKey().equals(key)) {
-                        numberOfParticipants[0] = Math.toIntExact(snapshot.getChildrenCount());
-                    }
-                }
-            }
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });
-        return numberOfParticipants[0];
     }
 
     private void showNumberOfParticipantsSlashTotal(int numberOfParticipants, int numberOfMaxParticipants) {
         StringBuilder stringBuilder = new StringBuilder();
         stringBuilder.append(numberOfParticipants).append("/").append(numberOfMaxParticipants);
+        Log.d("el string es: ", stringBuilder.toString());
         numberOfParticipantsSlashTotal.add(stringBuilder.toString());
     }
 
@@ -167,4 +166,23 @@ public class MainMenuGuide extends AppCompatActivity {
         mainImageOfRoute.add(R.drawable.mountain);
     }
 
+    @Override
+    public void onBackPressed() {
+        androidx.appcompat.app.AlertDialog.Builder builder = new androidx.appcompat.app.AlertDialog.Builder(this);
+        builder.setMessage("Are you sure you want to log out?");
+        builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        AuthUI.getInstance().signOut(getApplicationContext());
+                        startActivity(new Intent(MainMenuGuide.this, MainActivity.class));
+                    }
+                })
+                .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                });
+        builder.show();
+    }
 }

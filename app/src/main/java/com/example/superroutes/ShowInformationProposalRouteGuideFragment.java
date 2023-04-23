@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -23,6 +24,7 @@ import android.widget.Toast;
 import com.example.superroutes.custom_classes.ListOfParticipantsCardAdapter;
 import com.example.superroutes.model.Route;
 import com.example.superroutes.model.RouteProposal;
+import com.example.superroutes.model.RouteProposalState;
 import com.example.superroutes.model.User;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -81,7 +83,10 @@ public class ShowInformationProposalRouteGuideFragment extends DialogFragment {
         Button startRouteButton = v.findViewById(R.id.start_route_guide_button);
         Button deleteProposalButton = v.findViewById(R.id.delete_proposal_button);
         startRouteButton.setOnClickListener(view -> {
-            //TODO
+            routeProposal.child("routeProposalState").setValue(RouteProposalState.STARTED);
+            Intent intent = new Intent(getContext(), RouteStartedGuide.class);
+            intent.putExtra("route_proposal_code", routeProposalCode);
+            startActivity(intent);
         });
         deleteProposalButton.setOnClickListener(view -> {
             confirmDeleteProposalDialog();
