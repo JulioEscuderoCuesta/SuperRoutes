@@ -7,17 +7,6 @@
     android:background="@color/background_color"
     tools:context=".MainActivity">
 
-    <TextView
-        android:id="@+id/textView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/app_name"
-        android:textColor="@color/black"
-        android:textAppearance="@style/textViewTitleMainActivityStyle"
-        app:layout_constraintBottom_toTopOf="@+id/guideline_zero_horizontal"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
-
     <ImageView
         android:id="@+id/logo"
         android:layout_width="wrap_content"

@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MyGroups">
+
+    <SearchView
+        android:id="@+id/searchview_my_groups"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="@drawable/route_card_background"
+        app:layout_constraintBottom_toTopOf="@+id/guideline_bottom_searchview"
+        app:layout_constraintEnd_toStartOf="@+id/guideline_margin_right"
+        app:layout_constraintStart_toStartOf="@+id/guideline_margin_left"
+        app:layout_constraintTop_toTopOf="@+id/guideline_top_searchview" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline_margin_left"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.15" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline_margin_right"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.85" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline_top_searchview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintGuide_percent="0.1"
+        android:orientation="horizontal" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline_bottom_searchview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintGuide_percent="0.16"
+        android:orientation="horizontal" />
+</androidx.constraintlayout.widget.ConstraintLayout>

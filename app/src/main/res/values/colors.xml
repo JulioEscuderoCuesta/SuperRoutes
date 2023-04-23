@@ -6,7 +6,7 @@
     <color name="teal_200">#FF03DAC5</color>
     <color name="teal_700">#FF018786</color>
     <color name="black">#FF000000</color>
-    <color name="white">#DFE2DE</color>
+    <color name="white">#FFFFFF</color>
     <color name="green_login">#81B622</color>
 
     App colors
@@ -17,6 +17,12 @@
     <color name="editText_background_color">#FFFFFF</color>
     <color name="editText_border_color">#AAADAA</color>
     <color name="black_text_clicked">#AAADAA</color>
+    <color name="choose_rol_explanation_text_background">#36F723</color>
+
+    <color name="difficulty_expert">#031202</color>
+    <color name="difficulty_hard">#F12211</color>
+    <color name="difficulty_moderate">#DCE21D</color>
+    <color name="difficulty_easy">#27EF1D</color>
 
 
 

@@ -4,7 +4,7 @@
 
     Strings in main activity
     <string name="logo_description">Logo de la Aplicación</string>
-    <string name="title_sing_in">Super routes</string>
+    <string name="super_routes_text">Super routes</string>
     <string name="email_edit_text_placeholder">Email</string>
     <string name="password_edit_text_placeholder">Password</string>
     <string name="ask_for_role">Who are you?</string>
@@ -24,18 +24,24 @@
     <string name="ask_already_account">Already have an account?</string>
 
     Strings in choose rol activity
+    <string name="welcome_text">Welcome to</string>
+    <string name="choose_rol_information">You need to choose a rol to continue.</string>
+    <string name="choose_rol_explanation">If you log in as Guide, you\'ll be able to propose routes, but people may request you to be the guide in their routes.</string>
     <string name="choose_rol_text">Choose a rol</string>
     <string name="button_text_go">Go!</string>
 
-    Strings in routes guide activity
+    Strings in main menu guide activity
     <string name="routes_of_the_guide">You signed up as guide for these routes</string>
-    <string name="create_new_route">Create new route</string>
+    <string name="see_my_routes_guide_menu">My Routes</string>
+    <string name="see_previous_routes_guide_menu">See routes done</string>
+    <string name="create_new_route_guide_menu">Create new route</string>
 
-    Strings in routes activity
+    Strings in activity main menu senderist
     <string name="select_route_button">Pick!</string>
-    <string name="see_routes_label_button">Welcome back!</string>
+    <string name="check_out_new_routes">Check out these new routes</string>
     <string name="routes_presentation_text">Or you can sign up for these routes</string>
-    <string name="see_routes_button">My Routes</string>
+    <string name="see_my_routes_button">My Routes</string>
+    <string name="see_my_groups_button">My Groups</string>
 
     Strings in menu activity
     <string name="menu_text">What do you want to check?</string>
@@ -61,7 +67,9 @@
     Strings in create new route
     <string name="name_route_hint">Name</string>
     <string name="duration_hint">Duration (hours)</string>
-    <string name="max_participants_hint">Number participants</string>
+    <string name="max_participants_hint">Nº participants</string>
+    <string name="accept_participants_check_box">Accept participants</string>
+    <string name="comments_edit_hint">Write more information...</string>
     List of difficulty routes
     <string-array name="levels_of_difficulty_route">
         <item>Select difficulty</item>
@@ -72,5 +80,23 @@
     </string-array>
     <string name="date_route">Date</string>
     <string name="confirm_new_route_button">Done</string>
+
+    Strings in search bar
+    <string name="search_hint">Search new groups</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    Strings in fragment card routes guide
+    <string name="start_route_button">Start!</string>
+    <string name="delete_proposal_button">Delete</string>
+
+    String in fragment card routes senderist
+    <string name="difficulty_of_route_senderist_routes_label_text">Difficulty: </string>
+    <string name="date_of_route_senderist_routes_label_text">Date: </string>
+    <string name="duration_of_route_senderist_routes_label_text">Duration: </string>
+    <string name="location_of_route_senderist_routes_label_text">Location: </string>
+    <string name="join_route_button">Join</string>
+    <string name="close_route_button">Close</string>
+
 
 </resources>

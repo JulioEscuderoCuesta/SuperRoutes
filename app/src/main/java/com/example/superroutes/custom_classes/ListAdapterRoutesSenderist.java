@@ -2,6 +2,7 @@ package com.example.superroutes.custom_classes;
 
 import android.app.Activity;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,31 +17,42 @@ import java.util.ArrayList;
 public class ListAdapterRoutesSenderist extends ArrayAdapter<String> {
 
     private final Activity context;
-    private ArrayList<String> routes;
+    private ArrayList<String> routesNames;
+    private ArrayList<String> datesOfRoutes;
+    private ArrayList<Integer> mainImageOfRoutes;
     private ArrayList<Integer> routesWithGuide;
     private ArrayList<Integer> difficultyOfRoutes;
 
-    public ListAdapterRoutesSenderist(Activity context, ArrayList<String> routes, ArrayList<Integer> routesWithGuide, ArrayList<Integer> difficultyOfRoutes) {
-        super(context, R.layout.listview_routes_senderist, routes);
+    public ListAdapterRoutesSenderist(Activity context, ArrayList<String> routesNames, ArrayList<String> datesOfRoutes, ArrayList<Integer> mainImageOfRoutes, ArrayList<Integer> routesWithGuide, ArrayList<Integer> difficultyOfRoutes) {
+        super(context, R.layout.listview_routes_senderist, routesNames);
 
         this.context = context;
-        this.routes = routes;
+        this.routesNames = routesNames;
+        this.datesOfRoutes = datesOfRoutes;
+        this.mainImageOfRoutes = mainImageOfRoutes;
         this.routesWithGuide = routesWithGuide;
         this.difficultyOfRoutes = difficultyOfRoutes;
+        Log.d("en el constructor", "hola");
 
     }
 
     public View getView(int position, View view, ViewGroup parent) {
         LayoutInflater inflater = context.getLayoutInflater();
         View rowView = inflater.inflate(R.layout.listview_routes_senderist, null, true);
+        Log.d("en el getView", "hola");
 
-        TextView titleText = rowView.findViewById(R.id.title);
-        ImageView guideIcon = rowView.findViewById(R.id.icon_guide);
-        ImageView weatherIcon = rowView.findViewById(R.id.icon_difficulty);
+        rowView.setBackgroundResource(R.drawable.route_card_background);
+        TextView nameOfRouteText = rowView.findViewById(R.id.name_of_route_routes_senderist);
+        TextView dateOfRouteText = rowView.findViewById(R.id.date_of_route_routes_senderist);
+        ImageView mainImageOfRouteImage = rowView.findViewById(R.id.main_image_of_route_routes_senderist);
+        ImageView routesWithGuideImage = rowView.findViewById(R.id.icon_guide_routes_senderist);
+        ImageView difficultyOfRoutesImage = rowView.findViewById(R.id.icon_difficulty_routes_senderist);
 
-        titleText.setText(routes.get(position));
-        guideIcon.setImageResource(routesWithGuide.get(position));
-        weatherIcon.setImageResource(difficultyOfRoutes.get(position));
+        nameOfRouteText.setText(routesNames.get(position));
+        dateOfRouteText.setText(datesOfRoutes.get(position));
+        mainImageOfRouteImage.setImageResource(mainImageOfRoutes.get(position));
+        routesWithGuideImage.setImageResource(routesWithGuide.get(position));
+        difficultyOfRoutesImage.setImageResource(difficultyOfRoutes.get(position));
 
         return rowView;
 

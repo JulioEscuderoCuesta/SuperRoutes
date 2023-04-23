@@ -6,10 +6,10 @@
     android:layout_height="match_parent">
 
     <androidx.appcompat.widget.Toolbar
-        android:id="@+id/toolbar"
+        android:id="@+id/my_toolbar"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:background="?attr/colorPrimaryVariant"
+        android:background="@color/nav_white_mode"
         android:minHeight="?attr/actionBarSize"
         android:theme="?attr/actionBarTheme"
         app:layout_constraintBottom_toTopOf="@+id/guideline_toolbar_horizontal"
@@ -17,18 +17,17 @@
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0">
+        app:layout_constraintVertical_bias="1.0">
 
         <TextView
             android:id="@+id/text_toolbar_super"
+            style="@style/textViewApplicationTitleStyle"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_gravity="center"
-            android:layout_marginEnd="20dp"
+            android:layout_marginEnd="15dp"
             android:gravity="center"
-            android:text="@string/text_toolbar_super"
-            android:textAppearance="@style/textViewApplicationTitleStyle"
-            android:textColor="?attr/colorOnPrimary" />
+            android:text="@string/text_toolbar_super" />
 
         <ImageView
             android:id="@+id/image_toolbar"
@@ -37,17 +36,15 @@
             android:layout_gravity="center"
             app:srcCompat="@drawable/iconoruta" />
 
-
         <TextView
             android:id="@+id/text_toolbar_routes"
+            style="@style/textViewApplicationTitleStyle"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_gravity="center"
-            android:layout_marginStart="40dp"
+            android:layout_marginStart="30dp"
             android:gravity="center"
-            android:text="@string/text_toolbar_routes"
-            android:textAppearance="@style/textViewApplicationTitleStyle"
-            android:textColor="?attr/colorOnPrimary" />
+            android:text="@string/text_toolbar_routes" />
 
         <ImageView
             android:layout_width="60dp"
@@ -63,4 +60,13 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         app:layout_constraintGuide_percent="0.08" />
+
+    <View
+        android:id="@+id/toolbar_divider"
+        android:layout_width="wrap_content"
+        android:layout_height="1dp"
+        android:background="@color/nav_white_mode"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/my_toolbar" />
 </androidx.constraintlayout.widget.ConstraintLayout>

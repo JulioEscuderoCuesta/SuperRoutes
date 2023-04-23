@@ -92,7 +92,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void logIn(View view) {
-        final Intent[] intent = new Intent[1];
         EditText email = findViewById(R.id.email_edit_text);
         EditText password = findViewById(R.id.password_edit_text);
         String emailString = email.getText().toString();
@@ -104,8 +103,7 @@ public class MainActivity extends AppCompatActivity {
                 public void onComplete(@NonNull Task<AuthResult> task) {
                     if (task.isSuccessful()) {
                         FirebaseUser user = mAuth.getCurrentUser();
-                        intent[0] = new Intent(MainActivity.this, ChooseRol.class);
-                        startActivity(intent[0]);
+                        startActivity(new Intent(MainActivity.this, ChooseRol.class));
                     } else {
                         // If sign in fails, display a message to the user.
                         Toast.makeText(MainActivity.this, LOGIN_ERROR,

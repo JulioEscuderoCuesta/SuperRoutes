@@ -6,57 +6,65 @@
     android:layout_height="match_parent"
     android:label="New Route"
     android:background="#DFFCD8"
-    tools:context=".CreateNewRoute">
+    tools:context=".CreateNewRouteProposal">
 
-    <EditText
-        android:id="@+id/name_route_text"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:hint="@string/name_route_hint"
-        android:ems="10"
+    <include
+        android:id="@+id/toolbar"
+        layout="@layout/toolbar" />
+
+    <SearchView
+        android:id="@+id/searchview_my_groups"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="@drawable/route_card_background"
+        app:layout_constraintBottom_toTopOf="@+id/guideline_bottom_searchview"
         app:layout_constraintEnd_toStartOf="@+id/guideline_margin_right"
         app:layout_constraintStart_toStartOf="@+id/guideline_margin_left"
-        app:layout_constraintTop_toTopOf="@+id/guideline_first_horizontal" />
+        app:layout_constraintTop_toTopOf="@+id/guideline_top_searchview" />
 
     <EditText
-        android:id="@+id/duration_hours_text"
-        android:layout_width="wrap_content"
+        android:id="@+id/date_route"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:ems="10"
-        android:inputType="numberDecimal"
-        android:hint="@string/duration_hint"
-        app:layout_constraintEnd_toStartOf="@+id/guideline_margin_right"
-        app:layout_constraintStart_toStartOf="@+id/guideline_margin_left"
-        app:layout_constraintTop_toTopOf="@+id/guideline_second_horizontal" />
-
-    <EditText
-        android:id="@+id/max_participants_text"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:hint="@string/max_participants_hint"
-        android:ems="10"
-        android:inputType="number"
+        android:clickable="true"
+        style="@style/editTextViewStyle"
+        android:hint="@string/date_route"
+        app:layout_constraintBottom_toTopOf="@+id/guideline_fourth_horizontal"
         app:layout_constraintEnd_toStartOf="@+id/guideline_margin_right"
         app:layout_constraintStart_toStartOf="@+id/guideline_margin_left"
         app:layout_constraintTop_toTopOf="@+id/guideline_third_horizontal" />
 
-    <Spinner
-        android:id="@+id/difficulty_route_spinner"
+    <EditText
+        android:id="@+id/max_participants_text"
+        style="@style/editTextViewStyle"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        app:layout_constraintEnd_toStartOf="@+id/guideline_spinner_margin_right"
-        app:layout_constraintStart_toStartOf="@+id/guideline_spinner_margin_left"
+        android:hint="@string/max_participants_hint"
+        android:inputType="number"
+        app:layout_constraintBottom_toTopOf="@+id/guideline_fith_horizontal"
+        app:layout_constraintEnd_toStartOf="@+id/guideline_number_participants_right"
+        app:layout_constraintStart_toStartOf="@+id/guideline_margin_left"
         app:layout_constraintTop_toTopOf="@+id/guideline_fourth_horizontal" />
 
-    <EditText
-        android:id="@+id/date_route"
+    <CheckBox
+        android:id="@+id/checkBox"
+        style="@style/textViewApplication12dpStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:ems="10"
-        android:hint="@string/date_route"
-        android:inputType="date"
-        android:focusable="false"
-        android:clickable="true"
+        android:text="@string/accept_participants_check_box"
+        app:layout_constraintBottom_toTopOf="@+id/guideline_fith_horizontal"
+        app:layout_constraintEnd_toStartOf="@+id/guideline_margin_right"
+        app:layout_constraintStart_toStartOf="@+id/guideline_number_participants_right"
+        app:layout_constraintTop_toTopOf="@+id/max_participants_text" />
+
+    <EditText
+        android:id="@+id/comments_edit_text"
+        style="@style/editTextViewStyle"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:hint="@string/comments_edit_hint"
+        android:inputType="text"
+        app:layout_constraintBottom_toTopOf="@+id/guideline_sixth_horizontal"
         app:layout_constraintEnd_toStartOf="@+id/guideline_margin_right"
         app:layout_constraintStart_toStartOf="@+id/guideline_margin_left"
         app:layout_constraintTop_toTopOf="@+id/guideline_fith_horizontal" />
@@ -74,11 +82,25 @@
         app:layout_constraintTop_toTopOf="@+id/guideline_sixth_horizontal" />
 
     <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline_top_searchview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintGuide_percent="0.15"
+        android:orientation="horizontal" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline_bottom_searchview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintGuide_percent="0.21"
+        android:orientation="horizontal" />
+
+    <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline_first_horizontal"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.20" />
+        app:layout_constraintGuide_percent="0.23" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline_second_horizontal"
@@ -92,28 +114,28 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.36" />
+        app:layout_constraintGuide_percent="0.42" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline_fourth_horizontal"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.44" />
+        app:layout_constraintGuide_percent="0.5" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline_fith_horizontal"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.50" />
+        app:layout_constraintGuide_percent="0.56" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline_sixth_horizontal"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.8" />
+        app:layout_constraintGuide_percent="0.84" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline_margin_left"
@@ -123,18 +145,11 @@
         app:layout_constraintGuide_percent="0.15" />
 
     <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideline_spinner_margin_left"
+        android:id="@+id/guideline_number_participants_right"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        app:layout_constraintGuide_percent="0.23" />
-
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideline_spinner_margin_right"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        app:layout_constraintGuide_percent="0.79" />
+        app:layout_constraintGuide_percent="0.50" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline_margin_right"

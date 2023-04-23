@@ -4,73 +4,130 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/background_color"
     tools:context=".ChooseRol">
 
-    <TextView
-        android:id="@+id/textView3"
+    <ImageView
+        android:id="@+id/logo"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:contentDescription="@string/logo_description"
+        app:layout_constraintBottom_toTopOf="@+id/guideline_logo_down"
+        app:layout_constraintEnd_toStartOf="@+id/guideline_logo_right"
+        app:layout_constraintStart_toStartOf="@+id/guideline_logo_left"
+        app:layout_constraintTop_toTopOf="@+id/guideline_logo_up"
+        app:srcCompat="@drawable/iconoruta" />
+
+    <ImageView
+        android:id="@+id/blue_question_icon"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/choose_rol_text"
-        android:textColor="@color/black"
         app:layout_constraintBottom_toTopOf="@+id/guideline_first_horizontal"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintEnd_toStartOf="@+id/guideline_margin_right"
+        app:layout_constraintStart_toStartOf="@+id/choose_rol_information"
+        app:layout_constraintTop_toTopOf="@+id/guideline_logo_down"
+        android:layout_marginStart="110dp"
+        android:layout_marginTop="70dp"
+        app:srcCompat="@drawable/blue_question_icon" />
+
+    <TextView
+        android:id="@+id/text_after_clicking_blue_question"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:gravity="center"
+        android:text="@string/choose_rol_explanation"
+        android:visibility="invisible"
+        style="@style/choose_rol_information_text"
+        app:layout_constraintBottom_toTopOf="@+id/guideline_information_question_down"
+        app:layout_constraintEnd_toStartOf="@+id/guideline_explanation_text_margin_right"
+        app:layout_constraintStart_toStartOf="@+id/guideline_information_question_left"
+        app:layout_constraintTop_toBottomOf="@+id/guideline_information_question_up" />
+
+    <TextView
+        android:id="@+id/choose_rol_information"
+        style="@style/textViewMediumTextStyle"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:gravity="center"
+        android:text="@string/choose_rol_information"
+        app:layout_constraintBottom_toTopOf="@+id/guideline_first_horizontal"
+        app:layout_constraintEnd_toStartOf="@+id/guideline_margin_right"
+        app:layout_constraintStart_toStartOf="@+id/guideline_margin_left"
+        app:layout_constraintTop_toTopOf="@+id/guideline_information_text_top" />
 
     <RadioGroup
         android:id="@+id/senderist_guide_radio_buttons"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:gravity="center"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toTopOf="@+id/guideline_second_horizontal"
         app:layout_constraintEnd_toEndOf="@id/guideline_margin_right"
         app:layout_constraintStart_toStartOf="@id/guideline_margin_left"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="@+id/guideline_first_horizontal">
 
         <RadioButton
             android:id="@+id/rol_senderist"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:gravity="center"
             android:text="@string/senderist_option" />
 
         <RadioButton
             android:id="@+id/rol_guide"
-            android:layout_width="100dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginStart="50dp"
             android:text="@string/guide_option" />
     </RadioGroup>
 
     <Button
         android:id="@+id/choose_rol_button"
+        style="@style/MainButtonsStyle"
         android:layout_width="0dp"
-        android:layout_height="73dp"
-        android:text="@string/button_text_go"
-        android:textColor="@color/white"
-        android:textSize="27dp"
+        android:layout_height="wrap_content"
         android:onClick="onClickGo"
+        android:text="@string/button_text_go"
+        android:maxWidth="100dp"
+        app:layout_constraintBottom_toTopOf="@+id/guideline_third_horizontal"
         app:layout_constraintEnd_toStartOf="@+id/guideline_margin_right"
         app:layout_constraintStart_toStartOf="@+id/guideline_margin_left"
         app:layout_constraintTop_toTopOf="@+id/guideline_second_horizontal" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline_zero_horizontal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.22" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline_first_horizontal"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.4" />
+        app:layout_constraintGuide_percent="0.48" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline_second_horizontal"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.6" />
+        app:layout_constraintGuide_percent="0.56" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline_third_horizontal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.64" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline_margin_left"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        app:layout_constraintGuide_percent="0.15" />
+        app:layout_constraintGuide_percent="0.21" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline_margin_right"
@@ -79,4 +136,66 @@
         android:orientation="vertical"
         app:layout_constraintGuide_percent="0.85" />
 
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline_logo_left"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.40" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline_logo_right"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.60" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline_explanation_text_margin_right"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.96" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline_logo_up"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.15" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline_logo_down"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.28" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline_information_text_top"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.36" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline_information_question_left"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.65" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline_information_question_up"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.3" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline_information_question_down"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.42" />
 </androidx.constraintlayout.widget.ConstraintLayout>
