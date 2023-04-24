@@ -29,24 +29,28 @@
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
+                android:scaleType="centerCrop"
                 tools:src="@tools:sample/avatars" />
 
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="50dp"
                 android:layout_weight="1"
+                android:scaleType="centerCrop"
                 tools:src="@tools:sample/avatars" />
 
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="50dp"
                 android:layout_weight="1"
+                android:scaleType="centerCrop"
                 tools:src="@tools:sample/avatars" />
 
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="50dp"
                 android:layout_weight="1"
+                android:scaleType="centerCrop"
                 tools:src="@tools:sample/avatars" />
 
         </LinearLayout>
@@ -63,24 +67,28 @@
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
+                android:scaleType="centerCrop"
                 tools:src="@tools:sample/avatars" />
 
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="50dp"
                 android:layout_weight="1"
+                android:scaleType="centerCrop"
                 tools:src="@tools:sample/avatars" />
 
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="50dp"
                 android:layout_weight="1"
+                android:scaleType="centerCrop"
                 tools:src="@tools:sample/avatars" />
 
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="50dp"
                 android:layout_weight="1"
+                android:scaleType="centerCrop"
                 tools:src="@tools:sample/avatars" />
 
         </LinearLayout>
@@ -217,6 +225,7 @@
         android:layout_height="0dp"
         android:src="@drawable/icons8_tour_guide_48"
         android:layout_marginTop="10dp"
+        android:scaleType="centerCrop"
         card_view:layout_constraintBottom_toTopOf="@+id/guideline_guide_top_image"
         card_view:layout_constraintEnd_toStartOf="@+id/guideline_guide_start_image"
         card_view:layout_constraintHorizontal_bias="0.448"

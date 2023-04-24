@@ -20,9 +20,6 @@
             android:name=".RouteStartedGuide"
             android:exported="false" />
         <activity
-            android:name=".SeeRoutesGuide"
-            android:exported="false" />
-        <activity
             android:name=".MyGroups"
             android:exported="false">
             <intent-filter>
