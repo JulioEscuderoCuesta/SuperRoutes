@@ -63,20 +63,6 @@
         app:layout_constraintStart_toStartOf="@+id/guideline_margin_left"
         app:layout_constraintTop_toBottomOf="@+id/send_file" />
 
-    <Button
-        android:id="@+id/finish_route"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:onClick="finishRoute"
-        android:text="@string/finish_route"
-        android:textColor="@color/white"
-        android:textSize="30sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/guideline_margin_right"
-        app:layout_constraintStart_toStartOf="@+id/guideline_margin_left"
-        app:layout_constraintTop_toTopOf="@+id/guideline_fourth_vertical"
-        app:layout_constraintVertical_bias="0.468" />
-
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline_first_vertical"
         android:layout_width="wrap_content"

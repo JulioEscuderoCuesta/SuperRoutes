@@ -9,6 +9,8 @@ import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationManager;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.util.Log;
 
 import com.example.superroutes.custom_classes.ParticipantsInRouteGuideAdapter;
@@ -35,6 +37,8 @@ public class RouteStarted extends AppCompatActivity {
     private LocationManager locManager;
     private int numberOfParticipants = 0;
     private List<UserInRoute> usersInRoute;
+    private Handler handler;
+    private Runnable runnable;
 
 
     @Override
@@ -56,15 +60,38 @@ public class RouteStarted extends AppCompatActivity {
     }
 
     private void pushSenderistDataToDatabase(String routeProposalCode) {
+        setContentView(R.layout.activity_menu_senderist_in_route);
+        handler = new Handler(Looper.getMainLooper());
+
         locManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
         //Get permissions to access to user position
-        if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED)
+        if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
+                && ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED)
             ActivityCompat.requestPermissions(this,
                     new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION, android.Manifest.permission.ACCESS_COARSE_LOCATION}, 123);
-        Location location = locManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+        Location firstLocation = locManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
 
-        UserInRoute userInRoute = new UserInRoute(user.getDisplayName(), location.getLatitude(), location.getLongitude());
+        //Introduce user values in firebase
+        UserInRoute userInRoute = new UserInRoute(user.getDisplayName(), firstLocation.getLatitude(), firstLocation.getLongitude());
         database.getReference().child("RouteProposalStarted").child(routeProposalCode).child(user.getUid()).setValue(userInRoute);
+
+        runnable = new Runnable() {
+            @Override
+            public void run() {
+                //Get permissions to access to user position
+                if (ActivityCompat.checkSelfPermission(getApplicationContext(), android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
+                        && ActivityCompat.checkSelfPermission(getApplicationContext(), android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED)
+                    ActivityCompat.requestPermissions(RouteStarted.this,
+                            new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION, android.Manifest.permission.ACCESS_COARSE_LOCATION}, 123);
+                Location location = locManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+                database.getReference().child("RouteProposalStarted").child(routeProposalCode).child(user.getUid()).child("latitude").setValue(location.getLatitude());
+                database.getReference().child("RouteProposalStarted").child(routeProposalCode).child(user.getUid()).child("longitude").setValue(location.getLongitude());
+                handler.postDelayed(this, 5000);
+            }
+        };
+        //Start task
+        handler.post(runnable);
+
 
     }
 
@@ -106,5 +133,13 @@ public class RouteStarted extends AppCompatActivity {
             }
         });
     }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        handler.removeCallbacks(runnable);
+    }
+
+
 }
 

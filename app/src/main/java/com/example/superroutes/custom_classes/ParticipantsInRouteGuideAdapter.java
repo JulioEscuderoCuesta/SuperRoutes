@@ -63,7 +63,7 @@ public class ParticipantsInRouteGuideAdapter extends RecyclerView.Adapter<Partic
             binding.nameOfSenderistRouteGuide.setText(userInRoute.getName());
             binding.iconSenderistLocationRouteGuide.setImageResource(R.drawable.location_icon);
             binding.iconSenderistStateRouteGuide.setImageResource(R.drawable.walking);
-            //Set of profile pic
+            binding.profilePicSenderistRouteGuide.setImageResource(R.drawable.default_profile_pic_man);
         }
     }
 

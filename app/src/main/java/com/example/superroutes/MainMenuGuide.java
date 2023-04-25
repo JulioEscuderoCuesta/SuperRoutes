@@ -169,19 +169,11 @@ public class MainMenuGuide extends AppCompatActivity {
     public void onBackPressed() {
         androidx.appcompat.app.AlertDialog.Builder builder = new androidx.appcompat.app.AlertDialog.Builder(this);
         builder.setMessage("Are you sure you want to log out?");
-        builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        AuthUI.getInstance().signOut(getApplicationContext());
-                        startActivity(new Intent(MainMenuGuide.this, MainActivity.class));
-                    }
-                })
-                .setNegativeButton("No", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.dismiss();
-                    }
-                });
+        builder.setPositiveButton("Yes", (dialog, which) -> {
+            AuthUI.getInstance().signOut(getApplicationContext());
+            startActivity(new Intent(MainMenuGuide.this, MainActivity.class));
+        })
+                .setNegativeButton("No", (dialog, which) -> dialog.dismiss());
         builder.show();
     }
 }
