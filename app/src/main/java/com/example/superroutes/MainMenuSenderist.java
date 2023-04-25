@@ -76,7 +76,6 @@ public class MainMenuSenderist extends AppCompatActivity {
         difficultyOfRoutes = new ArrayList<>();
 
         showRoutesInformation();
-        Log.d("número e elementos", String.valueOf(list.getCount()));
 
         //Make the items clikeable
         list.setOnItemClickListener((adapterView, view, i, l) -> {
@@ -114,7 +113,6 @@ public class MainMenuSenderist extends AppCompatActivity {
                                         hasAlreadyJoinedThisProposal = true;
                                 }
                             }
-
                             if(!hasAlreadyJoinedThisProposal) {
                                 routesIds.add(routeProposalAux.getRouteId());
                                 routesProposalsIds.add(snapshotRouteProposal.getKey());
@@ -180,8 +178,6 @@ public class MainMenuSenderist extends AppCompatActivity {
                 difficultyOfRoutes.add(R.drawable.difficulty_expert);
                 break;
         }
-        Log.d("añadida dificultad", "hola");
-
     }
 
     @Override

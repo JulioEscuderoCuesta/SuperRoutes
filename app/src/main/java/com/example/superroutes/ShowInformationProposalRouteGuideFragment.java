@@ -15,17 +15,19 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.superroutes.custom_classes.ListOfParticipantsCardAdapter;
+import com.example.superroutes.model.Rol;
 import com.example.superroutes.model.Route;
 import com.example.superroutes.model.RouteProposal;
 import com.example.superroutes.model.RouteProposalState;
 import com.example.superroutes.model.User;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -33,7 +35,6 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 public class ShowInformationProposalRouteGuideFragment extends DialogFragment {
@@ -42,6 +43,7 @@ public class ShowInformationProposalRouteGuideFragment extends DialogFragment {
     private List<String> listOfParticipantsCard;
 
     private FirebaseDatabase database;
+    private FirebaseUser user;
     private DatabaseReference routeProposal;
     private DatabaseReference route;
     private DatabaseReference participants;
@@ -53,6 +55,7 @@ public class ShowInformationProposalRouteGuideFragment extends DialogFragment {
     @Override
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
         database = FirebaseDatabase.getInstance("https://superroutes-5378d-default-rtdb.europe-west1.firebasedatabase.app/");
+        user = FirebaseAuth.getInstance().getCurrentUser();
         Bundle args = getArguments();
         String routeCode = args.getString("route_code");
         String routeProposalCode = args.getString("route_proposal_code");
@@ -84,8 +87,9 @@ public class ShowInformationProposalRouteGuideFragment extends DialogFragment {
         Button deleteProposalButton = v.findViewById(R.id.delete_proposal_button);
         startRouteButton.setOnClickListener(view -> {
             routeProposal.child("routeProposalState").setValue(RouteProposalState.STARTED);
-            Intent intent = new Intent(getContext(), RouteStartedGuide.class);
+            Intent intent = new Intent(getContext(), RouteStarted.class);
             intent.putExtra("route_proposal_code", routeProposalCode);
+            intent.putExtra("rol", "GUIDE");
             startActivity(intent);
         });
         deleteProposalButton.setOnClickListener(view -> {

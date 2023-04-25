@@ -17,7 +17,7 @@
         tools:replace="android:appComponentFactory"
         tools:targetApi="31">
         <activity
-            android:name=".RouteStartedGuide"
+            android:name=".RouteStarted"
             android:exported="false" />
         <activity
             android:name=".MyGroups"

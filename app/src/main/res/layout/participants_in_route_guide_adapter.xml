@@ -5,45 +5,69 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <ImageView
-        android:id="@+id/imageView4"
-        android:layout_width="80dp"
-        android:layout_height="60dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginStart="24dp"
-        android:scaleType="centerCrop"
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:srcCompat="@tools:sample/avatars" />
+        app:layout_constraintTop_toTopOf="parent">
 
-    <TextView
-        android:id="@+id/textView"
-        style="@style/textViewApplication14dpStyle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:text="Name of senerist"
-        app:layout_constraintEnd_toEndOf="@+id/imageView4"
-        app:layout_constraintStart_toStartOf="@+id/imageView4"
-        app:layout_constraintTop_toBottomOf="@+id/imageView4" />
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            tools:layout_editor_absoluteX="1dp"
+            tools:layout_editor_absoluteY="1dp">
 
-    <ImageView
-        android:id="@+id/imageView6"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="132dp"
-        app:layout_constraintStart_toEndOf="@+id/imageView4"
-        app:layout_constraintTop_toTopOf="@+id/imageView4"
-        tools:srcCompat="@drawable/localizacion" />
+            <ImageView
+                android:id="@+id/profile_pic_senderist_route_guide"
+                android:layout_width="80dp"
+                android:layout_height="60dp"
+                android:layout_marginStart="24dp"
+                android:scaleType="centerCrop"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:srcCompat="@tools:sample/avatars" />
 
-    <ImageView
-        android:id="@+id/imageView7"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        app:layout_constraintBottom_toBottomOf="@+id/imageView4"
-        app:layout_constraintStart_toStartOf="@+id/imageView6"
-        app:layout_constraintTop_toBottomOf="@+id/imageView6"
-        tools:srcCompat="@drawable/para_caminar__1_" />
+            <TextView
+                android:id="@+id/name_of_senderist_route_guide"
+                style="@style/textViewApplication14dpStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="10dp"
+                android:text="Name of senerist"
+                app:layout_constraintEnd_toEndOf="@+id/profile_pic_senderist_route_guide"
+                app:layout_constraintStart_toStartOf="@+id/profile_pic_senderist_route_guide"
+                app:layout_constraintTop_toBottomOf="@+id/profile_pic_senderist_route_guide" />
+        </LinearLayout>
 
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            tools:layout_editor_absoluteX="1dp"
+            tools:layout_editor_absoluteY="1dp">
+            <ImageView
+                android:id="@+id/icon_senderist_location_route_guide"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="12dp"
+                tools:srcCompat="@drawable/location_icon" />
+
+            <ImageView
+                android:id="@+id/icon_senderist_state_route_guide"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:layout_marginStart="12dp"
+                app:layout_constraintBottom_toBottomOf="@+id/profile_pic_senderist_route_guide"
+                app:layout_constraintStart_toStartOf="@+id/icon_senderist_location_route_guide"
+                app:layout_constraintTop_toBottomOf="@+id/icon_senderist_location_route_guide"
+                tools:srcCompat="@drawable/walking" />
+
+        </LinearLayout>
+    </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

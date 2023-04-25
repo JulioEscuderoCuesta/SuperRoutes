@@ -158,7 +158,6 @@ public class MainMenuGuide extends AppCompatActivity {
     private void showNumberOfParticipantsSlashTotal(int numberOfParticipants, int numberOfMaxParticipants) {
         StringBuilder stringBuilder = new StringBuilder();
         stringBuilder.append(numberOfParticipants).append("/").append(numberOfMaxParticipants);
-        Log.d("el string es: ", stringBuilder.toString());
         numberOfParticipantsSlashTotal.add(stringBuilder.toString());
     }
 

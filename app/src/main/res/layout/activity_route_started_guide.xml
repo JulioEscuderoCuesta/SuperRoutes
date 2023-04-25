@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".RouteStartedGuide">
+    tools:context=".RouteStarted">
 
 
     <androidx.recyclerview.widget.RecyclerView
@@ -12,11 +12,12 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
-        app:spanCount="2"
         app:layout_constraintBottom_toTopOf="@+id/guideline_second_horizontal"
         app:layout_constraintEnd_toStartOf="@+id/guideline_margin_right_list"
         app:layout_constraintStart_toStartOf="@+id/guideline_margin_left_list"
-        app:layout_constraintTop_toTopOf="@+id/guideline_first_horizontal" />
+        app:layout_constraintTop_toTopOf="@+id/guideline_first_horizontal"
+        app:spanCount="2"
+        tools:listitem="@layout/participants_in_route_guide_adapter" />
 
 
     <androidx.constraintlayout.widget.Guideline
@@ -53,5 +54,14 @@
         android:layout_height="wrap_content"
         android:orientation="vertical"
         app:layout_constraintGuide_percent="0.95" />
+
+    <Button
+        android:id="@+id/button2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Button"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/guideline_margin_left_list"
+        app:layout_constraintTop_toBottomOf="@+id/list_of_participants_route_started_guide" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

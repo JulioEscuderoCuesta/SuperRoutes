@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -21,8 +22,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.superroutes.custom_classes.ListOfParticipantsCardAdapter;
+import com.example.superroutes.model.Rol;
 import com.example.superroutes.model.Route;
 import com.example.superroutes.model.RouteProposal;
+import com.example.superroutes.model.RouteProposalState;
 import com.example.superroutes.model.User;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -89,6 +92,7 @@ public class ShowInformationProposalRouteSenderistFragment extends DialogFragmen
         Button deleteProposalButton = v.findViewById(R.id.close_proposal_button);
         startRouteButton.setOnClickListener(view -> {
             joinRouteProposal();
+            openListenerProposal();
             dismiss();
         });
         deleteProposalButton.setOnClickListener(view -> {
@@ -100,6 +104,26 @@ public class ShowInformationProposalRouteSenderistFragment extends DialogFragmen
         return builder.create();
     }
 
+    private void openListenerProposal() {
+        database.getReference().child("RoutesProposals").child(routeProposalCode).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                Log.d("algo cambió", "hola");
+                RouteProposal routeProposalAux = snapshot.getValue(RouteProposal.class);
+                if(routeProposalAux.getRouteProposalState() == RouteProposalState.STARTED) {
+                    Intent intent = new Intent(getContext(), RouteStarted.class);
+                    intent.putExtra("route_proposal_code", routeProposalCode);
+                    intent.putExtra("rol", "SENDERIST");
+                    startActivity(intent);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+            }
+        });
+    }
+
     private void joinRouteProposal() {
         participants = database.getReference().child("Participants").child(routeProposalCode);
         participants.addValueEventListener(new ValueEventListener() {
@@ -107,7 +131,6 @@ public class ShowInformationProposalRouteSenderistFragment extends DialogFragmen
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if((int) snapshot.getChildrenCount() < numberOfMaxParticipants) {
                     participants.child("userId").setValue(user.getUid());
-                    Toast.makeText(getContext(), JOINED, Toast.LENGTH_SHORT).show();
                 }
                 else
                     Toast.makeText(getContext(), NO_MORE_PARTICIPANTS, Toast.LENGTH_SHORT).show();
