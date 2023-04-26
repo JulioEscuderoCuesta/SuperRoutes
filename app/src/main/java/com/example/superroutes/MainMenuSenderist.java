@@ -101,15 +101,9 @@ public class MainMenuSenderist extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 for(DataSnapshot snapshotRouteProposalCode: snapshot.getChildren()) {
                     HashMap<String, Object> proposalCodeAndParticipants = (HashMap<String, Object>) snapshotRouteProposalCode.getValue();
-                    Log.d("la key:", snapshotRouteProposalCode.getKey());
                     for(String key: proposalCodeAndParticipants.keySet()) {
-                        Log.d("la key es", key);
-                        Log.d("EL VALUe es", (String) proposalCodeAndParticipants.get(key));
-                        Log.d("EL id de usuario es", user.getUid());
                         if(proposalCodeAndParticipants.get(key).equals(user.getUid())) {
-                            Log.d("entro en if", String.valueOf(true));
                             idsRouteProposalUserJoined.add(snapshotRouteProposalCode.getKey());
-                            Log.d("mirar si se ha añadido", idsRouteProposalUserJoined.get(0));
                         }
                     }
                     database.getReference().child("RoutesProposals").addValueEventListener(new ValueEventListener() {
@@ -120,7 +114,7 @@ public class MainMenuSenderist extends AppCompatActivity {
                                     if (idRouteProposalUserIsParticipant.equals(snapshotRouteProposalCode.getKey())) {
                                         RouteProposal routeProposalAux = snapshotRouteProposalCode.getValue(RouteProposal.class);
                                         if (routeProposalAux.getRouteProposalState() == RouteProposalState.STARTED)
-                                            showDialogRouteHasStarted(idRouteProposalUserIsParticipant);
+                                            showDialogRouteHasStarted(idRouteProposalUserIsParticipant, routeProposalAux);
                                     }
                                 }
                             }
@@ -138,13 +132,14 @@ public class MainMenuSenderist extends AppCompatActivity {
         });
     }
 
-    private void showDialogRouteHasStarted(String idRouteProposal) {
+    private void showDialogRouteHasStarted(String idRouteProposal, RouteProposal routeProposal) {
         androidx.appcompat.app.AlertDialog.Builder builder = new androidx.appcompat.app.AlertDialog.Builder(this);
         builder.setMessage("A route you joined has already started!\n" +
                 "Would you like to see it?");
         builder.setPositiveButton("Yes", (dialog, which) -> {
             Intent intent = new Intent(getApplicationContext(), RouteStarted.class);
             intent.putExtra("rol", "SENDERIST");
+            intent.putExtra("route_proposal", routeProposal);
             intent.putExtra("route_proposal_code", idRouteProposal);
             startActivity(intent);
         })

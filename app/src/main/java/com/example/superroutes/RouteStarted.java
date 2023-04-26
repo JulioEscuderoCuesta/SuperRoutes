@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationManager;
@@ -12,11 +13,18 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.util.Log;
+import android.view.View;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.example.superroutes.custom_classes.ParticipantsInRouteGuideAdapter;
+import com.example.superroutes.databinding.ActivityPositionBinding;
 import com.example.superroutes.databinding.ActivityRouteStartedGuideBinding;
 import com.example.superroutes.model.Rol;
+import com.example.superroutes.model.Route;
+import com.example.superroutes.model.RouteProposal;
 import com.example.superroutes.model.UserInRoute;
+import com.google.android.gms.maps.SupportMapFragment;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -25,6 +33,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -34,11 +43,15 @@ public class RouteStarted extends AppCompatActivity {
     private FirebaseUser user;
     private DatabaseReference participantsInRouteProposal;
     private DatabaseReference routeProposalStarted;
+    private TextView timeSpentInRoute;
+    private String routeProposalCode;
+    private RouteProposal routeProposal;
     private LocationManager locManager;
     private int numberOfParticipants = 0;
     private List<UserInRoute> usersInRoute;
     private Handler handler;
     private Runnable runnable;
+    private int hours,minutes,seconds,time=0;
 
 
     @Override
@@ -46,21 +59,71 @@ public class RouteStarted extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         database = FirebaseDatabase.getInstance("https://superroutes-5378d-default-rtdb.europe-west1.firebasedatabase.app/");
         user = FirebaseAuth.getInstance().getCurrentUser();
-        String routeProposalCode = getIntent().getStringExtra("route_proposal_code");
+        routeProposalCode = getIntent().getStringExtra("route_proposal_code");
+        routeProposal = (RouteProposal) getIntent().getSerializableExtra("route_proposal");
         Rol rolOfUser = Rol.valueOf(this.getIntent().getStringExtra("rol"));
-        if(rolOfUser == Rol.SENDERIST)
-            pushSenderistDataToDatabase(routeProposalCode);
+        if(rolOfUser == Rol.SENDERIST) {
+            pushSenderistDataToDatabase();
+            showInterface();
+        }
         else {
             usersInRoute = new ArrayList<>();
-            loadGuideInterface(routeProposalCode);
+            loadGuideInterface();
         }
 
 
 
     }
 
-    private void pushSenderistDataToDatabase(String routeProposalCode) {
+    private void showInterface() {
         setContentView(R.layout.activity_menu_senderist_in_route);
+        timeSpentInRoute = findViewById(R.id.time_spent_in_menu_senerist_in_route);
+
+        //Set name and date of route
+        TextView dateOfRoute = findViewById(R.id.route_title_in_menu_senerist_in_route);
+        dateOfRoute.setText(routeProposal.getWhichDay().toString());
+        database.getReference().child(routeProposal.getRouteId()).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                Route routeAux = snapshot.getValue(Route.class);
+                TextView nameOfRoute = findViewById(R.id.route_title_in_menu_senerist_in_route);
+                nameOfRoute.setText(routeAux.getName());
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
+        //Set current time in route
+        handler = new Handler();
+        Runnable updateTimer = new Runnable() {
+            @Override
+            public void run() {
+                time++;
+                hours = time / 3600;
+                minutes = (time % 3600) / 60;
+                seconds = time % 60;
+                timeSpentInRoute.setText(String.format("%02d:%02d:%02d", hours, minutes, seconds));
+                handler.postDelayed(this, 1000);
+            }
+        };
+        //Start task
+        handler.post(updateTimer);
+
+        //Add listener to clicks
+        ImageView gpsIcon = findViewById(R.id.gps_icon_in_menu_senderist_in_route);
+        gpsIcon.setOnClickListener(view -> {
+            startActivity(new Intent(this, Position.class));
+        });
+
+        ImageView accelerometerIcon = findViewById(R.id.accelerometer_icon_in_menu_senderist_in_route);
+        accelerometerIcon.setOnClickListener(view -> {
+
+        });
+    }
+
+    private void pushSenderistDataToDatabase() {
         handler = new Handler(Looper.getMainLooper());
 
         locManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
@@ -95,27 +158,22 @@ public class RouteStarted extends AppCompatActivity {
 
     }
 
-    private void loadGuideInterface(String routeProposalCode) {
+    private void loadGuideInterface() {
         database.getReference().child("Participants").child(routeProposalCode).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 numberOfParticipants = (int) snapshot.getChildrenCount();
-                Log.d("numberOfParticipants", String.valueOf(numberOfParticipants));
                 database.getReference().child("RouteProposalStarted").child(routeProposalCode).addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
-                        Log.d("snapshot es", snapshot.getKey());
                         for(DataSnapshot userInRouteSnapshot: snapshot.getChildren()) {
                             UserInRoute userInRouteAux = userInRouteSnapshot.getValue(UserInRoute.class);
                             usersInRoute.add(userInRouteAux);
                         }
-                        Log.d("cuantos participantes", String.valueOf(usersInRoute.size()));
                         if(numberOfParticipants == usersInRoute.size()) {
                             @NonNull ActivityRouteStartedGuideBinding binding = ActivityRouteStartedGuideBinding.inflate(getLayoutInflater());
                             setContentView(binding.getRoot());
-                            Log.d("cuantos participantes", String.valueOf(usersInRoute.size()));
                             binding.listOfParticipantsRouteStartedGuide.setAdapter(new ParticipantsInRouteGuideAdapter(usersInRoute));
-                            Log.d("numbertOfParticipants es ahora: ", String.valueOf(numberOfParticipants));
                         }
 
 

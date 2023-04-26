@@ -55,7 +55,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="12dp"
-                tools:srcCompat="@drawable/location_icon" />
+                tools:srcCompat="@drawable/map24x24" />
 
             <ImageView
                 android:id="@+id/icon_senderist_state_route_guide"
