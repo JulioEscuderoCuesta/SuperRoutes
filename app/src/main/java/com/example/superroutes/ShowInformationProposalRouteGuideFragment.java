@@ -86,7 +86,7 @@ public class ShowInformationProposalRouteGuideFragment extends DialogFragment {
         Button startRouteButton = v.findViewById(R.id.start_route_guide_button);
         Button deleteProposalButton = v.findViewById(R.id.delete_proposal_button);
         startRouteButton.setOnClickListener(view -> {
-            routeProposal.child("routeProposalState").setValue(RouteProposalState.STARTED);
+            routeProposal.child("routeProposalState").setValue(RouteProposalState.WAITING);
             Intent intent = new Intent(getContext(), RouteStarted.class);
             intent.putExtra("route_proposal_code", routeProposalCode);
             intent.putExtra("rol", "GUIDE");
@@ -148,8 +148,7 @@ public class ShowInformationProposalRouteGuideFragment extends DialogFragment {
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 for(DataSnapshot participantSnapshot: snapshot.getChildren()) {
                     User participant = participantSnapshot.getValue(User.class);
-                    listOfParticipantsCard.add(participant.getNombre());
-                    Log.d("participante añadido", participant.getEmail());
+                    listOfParticipantsCard.add(participant.getName());
                 }
             }
 

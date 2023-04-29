@@ -50,7 +50,7 @@ public class Accelerometer extends Service implements SensorEventListener {
         long timeInMinutesBetweenFalls = ChronoUnit.MINUTES.between(newFall, lastFall);
         if(sensorEvent.values[1] > 10 && timeInMinutesBetweenFalls < 30) {
             lastFall = newFall;
-            MediaPlayer mediaPlayer = MediaPlayer.create(this, R.raw.newFallAudio);
+            MediaPlayer mediaPlayer = MediaPlayer.create(this, R.raw.new_fall_audio);
             mediaPlayer.start();
         }
 

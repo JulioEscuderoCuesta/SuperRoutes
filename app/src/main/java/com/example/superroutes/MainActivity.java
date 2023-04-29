@@ -42,7 +42,8 @@ public class MainActivity extends AppCompatActivity {
     private static final String TAG = "FirebaseAuthActivity";
     private static final String ERROR_LOG_IN = "Error login";
     private FirebaseDatabase database;
-    private DatabaseReference usuarios;
+    private FirebaseUser currentUser;
+    private DatabaseReference users;
 
     private FirebaseAuth mAuth;
     private TextView signUpText;
@@ -61,6 +62,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         database = FirebaseDatabase.getInstance("https://superroutes-5378d-default-rtdb.europe-west1.firebasedatabase.app/");
+        currentUser = FirebaseAuth.getInstance().getCurrentUser();
         mAuth = FirebaseAuth.getInstance();
         //Get permissions to access to user position
         if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED)
@@ -98,17 +100,14 @@ public class MainActivity extends AppCompatActivity {
         String passwordString = password.getText().toString();
         if(!ValidateCredentials(emailString, passwordString)) Toast.makeText(this, LOGIN_ERROR, Toast.LENGTH_SHORT).show();
         else {
-            mAuth.signInWithEmailAndPassword(emailString, passwordString).addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-                @Override
-                public void onComplete(@NonNull Task<AuthResult> task) {
-                    if (task.isSuccessful()) {
-                        FirebaseUser user = mAuth.getCurrentUser();
-                        startActivity(new Intent(MainActivity.this, ChooseRol.class));
-                    } else {
-                        // If sign in fails, display a message to the user.
-                        Toast.makeText(MainActivity.this, LOGIN_ERROR,
-                                Toast.LENGTH_SHORT).show();
-                    }
+            mAuth.signInWithEmailAndPassword(emailString, passwordString).addOnCompleteListener(this, task -> {
+                if (task.isSuccessful()) {
+                    checkNewUser();
+                    startActivity(new Intent(MainActivity.this, ChooseRol.class));
+                } else {
+                    // If sign in fails, display a message to the user.
+                    Toast.makeText(MainActivity.this, LOGIN_ERROR,
+                            Toast.LENGTH_SHORT).show();
                 }
             });
         }
@@ -119,6 +118,7 @@ public class MainActivity extends AppCompatActivity {
    */
     private void onSignInResult(FirebaseAuthUIAuthenticationResult result) {
         if (result.getResultCode() == RESULT_OK) {
+            checkNewUser();
             Toast.makeText(this, "Log in succesful", Toast.LENGTH_SHORT).show();
             startActivity(new Intent(this, ChooseRol.class));
         } else {
@@ -128,6 +128,33 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         }
+    }
+
+    private void introduceNewUser() {
+        User user = new User(currentUser.getDisplayName(), currentUser.getEmail(), currentUser.getPhoneNumber());
+        database.getReference().child("Users").child(currentUser.getUid()).setValue(user);
+    }
+
+    private void checkNewUser() {
+        currentUser = FirebaseAuth.getInstance().getCurrentUser();
+        users = database.getReference().child("Users");
+        users.addListenerForSingleValueEvent(new ValueEventListener() {
+            boolean existsInDatabase = false;
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for(DataSnapshot singleSnapshot: snapshot.getChildren()) {
+                    User user = singleSnapshot.getValue(User.class);
+                    if(user.getEmail().equals(currentUser.getEmail()))
+                        existsInDatabase = true;
+                }
+                if(!existsInDatabase)
+                    introduceNewUser();
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                //TODO
+            }
+        });
     }
 
     private boolean ValidateCredentials(String email, String password) {

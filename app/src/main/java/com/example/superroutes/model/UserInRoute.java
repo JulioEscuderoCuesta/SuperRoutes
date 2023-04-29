@@ -9,15 +9,15 @@ import java.util.Objects;
 public class UserInRoute {
 
     private String name;
-    private double latitude;
-    private double longitude;
+    private String latitude;
+    private String longitude;
     private boolean fall;
 
     private UserInRoute() {
 
     }
 
-    public UserInRoute(String name, double latitude, double longitude) {
+    public UserInRoute(String name, String latitude, String longitude) {
         this.name = name;
         this.latitude = latitude;
         this.longitude = longitude;
@@ -28,11 +28,11 @@ public class UserInRoute {
         return name;
     }
 
-    public double getLatitude() {
+    public String getLatitude() {
         return latitude;
     }
 
-    public double getLongitude() {
+    public String getLongitude() {
         return longitude;
     }
 
@@ -41,10 +41,10 @@ public class UserInRoute {
     }
 
     public void setName(String name) { this.name = name; }
-    public void setLatitude(double latitude) {
+    public void setLatitude(String latitude) {
         this.latitude = latitude;
     }
-    public void setLongitude(double longitude) {
+    public void setLongitude(String longitude) {
         this.longitude = longitude;
     }
 

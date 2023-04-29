@@ -7,6 +7,10 @@
     tools:context=".RouteStarted">
 
 
+    <include
+        android:id="@+id/toolbar"
+        layout="@layout/toolbar"/>
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/list_of_participants_route_started_guide"
         android:layout_width="0dp"
@@ -55,13 +59,5 @@
         android:orientation="vertical"
         app:layout_constraintGuide_percent="0.95" />
 
-    <Button
-        android:id="@+id/button2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Button"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="@+id/guideline_margin_left_list"
-        app:layout_constraintTop_toBottomOf="@+id/list_of_participants_route_started_guide" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

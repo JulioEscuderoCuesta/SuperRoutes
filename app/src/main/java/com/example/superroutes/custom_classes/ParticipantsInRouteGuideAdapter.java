@@ -22,7 +22,6 @@ public class ParticipantsInRouteGuideAdapter extends RecyclerView.Adapter<Partic
     private List<UserInRoute> usersInRoute;
 
     public ParticipantsInRouteGuideAdapter(List<UserInRoute> userInRoutes) {
-        Log.d("lletgo a viewholder", "hola");
         this.usersInRoute = userInRoutes;
     }
     @NonNull
@@ -34,14 +33,12 @@ public class ParticipantsInRouteGuideAdapter extends RecyclerView.Adapter<Partic
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        Log.d("sssssssssssssssssss", "hola");
 
         holder.bind(usersInRoute.get(position));
     }
 
     @Override
     public int getItemCount() {
-        Log.d("asdfasfasfasf", "hola");
         return usersInRoute.size();
 
 
@@ -61,7 +58,7 @@ public class ParticipantsInRouteGuideAdapter extends RecyclerView.Adapter<Partic
 
         public void bind(UserInRoute userInRoute) {
             binding.nameOfSenderistRouteGuide.setText(userInRoute.getName());
-            binding.iconSenderistLocationRouteGuide.setImageResource(R.drawable.location_icon);
+            binding.iconSenderistLocationRouteGuide.setImageResource(R.drawable.map24x24);
             binding.iconSenderistStateRouteGuide.setImageResource(R.drawable.walking);
             binding.profilePicSenderistRouteGuide.setImageResource(R.drawable.default_profile_pic_man);
         }

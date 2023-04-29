@@ -18,6 +18,7 @@ import com.example.superroutes.model.Difficulty;
 import com.example.superroutes.model.Route;
 import com.example.superroutes.model.RouteProposal;
 import com.example.superroutes.model.User;
+import com.firebase.ui.auth.AuthUI;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -127,5 +128,18 @@ public class CreateNewRouteProposal extends AppCompatActivity implements Adapter
             e.printStackTrace();
         }
         return formatLocalDate;
+    }
+
+    @Override
+    public void onBackPressed() {
+        androidx.appcompat.app.AlertDialog.Builder builder = new androidx.appcompat.app.AlertDialog.Builder(this);
+        builder.setMessage("Are you sure you want to exit?\n" +
+                "The new proposal won't be saved.");
+        builder.setPositiveButton("Yes", (dialog, which) -> {
+                    AuthUI.getInstance().signOut(getApplicationContext());
+                    startActivity(new Intent(CreateNewRouteProposal.this, MainMenuGuide.class));
+                })
+                .setNegativeButton("No", (dialog, which) -> dialog.dismiss());
+        builder.show();
     }
 }

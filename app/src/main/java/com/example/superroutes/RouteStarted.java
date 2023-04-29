@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
@@ -14,7 +15,9 @@ import android.os.Handler;
 import android.os.Looper;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.example.superroutes.custom_classes.ParticipantsInRouteGuideAdapter;
@@ -23,7 +26,10 @@ import com.example.superroutes.databinding.ActivityRouteStartedGuideBinding;
 import com.example.superroutes.model.Rol;
 import com.example.superroutes.model.Route;
 import com.example.superroutes.model.RouteProposal;
+import com.example.superroutes.model.RouteProposalState;
+import com.example.superroutes.model.User;
 import com.example.superroutes.model.UserInRoute;
+import com.firebase.ui.auth.AuthUI;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -35,7 +41,10 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.time.LocalTime;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+
+import javax.net.ssl.SNIHostName;
 
 public class RouteStarted extends AppCompatActivity {
 
@@ -47,12 +56,16 @@ public class RouteStarted extends AppCompatActivity {
     private String routeProposalCode;
     private RouteProposal routeProposal;
     private LocationManager locManager;
-    private int numberOfParticipants = 0;
     private List<UserInRoute> usersInRoute;
     private Handler handler;
     private Runnable runnable;
     private int hours,minutes,seconds,time=0;
-
+    private Rol rolOfUser;
+    private Button everybodyReadyButton;
+    private ProgressBar progressBar;
+    private TextView waitingForEverybodyTextView;
+    private boolean routeHasStarted;
+    private Runnable runnableRouteHasStarted;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,32 +74,62 @@ public class RouteStarted extends AppCompatActivity {
         user = FirebaseAuth.getInstance().getCurrentUser();
         routeProposalCode = getIntent().getStringExtra("route_proposal_code");
         routeProposal = (RouteProposal) getIntent().getSerializableExtra("route_proposal");
-        Rol rolOfUser = Rol.valueOf(this.getIntent().getStringExtra("rol"));
+        rolOfUser = Rol.valueOf(this.getIntent().getStringExtra("rol"));
+        routeHasStarted = false;
+        setContentView(R.layout.activity_route_started_guide_waiting_room);
+        progressBar = findViewById(R.id.progressBar_route_started_guide);
+        everybodyReadyButton = findViewById(R.id.button_start_route_route_started_guide);
+        waitingForEverybodyTextView = findViewById(R.id.waiting_text_view_waiting_room);
+
         if(rolOfUser == Rol.SENDERIST) {
+            everybodyReadyButton.setVisibility(View.GONE);
             pushSenderistDataToDatabase();
-            showInterface();
+            waitUntilRouteStarts();
+            Handler handler = new Handler();
+            runnableRouteHasStarted = () -> {
+                if(routeHasStarted) {
+                    loadSenderistInterface();
+                    handler.removeCallbacks(runnableRouteHasStarted);
+                }
+            };
+            handler.postDelayed(runnable, 5000);
         }
         else {
             usersInRoute = new ArrayList<>();
             loadGuideInterface();
         }
-
-
-
     }
 
-    private void showInterface() {
+    private void waitUntilRouteStarts() {
+        database.getReference().child("RoutesProposals").child(routeProposalCode).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                RouteProposal routeProposalAux = snapshot.getValue(RouteProposal.class);
+                if (routeProposalAux.getRouteProposalState() == RouteProposalState.STARTED)
+                    routeHasStarted = true;
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+    }
+
+    private void loadSenderistInterface() {
         setContentView(R.layout.activity_menu_senderist_in_route);
+
         timeSpentInRoute = findViewById(R.id.time_spent_in_menu_senerist_in_route);
 
         //Set name and date of route
-        TextView dateOfRoute = findViewById(R.id.route_title_in_menu_senerist_in_route);
+        TextView dateOfRoute = findViewById(R.id.date_of_route_in_menu_senerist_in_route);
         dateOfRoute.setText(routeProposal.getWhichDay().toString());
-        database.getReference().child(routeProposal.getRouteId()).addListenerForSingleValueEvent(new ValueEventListener() {
+        TextView nameOfRoute = findViewById(R.id.route_title_in_menu_senerist_in_route);
+
+        database.getReference().child("Routes").child(routeProposal.getRouteId()).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 Route routeAux = snapshot.getValue(Route.class);
-                TextView nameOfRoute = findViewById(R.id.route_title_in_menu_senerist_in_route);
                 nameOfRoute.setText(routeAux.getName());
             }
             @Override
@@ -126,6 +169,9 @@ public class RouteStarted extends AppCompatActivity {
     private void pushSenderistDataToDatabase() {
         handler = new Handler(Looper.getMainLooper());
 
+        //Set user as ready
+        database.getReference().child("Participants").child(routeProposalCode).child(user.getUid()).child("ready").setValue(true);
+
         locManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
         //Get permissions to access to user position
         if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
@@ -134,9 +180,20 @@ public class RouteStarted extends AppCompatActivity {
                     new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION, android.Manifest.permission.ACCESS_COARSE_LOCATION}, 123);
         Location firstLocation = locManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
 
-        //Introduce user values in firebase
-        UserInRoute userInRoute = new UserInRoute(user.getDisplayName(), firstLocation.getLatitude(), firstLocation.getLongitude());
-        database.getReference().child("RouteProposalStarted").child(routeProposalCode).child(user.getUid()).setValue(userInRoute);
+        database.getReference().child("Users").child(user.getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                User currentUser = snapshot.getValue(User.class);
+                //Introduce user values in firebase
+                UserInRoute userInRoute = new UserInRoute(currentUser.getName(), "42.22", "42.3333");
+                database.getReference().child("RouteProposalStarted").child(routeProposalCode).child(user.getUid()).setValue(userInRoute);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
 
         runnable = new Runnable() {
             @Override
@@ -147,8 +204,8 @@ public class RouteStarted extends AppCompatActivity {
                     ActivityCompat.requestPermissions(RouteStarted.this,
                             new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION, android.Manifest.permission.ACCESS_COARSE_LOCATION}, 123);
                 Location location = locManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-                database.getReference().child("RouteProposalStarted").child(routeProposalCode).child(user.getUid()).child("latitude").setValue(location.getLatitude());
-                database.getReference().child("RouteProposalStarted").child(routeProposalCode).child(user.getUid()).child("longitude").setValue(location.getLongitude());
+                database.getReference().child("RouteProposalStarted").child(routeProposalCode).child(user.getUid()).child("latitude").setValue(42.22);
+                database.getReference().child("RouteProposalStarted").child(routeProposalCode).child(user.getUid()).child("longitude").setValue(42.22);
                 handler.postDelayed(this, 5000);
             }
         };
@@ -159,31 +216,46 @@ public class RouteStarted extends AppCompatActivity {
     }
 
     private void loadGuideInterface() {
+        Button everybodyReadyButton = findViewById(R.id.button_start_route_route_started_guide);
+        everybodyReadyButton.setVisibility(View.GONE);
         database.getReference().child("Participants").child(routeProposalCode).addListenerForSingleValueEvent(new ValueEventListener() {
+        int numberOfParticipantsReady = 0;
+        @Override
+        public void onDataChange(@NonNull DataSnapshot snapshot) {
+            for(DataSnapshot snapshotParticipantsReady: snapshot.getChildren()) {
+                //TODO
+                HashMap<String, Boolean> hashMapAux = (HashMap<String, Boolean>) snapshotParticipantsReady.getValue();
+                if(hashMapAux.containsValue(true))
+                    numberOfParticipantsReady++;
+            }
+            Log.d("numberOfParticipantsReady", String.valueOf(numberOfParticipantsReady));
+            Log.d("getlchildrencount", String.valueOf(snapshot.getChildrenCount()));
+            if(numberOfParticipantsReady == snapshot.getChildrenCount()) {
+                progressBar.setVisibility(View.GONE);
+                everybodyReadyButton.setVisibility(View.VISIBLE);
+            }
+        }
+        @Override
+        public void onCancelled(@NonNull DatabaseError error) {
+
+        }
+    });
+
+    }
+
+    public void onClickEverybodyReadyButton(View view) {
+        setContentView(R.layout.activity_route_started_guide);
+        database.getReference().child("RouteProposalStarted").child(routeProposalCode).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                numberOfParticipants = (int) snapshot.getChildrenCount();
-                database.getReference().child("RouteProposalStarted").child(routeProposalCode).addValueEventListener(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(@NonNull DataSnapshot snapshot) {
-                        for(DataSnapshot userInRouteSnapshot: snapshot.getChildren()) {
-                            UserInRoute userInRouteAux = userInRouteSnapshot.getValue(UserInRoute.class);
-                            usersInRoute.add(userInRouteAux);
-                        }
-                        if(numberOfParticipants == usersInRoute.size()) {
-                            @NonNull ActivityRouteStartedGuideBinding binding = ActivityRouteStartedGuideBinding.inflate(getLayoutInflater());
-                            setContentView(binding.getRoot());
-                            binding.listOfParticipantsRouteStartedGuide.setAdapter(new ParticipantsInRouteGuideAdapter(usersInRoute));
-                        }
-
-
-                    }
-
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError error) {
-
-                    }
-                });
+                for(DataSnapshot userInRouteSnapshot: snapshot.getChildren()) {
+                    Log.d("que hay", userInRouteSnapshot.toString());
+                    UserInRoute userInRouteAux = userInRouteSnapshot.getValue(UserInRoute.class);
+                    usersInRoute.add(userInRouteAux);
+                }
+                @NonNull ActivityRouteStartedGuideBinding binding = ActivityRouteStartedGuideBinding.inflate(getLayoutInflater());
+                setContentView(binding.getRoot());
+                binding.listOfParticipantsRouteStartedGuide.setAdapter(new ParticipantsInRouteGuideAdapter(usersInRoute));
             }
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
@@ -198,6 +270,12 @@ public class RouteStarted extends AppCompatActivity {
         handler.removeCallbacks(runnable);
     }
 
-
+    @Override
+    public void onBackPressed() {
+        if(rolOfUser == Rol.SENDERIST)
+            startActivity(new Intent(RouteStarted.this, MyRoutesSenderist.class));
+        else
+            startActivity(new Intent(RouteStarted.this, MainMenuGuide.class));
+    }
 }
 

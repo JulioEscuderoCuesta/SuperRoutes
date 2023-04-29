@@ -2,8 +2,11 @@ package com.example.superroutes;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.widget.SearchView;
+
+import com.firebase.ui.auth.AuthUI;
 
 public class MyGroups extends AppCompatActivity implements SearchView.OnQueryTextListener {
 
@@ -24,5 +27,10 @@ public class MyGroups extends AppCompatActivity implements SearchView.OnQueryTex
     @Override
     public boolean onQueryTextChange(String s) {
         return false;
+    }
+
+    @Override
+    public void onBackPressed() {
+        startActivity(new Intent(MyGroups.this, MainActivity.class));
     }
 }

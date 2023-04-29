@@ -1,65 +1,73 @@
 package com.example.superroutes.model;
-import org.json.JSONException;
-import org.json.JSONObject;
+import com.google.firebase.database.Exclude;
+
 
 import java.io.Serializable;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Objects;
 
 public class User implements Serializable {
 
-    private String nombre;
+    private String name;
     private String email;
-    private String telefono;
-    private Rol rol;
+    private String telephoneNumber;
 
     public User() {
 
     }
-    public User(String nombre, String email, String telefono) {
-        this.nombre = nombre;
+    public User(String name, String email, String telephoneNumber) {
+        this.name = name;
         this.email = email;
-        this.telefono = telefono;
-        JSONObject json = new JSONObject();
-        try {
-            json.put("nombre", nombre);
-            json.put("email", email);
-            json.put("telefono", telefono);
-        } catch (JSONException e) {
-            //Mensaje de error
-        }
+        this.telephoneNumber = telephoneNumber;
     }
 
-    public String getNombre() {
-        return nombre;
+    public String getName() {
+        return name;
     }
 
     public String getEmail() {
         return email;
     }
 
-    public String getTelefono() {
-        return telefono;
-    }
-
-    public Rol getRol() {
-        return rol;
+    public String getTelephoneNumber() {
+        return telephoneNumber;
     }
 
 
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public void setEmail(String email) {
         this.email = email;
     }
 
-    public void setTelefono(String telefono) {
-        this.telefono = telefono;
+    public void setTelephoneNumber(String telephoneNumber) {
+        this.telephoneNumber = telephoneNumber;
     }
 
-    public void setRol(Rol rol) {
-        this.rol = rol;
+    @Exclude
+    public Map<String, Object> toMap() {
+        HashMap<String, Object> result = new HashMap<>();
+        result.put("name", name);
+        result.put("email", email);
+        result.put("telephoneNumber", telephoneNumber);
+
+        return result;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if(this == o) return true;
+        if(o == null || getClass() != o.getClass()) return false;
+        User that = (User) o;
+        return Objects.equals(this.name, that.name)
+                && Objects.equals(this.email, that.email)
+                && Objects.equals(this.telephoneNumber, that.telephoneNumber);
+    }
+
 
 
 }

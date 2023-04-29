@@ -25,6 +25,7 @@ public class ListAdapterRoutesSenderist extends ArrayAdapter<String> {
 
     public ListAdapterRoutesSenderist(Activity context, ArrayList<String> routesNames, ArrayList<String> datesOfRoutes, ArrayList<Integer> mainImageOfRoutes, ArrayList<Integer> routesWithGuide, ArrayList<Integer> difficultyOfRoutes) {
         super(context, R.layout.listview_routes_senderist, routesNames);
+        Log.d("En el constructor", "hola");
 
         this.context = context;
         this.routesNames = routesNames;
@@ -32,14 +33,13 @@ public class ListAdapterRoutesSenderist extends ArrayAdapter<String> {
         this.mainImageOfRoutes = mainImageOfRoutes;
         this.routesWithGuide = routesWithGuide;
         this.difficultyOfRoutes = difficultyOfRoutes;
-        Log.d("en el constructor", "hola");
 
     }
 
     public View getView(int position, View view, ViewGroup parent) {
+        Log.d("Entro en el GetVIEW", "hola");
         LayoutInflater inflater = context.getLayoutInflater();
         View rowView = inflater.inflate(R.layout.listview_routes_senderist, null, true);
-        Log.d("en el getView", "hola");
 
         rowView.setBackgroundResource(R.drawable.route_card_background);
         TextView nameOfRouteText = rowView.findViewById(R.id.name_of_route_routes_senderist);
@@ -49,10 +49,10 @@ public class ListAdapterRoutesSenderist extends ArrayAdapter<String> {
         ImageView difficultyOfRoutesImage = rowView.findViewById(R.id.icon_difficulty_routes_senderist);
 
         nameOfRouteText.setText(routesNames.get(position));
-        dateOfRouteText.setText(datesOfRoutes.get(position));
         mainImageOfRouteImage.setImageResource(mainImageOfRoutes.get(position));
         routesWithGuideImage.setImageResource(routesWithGuide.get(position));
         difficultyOfRoutesImage.setImageResource(difficultyOfRoutes.get(position));
+        dateOfRouteText.setText(datesOfRoutes.get(position));
 
         return rowView;
 

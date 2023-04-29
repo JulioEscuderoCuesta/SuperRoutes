@@ -92,7 +92,6 @@ public class ShowInformationProposalRouteSenderistFragment extends DialogFragmen
         Button deleteProposalButton = v.findViewById(R.id.close_proposal_button);
         startRouteButton.setOnClickListener(view -> {
             joinRouteProposal();
-            openListenerProposal();
             dismiss();
         });
         deleteProposalButton.setOnClickListener(view -> {
@@ -104,33 +103,15 @@ public class ShowInformationProposalRouteSenderistFragment extends DialogFragmen
         return builder.create();
     }
 
-    private void openListenerProposal() {
-        database.getReference().child("RoutesProposals").child(routeProposalCode).addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                Log.d("algo cambió", "hola");
-                RouteProposal routeProposalAux = snapshot.getValue(RouteProposal.class);
-                if(routeProposalAux.getRouteProposalState() == RouteProposalState.STARTED) {
-                    Intent intent = new Intent(getContext(), RouteStarted.class);
-                    intent.putExtra("route_proposal_code", routeProposalCode);
-                    intent.putExtra("rol", "SENDERIST");
-                    startActivity(intent);
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-            }
-        });
-    }
 
     private void joinRouteProposal() {
         participants = database.getReference().child("Participants").child(routeProposalCode);
-        participants.addValueEventListener(new ValueEventListener() {
+        participants.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if((int) snapshot.getChildrenCount() < numberOfMaxParticipants) {
-                    participants.child("userId").setValue(user.getUid());
+                    participants.child(user.getUid()).child("ready").setValue(false);
+                    startActivity(new Intent(getContext(), MyRoutesSenderist.class));
                 }
                 else
                     Toast.makeText(getContext(), NO_MORE_PARTICIPANTS, Toast.LENGTH_SHORT).show();
@@ -154,7 +135,7 @@ public class ShowInformationProposalRouteSenderistFragment extends DialogFragmen
                 TextView commentOfRoute = v.findViewById(R.id.comment_senderist_routes_text);
                 String dateOfRouteString = routeProposalAux.getWhichDay().toString().replace('-', '/');
                 dateOfRoute.setText(dateOfRouteString);
-                guideNameOfRoute.setText(routeProposalAux.getGuide().getNombre());
+                guideNameOfRoute.setText(routeProposalAux.getGuide().getName());
                 commentOfRoute.setText(routeProposalAux.getComments());
             }
 
