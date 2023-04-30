@@ -1,6 +1,7 @@
 package com.example.superroutes;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.DialogInterface;
@@ -15,6 +16,9 @@ import com.example.superroutes.custom_classes.ListAdapterRoutesGuide;
 import com.example.superroutes.model.Route;
 import com.example.superroutes.model.RouteProposal;
 import com.firebase.ui.auth.AuthUI;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -22,14 +26,23 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class MainMenuGuide extends AppCompatActivity {
 
     private FirebaseDatabase database;
-    private FirebaseUser user;
+    private FirebaseUser currentFirebaseUser;
+    private FirebaseFirestore db;
+
     private DatabaseReference routesInDatabase;
     private DatabaseReference routesProposalsInDatabase;
     private DatabaseReference participants;
@@ -52,8 +65,9 @@ public class MainMenuGuide extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_menu_guide);
+        db = FirebaseFirestore.getInstance();
         database = FirebaseDatabase.getInstance("https://superroutes-5378d-default-rtdb.europe-west1.firebasedatabase.app/");
-        user = FirebaseAuth.getInstance().getCurrentUser();
+        currentFirebaseUser = FirebaseAuth.getInstance().getCurrentUser();
         routesInDatabase = database.getReference().child("Routes");
         routesProposalsInDatabase = database.getReference().child("RoutesProposals");
         participants = database.getReference().child("Participants");
@@ -63,8 +77,7 @@ public class MainMenuGuide extends AppCompatActivity {
         numberOfParticipantsSlashTotal = new ArrayList<>();
         mainImageOfRoute = new ArrayList<>();
         datesOfRoutes = new ArrayList<>();
-
-        showRoutesInformation();
+        list=findViewById(R.id.list_of_routes_for_guide);
 
         list.setOnItemClickListener((adapterView, view, i, l) -> {
             ShowInformationProposalRouteGuideFragment fragment = new ShowInformationProposalRouteGuideFragment();
@@ -77,6 +90,12 @@ public class MainMenuGuide extends AppCompatActivity {
 
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        showRoutesInformation();
+    }
+
 
     /**
      * User cliks on the "Start Route" button.
@@ -87,70 +106,28 @@ public class MainMenuGuide extends AppCompatActivity {
         startActivity(new Intent(this, CreateNewRouteProposal.class));
     }
 
-    /**
-     * User cliks on the "My Routes" button.
-     * It launches the activity to see pending routes.
-     * @param view
-     */
-    public void seeMyRoutesButton(View view) {
-        startActivity(new Intent(this, CreateNewRouteProposal.class));
-    }
-
     private void showRoutesInformation() {
         listAdapterRoutesGuide = new ListAdapterRoutesGuide(this, routesNames, numberOfParticipantsSlashTotal, mainImageOfRoute, datesOfRoutes);
-        list=findViewById(R.id.list_of_routes_for_guide);
         list.setAdapter(listAdapterRoutesGuide);
-
-        routesProposalsInDatabase.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                for (DataSnapshot routesSnapshot : snapshot.getChildren()) {
-                    RouteProposal routeProposalAux = routesSnapshot.getValue(RouteProposal.class);
-                    routesProposalsIds.add(routesSnapshot.getKey());
-                    if (routeProposalAux.getGuide().getEmail().equals(user.getEmail())) {
-                        routesInDatabase.addValueEventListener(new ValueEventListener() {
-                            @Override
-                            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                                for(DataSnapshot routeSnapshot: snapshot.getChildren()) {
-                                    if(routeSnapshot.getKey().equals(routeProposalAux.getRouteId())) {
-                                        Route routeAux = routeSnapshot.getValue(Route.class);
-                                        routesIds.add(routeProposalAux.getRouteId());
-                                        routesNames.add(routeAux.getName());
-                                        participants.addListenerForSingleValueEvent(new ValueEventListener() {
-                                            @Override
-                                            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                                                int numberOfParticipants = 0;
-                                                for (DataSnapshot routeProposal : snapshot.getChildren()) {
-                                                    if (routeProposal.getKey().equals(routesSnapshot.getKey())) {
-                                                        numberOfParticipants = (int) snapshot.getChildrenCount();
-
-                                                    }
-                                                }
-                                                showNumberOfParticipantsSlashTotal(numberOfParticipants, routeProposalAux.getMaxParticipants());
-                                                showMainImageOfRoutes();
-                                                datesOfRoutes.add(routeProposalAux.getWhichDay().toString());
-                                                listAdapterRoutesGuide.notifyDataSetChanged();
-                                            }
-                                            @Override
-                                            public void onCancelled(@NonNull DatabaseError error) {
-
-                                            }
-                                        });
-
-                                    }
-                                }
-                            }
-
-                            @Override
-                            public void onCancelled(@NonNull DatabaseError error) {
-
-                            }
-                        });
-                    }
+        db.collection("RoutesProposals").whereEqualTo("idGuide", currentFirebaseUser.getUid()).addSnapshotListener((value, error) -> {
+            clearList();
+            if(value != null && !value.isEmpty()) {
+                for(QueryDocumentSnapshot snapshot: value) {
+                    RouteProposal routeProposalAux = snapshot.toObject(RouteProposal.class);
+                    Log.d("routeProposalAux", routeProposalAux.getWhichDay());
+                    routesProposalsIds.add(snapshot.getId());
+                    routesIds.add(routeProposalAux.getRouteId());
+                    showNumberOfParticipantsSlashTotal(routeProposalAux.getParticipantsIds().size(), routeProposalAux.getMaxParticipants());
+                    showMainImageOfRoutes();
+                    datesOfRoutes.add(routeProposalAux.getWhichDay());
+                    db.collection("Routes").document(routeProposalAux.getRouteId()).get().addOnSuccessListener(documentSnapshot -> {
+                        Route routeAux = documentSnapshot.toObject(Route.class);
+                        routesNames.add(routeAux.getName());
+                        listAdapterRoutesGuide.notifyDataSetChanged();
+                    });
                 }
-            }
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
+            } else {
+                Log.d("no hay nada", "hola");
             }
         });
     }
@@ -163,6 +140,15 @@ public class MainMenuGuide extends AppCompatActivity {
 
     private void showMainImageOfRoutes() {
         mainImageOfRoute.add(R.drawable.mountain);
+    }
+
+    private void clearList() {
+        listAdapterRoutesGuide.clear();
+        routesNames.clear();
+        routesIds.clear();
+        mainImageOfRoute.clear();
+        datesOfRoutes.clear();
+        numberOfParticipantsSlashTotal.clear();
     }
 
     @Override

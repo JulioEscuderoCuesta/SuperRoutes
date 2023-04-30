@@ -1,5 +1,6 @@
 package com.example.superroutes;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
@@ -13,15 +14,24 @@ import android.widget.Toast;
 
 import com.example.superroutes.model.Rol;
 import com.firebase.ui.auth.AuthUI;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 public class ChooseRol extends AppCompatActivity {
 
     private static final String NO_ROOL_SELECTED = "You have to choose a rol";
     private RadioGroup radioGroup;
     private RadioButton guideOption;
+    private FirebaseFirestore db;
+    private FirebaseUser currentUser;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        db = FirebaseFirestore.getInstance();
+        currentUser = FirebaseAuth.getInstance().getCurrentUser();
         setContentView(R.layout.activity_choose_rol);
         radioGroup = findViewById(R.id.senderist_guide_radio_buttons);
         guideOption = findViewById(R.id.rol_guide);
@@ -47,21 +57,20 @@ public class ChooseRol extends AppCompatActivity {
     }
 
     public void onClickGo(View view) {
-        Intent intent = new Intent();
         if(radioGroup.getCheckedRadioButtonId() == -1) {
             Toast.makeText(this, NO_ROOL_SELECTED, Toast.LENGTH_SHORT).show();
         }
         else {
-            if(radioGroup.getCheckedRadioButtonId() == guideOption.getId()) {
-                intent.putExtra("ROL", Rol.GUIDE);
-                startActivity(new Intent(this, MainMenuGuide.class));
-            }
-            else {
-                intent.putExtra("ROL", Rol.SENDERIST);
-                startActivity(new Intent(this, MainMenuSenderist.class));
-            }
-        }
+            if(radioGroup.getCheckedRadioButtonId() == guideOption.getId())
+                db.collection("Users").document(currentUser.getUid()).update("rol",Rol.GUIDE).addOnCompleteListener(task -> {
+                    startActivity(new Intent(this, MainMenuGuide.class));
 
+                });
+            else
+                db.collection("Users").document(currentUser.getUid()).update("rol",Rol.SENDERIST).addOnCompleteListener(task -> {
+                    startActivity(new Intent(this, MainMenuSenderist.class));
+                });
+        }
     }
 
     @Override

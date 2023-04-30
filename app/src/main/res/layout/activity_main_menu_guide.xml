@@ -33,18 +33,6 @@
         app:layout_constraintTop_toTopOf="@+id/guideline_first_horizontal" />
 
     <Button
-        android:id="@+id/see_my_routes_guide_menu"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:onClick="seeMyRoutesButton"
-        android:text="@string/see_my_routes_guide_menu"
-        style="@style/MainButtonsStyle"
-        app:layout_constraintBottom_toTopOf="@+id/guideline_fifth_horizontal"
-        app:layout_constraintEnd_toStartOf="@+id/guideline_margin_right"
-        app:layout_constraintStart_toStartOf="@+id/guideline_margin_left"
-        app:layout_constraintTop_toTopOf="@+id/guideline_fourth_horizontal" />
-
-    <Button
         android:id="@+id/see_previous_routes_guide_menu"
         android:layout_width="0dp"
         android:layout_height="wrap_content"

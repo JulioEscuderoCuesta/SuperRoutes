@@ -52,18 +52,6 @@ public class Route implements Serializable{
         this.durationInHours = durationInHours;
     }
 
-
-    @Exclude
-    public Map<String, Object> toMap() {
-        HashMap<String, Object> result = new HashMap<>();
-        result.put("name", name);
-        result.put("location", location);
-        result.put("difficulty", difficulty);
-        result.put("durationInHours", durationInHours);
-
-        return result;
-    }
-
     @Override
     public boolean equals(Object o) {
         if(this == o) return true;

@@ -24,6 +24,7 @@ import android.widget.Toast;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
@@ -41,14 +42,12 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
 
 public class MyRoutesSenderist extends AppCompatActivity {
 
-    private static final String SENDERIST_ADDED_TO_ROUTE = "You are in!";
-    private static final String SENDERIST_ADDED_TO_ROUTE_ERROR = "Something bad happened... Please try again";
     private ListView list;
-    private Route routeSelected;
-    private boolean hasAlreadyJoinedThisProposal;
     private ArrayList<String> routesIds;
     private ArrayList<String> routesProposalsIds;
 
@@ -60,10 +59,8 @@ public class MyRoutesSenderist extends AppCompatActivity {
 
 
     private ListAdapterRoutesSenderist listAdapterRoutesSenderist;
-    private static FirebaseDatabase database;
-    private DatabaseReference routesProposalsInDatabase;
-    private DatabaseReference participantsInProposals;
-    private FirebaseUser user;
+    private FirebaseFirestore db;
+    private FirebaseUser currentFirebaseUser;
     private ProgressBar progressBar;
 
 
@@ -73,8 +70,8 @@ public class MyRoutesSenderist extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my_routes_senderist);
-        database = FirebaseDatabase.getInstance("https://superroutes-5378d-default-rtdb.europe-west1.firebasedatabase.app/");
-        user = FirebaseAuth.getInstance().getCurrentUser();
+        db = FirebaseFirestore.getInstance();
+        currentFirebaseUser = FirebaseAuth.getInstance().getCurrentUser();
         routesIds = new ArrayList<>();
         routesProposalsIds = new ArrayList<>();
         routesNames = new ArrayList<>();
@@ -83,79 +80,55 @@ public class MyRoutesSenderist extends AppCompatActivity {
         routesWithGuide = new ArrayList<>();
         difficultyOfRoutes = new ArrayList<>();
         progressBar = findViewById(R.id.progressBar_in_main_menu_senderist);
+        list=findViewById(R.id.list_of_routes_for_senderist);
 
-        routesProposalsInDatabase = database.getReference().child("RoutesProposals");
         ArrayList<String> routesNames = new ArrayList<>();
         listAdapterRoutesSenderist =
                 new ListAdapterRoutesSenderist(this, routesNames, datesOfRoutes, mainImageOfRoutes, routesWithGuide, difficultyOfRoutes);
-        list=findViewById(R.id.list_of_routes_for_senderist);
-        list.setAdapter(listAdapterRoutesSenderist);
 
         showRoutesInformation();
         progressBar.setVisibility(View.GONE);
 
         //Make the items clikeable
-        list.setOnItemClickListener((adapterView, view, i, l) -> {
+        /*list.setOnItemClickListener((adapterView, view, i, l) -> {
             Intent intent = new Intent(getApplicationContext(), RouteStarted.class);
             intent.putExtra("rol", "SENDERIST");
             intent.putExtra("route_proposal", routesIds.get(i));
             intent.putExtra("route_proposal_code", routesProposalsIds.get(i));
             startActivity(intent);
 
-        });
+        });*/
     }
 
     private void showRoutesInformation() {
-        routesProposalsInDatabase = database.getReference().child("RoutesProposals");
-        routesProposalsInDatabase.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                ArrayList<String> routesNames = new ArrayList<>();
-                listAdapterRoutesSenderist =
-                        new ListAdapterRoutesSenderist(MyRoutesSenderist.this, routesNames, datesOfRoutes, mainImageOfRoutes, routesWithGuide, difficultyOfRoutes);
-                list=findViewById(R.id.list_of_routes_for_senderist);
-                list.setAdapter(listAdapterRoutesSenderist);
-                for(DataSnapshot snapshotRouteProposal: snapshot.getChildren()) {
-                    RouteProposal routeProposalAux = snapshotRouteProposal.getValue(RouteProposal.class);
-                    participantsInProposals = database.getReference().child("Participants").child(snapshotRouteProposal.getKey());
-                    participantsInProposals.addListenerForSingleValueEvent(new ValueEventListener() {
-                        @Override
-                        public void onDataChange(@NonNull DataSnapshot snapshot) {
-                            hasAlreadyJoinedThisProposal = false;
-                            for (DataSnapshot snapshotParticipantsInThisProposal : snapshot.getChildren()) {
-                                if (snapshotParticipantsInThisProposal.getKey().equals(user.getUid())) {
-                                    routesIds.add(routeProposalAux.getRouteId());
-                                    routesProposalsIds.add(snapshotRouteProposal.getKey());
-                                    addDateOfRoute(routeProposalAux);
-                                    addImageOfRoute();
-                                    addGuideOfRoute(routeProposalAux);
-                                    database.getReference().child("Routes").child(routeProposalAux.getRouteId()).addListenerForSingleValueEvent(new ValueEventListener() {
-                                        @Override
-                                        public void onDataChange(@NonNull DataSnapshot snapshot) {
-                                            Route route = snapshot.getValue(Route.class);
-                                            routesNames.add(route.getName());
-                                            addDifficultyToTheList(route);
-                                            listAdapterRoutesSenderist.notifyDataSetChanged();
-
-                                        }
-                                        @Override
-                                        public void onCancelled(@NonNull DatabaseError error) {
-
-                                        }
-                                    });
-                                }
-                            }
+        db.collection("RoutesProposals").whereEqualTo("routeProposalState", RouteProposalState.PROPOSED)
+                .whereArrayContains("participantsIds", currentFirebaseUser.getUid())
+                .addSnapshotListener((value, error) -> {
+                    clearList();
+                    if(value != null && !value.isEmpty()) {
+                        progressBar.setVisibility(View.GONE);
+                        //noRoutesTextView.setVisibility(View.GONE);
+                        list.setVisibility(View.VISIBLE);
+                        list.setAdapter(listAdapterRoutesSenderist);
+                        for(QueryDocumentSnapshot snapshot: value) {
+                            RouteProposal routeProposalAux = snapshot.toObject(RouteProposal.class);
+                            routesIds.add(routeProposalAux.getRouteId());
+                            datesOfRoutes.add(routeProposalAux.getWhichDay());
+                            addImageOfRoute();
+                            routesWithGuide.add(R.drawable.icons8_tour_guide_48);
+                            db.collection("Routes").document(routeProposalAux.getRouteId()).get().addOnSuccessListener(documentSnapshot -> {
+                                Route routeAux = documentSnapshot.toObject(Route.class);
+                                routesNames.add(routeAux.getName());
+                                addDifficultyToTheList(routeAux);
+                                listAdapterRoutesSenderist.notifyDataSetChanged();
+                            });
                         }
-                        @Override
-                        public void onCancelled(@NonNull DatabaseError error) {
-                        }
-                    });
-                }
-            }
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-            }
-        });
+                    }
+                    else {
+                        list.setVisibility(View.GONE);
+                        //noRoutesTextView.setVisibility(View.VISIBLE);
+                    }
+                });
     }
 
     private void addDateOfRoute(RouteProposal routeProposal) {
@@ -165,13 +138,6 @@ public class MyRoutesSenderist extends AppCompatActivity {
 
     private void addImageOfRoute() {
         mainImageOfRoutes.add(R.drawable.mountain);
-    }
-
-    private void addGuideOfRoute(RouteProposal routeProposal) {
-        if(routeProposal.getGuide() != null)
-            routesWithGuide.add(R.drawable.icons8_tour_guide_48);
-        else
-            routesWithGuide.add(R.drawable.icons8_tourist_guide_50);
     }
 
     private void addDifficultyToTheList(Route route) {
@@ -191,7 +157,7 @@ public class MyRoutesSenderist extends AppCompatActivity {
         }
     }
 
-    private void emptyList() {
+    private void clearList() {
         routesNames.clear();
         routesProposalsIds.clear();
         datesOfRoutes.clear();

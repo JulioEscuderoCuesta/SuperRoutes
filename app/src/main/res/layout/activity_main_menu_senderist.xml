@@ -22,6 +22,17 @@
         tools:src="@tools:sample/avatars" />
 
     <TextView
+        android:id="@+id/text_no_routes_proposed"
+        style="@style/textViewApplication14dpStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/text_no_routes_proposed"
+        app:layout_constraintBottom_toTopOf="@+id/guideline_third_horizontal"
+        app:layout_constraintEnd_toStartOf="@+id/guideline_margin_right"
+        app:layout_constraintStart_toStartOf="@+id/guideline_margin_left"
+        app:layout_constraintTop_toTopOf="@+id/guideline_first_horizontal" />
+
+    <TextView
         android:id="@+id/welcome_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

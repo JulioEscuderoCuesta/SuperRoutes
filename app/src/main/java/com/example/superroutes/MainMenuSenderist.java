@@ -1,54 +1,32 @@
 package com.example.superroutes;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.content.res.ResourcesCompat;
 
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.res.Resources;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.os.Handler;
 import android.util.Log;
-import android.util.Pair;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.Button;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
 
 import com.example.superroutes.custom_classes.ListAdapterRoutesSenderist;
 import com.example.superroutes.model.Route;
 import com.example.superroutes.model.RouteProposal;
 import com.example.superroutes.model.RouteProposalState;
-import com.example.superroutes.model.User;
 import com.firebase.ui.auth.AuthUI;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.ChildEventListener;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
 
 public class MainMenuSenderist extends AppCompatActivity {
 
-    private static final String SENDERIST_ADDED_TO_ROUTE = "You are in!";
-    private static final String SENDERIST_ADDED_TO_ROUTE_ERROR = "Something bad happened... Please try again";
     private ListView list;
-    private Route routeSelected;
-    private boolean hasAlreadyJoinedThisProposal;
+    private TextView noRoutesTextView;
     private ArrayList<String> routesIds;
     private ArrayList<String> routesProposalsIds;
 
@@ -60,21 +38,16 @@ public class MainMenuSenderist extends AppCompatActivity {
 
 
     private ListAdapterRoutesSenderist listAdapterRoutesSenderist;
-    private static FirebaseDatabase database;
-    private DatabaseReference routesProposalsInDatabase;
-    private DatabaseReference participantsInProposals;
-    private FirebaseUser user;
+    private FirebaseFirestore db;
+    private FirebaseUser currentFirebaseUser;
     private ProgressBar progressBar;
-
-
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_menu_senderist);
-        database = FirebaseDatabase.getInstance("https://superroutes-5378d-default-rtdb.europe-west1.firebasedatabase.app/");
-        user = FirebaseAuth.getInstance().getCurrentUser();
+        db = FirebaseFirestore.getInstance();
+        currentFirebaseUser = FirebaseAuth.getInstance().getCurrentUser();
         routesIds = new ArrayList<>();
         routesProposalsIds = new ArrayList<>();
         routesNames = new ArrayList<>();
@@ -83,17 +56,16 @@ public class MainMenuSenderist extends AppCompatActivity {
         routesWithGuide = new ArrayList<>();
         difficultyOfRoutes = new ArrayList<>();
         progressBar = findViewById(R.id.progressBar_in_main_menu_senderist);
+        noRoutesTextView = findViewById(R.id.text_no_routes_proposed);
+        list=findViewById(R.id.list_of_routes_for_senderist);
+        noRoutesTextView.setVisibility(View.GONE);
+        list.setVisibility(View.GONE);
 
-        routesProposalsInDatabase = database.getReference().child("RoutesProposals");
-        ArrayList<String> routesNames = new ArrayList<>();
         listAdapterRoutesSenderist =
                 new ListAdapterRoutesSenderist(this, routesNames, datesOfRoutes, mainImageOfRoutes, routesWithGuide, difficultyOfRoutes);
-        list=findViewById(R.id.list_of_routes_for_senderist);
-        list.setAdapter(listAdapterRoutesSenderist);
 
-        checkRouteProposalStarted();
         showRoutesInformation();
-        progressBar.setVisibility(View.GONE);
+        checkRouteProposalStarted();
 
         //Make the items clikeable
         list.setOnItemClickListener((adapterView, view, i, l) -> {
@@ -101,53 +73,68 @@ public class MainMenuSenderist extends AppCompatActivity {
             Bundle args = new Bundle();
             args.putString("route_code", routesIds.get(i));
             args.putString("route_proposal_code", routesProposalsIds.get(i));
+            args.putString("rol", "SENDERIST");
             fragment.setArguments(args);
             fragment.show(getSupportFragmentManager(), "tag");
 
         });
     }
 
-    private void checkRouteProposalStarted() {
-        List<String> idsRouteProposalUserJoined = new ArrayList<>();
-        database.getReference().child("Participants").addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                for(DataSnapshot snapshotRouteProposalCode: snapshot.getChildren()) {
-                    HashMap<String, Object> proposalCodeAndParticipants = (HashMap<String, Object>) snapshotRouteProposalCode.getValue();
-                    for(String key: proposalCodeAndParticipants.keySet()) {
-                        if(key.equals(user.getUid()))
-                            idsRouteProposalUserJoined.add(snapshotRouteProposalCode.getKey());
+    private void showRoutesInformation() {
+        db.collection("RoutesProposals").whereEqualTo("routeProposalState", RouteProposalState.PROPOSED)
+                //.whereNotEqualTo("idGuide", currentFirebaseUser.getUid())
+                .addSnapshotListener((value, error) -> {
+            clearList();
+            if(value != null && !value.isEmpty()) {
+                progressBar.setVisibility(View.GONE);
+                noRoutesTextView.setVisibility(View.GONE);
+                list.setVisibility(View.VISIBLE);
+                list.setAdapter(listAdapterRoutesSenderist);
+                boolean hasJoined = false;
+                for(QueryDocumentSnapshot snapshot: value) {
+                    RouteProposal routeProposalAux = snapshot.toObject(RouteProposal.class);
+                    for(String id: routeProposalAux.getParticipantsIds()) {
+                        if(currentFirebaseUser.getUid().equals(id))
+                            hasJoined = true;
                     }
-                    database.getReference().child("RoutesProposals").addValueEventListener(new ValueEventListener() {
-                        @Override
-                        public void onDataChange(@NonNull DataSnapshot snapshot) {
-                            for (DataSnapshot snapshotRouteProposalCode : snapshot.getChildren()) {
-                                for(String idRouteProposalUserIsParticipant: idsRouteProposalUserJoined) {
-                                    if (idRouteProposalUserIsParticipant.equals(snapshotRouteProposalCode.getKey())) {
-                                        RouteProposal routeProposalAux = snapshotRouteProposalCode.getValue(RouteProposal.class);
-                                        if (routeProposalAux.getRouteProposalState() == RouteProposalState.WAITING)
-                                            showDialogRouteHasStarted(idRouteProposalUserIsParticipant, routeProposalAux);
-                                    }
-                                }
-                            }
-                        }
-                        @Override
-                        public void onCancelled(@NonNull DatabaseError error) {
-                        }
-                    });
+                    if(!hasJoined) {
+                        routesProposalsIds.add(snapshot.getId());
+                        routesIds.add(routeProposalAux.getRouteId());
+                        datesOfRoutes.add(routeProposalAux.getWhichDay());
+                        addImageOfRoute();
+                        routesWithGuide.add(R.drawable.icons8_tour_guide_48);
+                        db.collection("Routes").document(routeProposalAux.getRouteId()).get().addOnSuccessListener(documentSnapshot -> {
+                            Route routeAux = documentSnapshot.toObject(Route.class);
+                            routesNames.add(routeAux.getName());
+                            addDifficultyToTheList(routeAux);
+                            listAdapterRoutesSenderist.notifyDataSetChanged();
+                        });
+                    }
+                    hasJoined = false;
                 }
+                if(routesNames.isEmpty())
+                    noRoutesTextView.setVisibility(View.VISIBLE);
             }
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
+        });
+    }
 
+    private void checkRouteProposalStarted() {
+        db.collection("RoutesProposals").whereEqualTo("routeProposalState", RouteProposalState.WAITING)
+                .whereArrayContains("participantsIds", currentFirebaseUser.getUid())
+                .addSnapshotListener((value, error) -> {
+            if(value != null && !value.isEmpty()) {
+                for (QueryDocumentSnapshot snapshot : value) {
+                    RouteProposal routeProposalAux = snapshot.toObject(RouteProposal.class);
+                    showDialogRouteHasStarted(snapshot.getId(), routeProposalAux);
+                }
             }
         });
     }
 
     private void showDialogRouteHasStarted(String idRouteProposal, RouteProposal routeProposal) {
         androidx.appcompat.app.AlertDialog.Builder builder = new androidx.appcompat.app.AlertDialog.Builder(this);
-        builder.setMessage("A route you joined has already started!\n" +
-                "Would you like to see it?");
+        builder.setMessage("A route you sing up for has already started!\n" +
+                "Would you like to join it?");
         builder.setPositiveButton("Yes", (dialog, which) -> {
                     Intent intent = new Intent(getApplicationContext(), RouteStarted.class);
                     intent.putExtra("rol", "SENDERIST");
@@ -159,83 +146,8 @@ public class MainMenuSenderist extends AppCompatActivity {
         builder.show();
     }
 
-    private void showRoutesInformation() {
-        routesProposalsInDatabase = database.getReference().child("RoutesProposals");
-
-        routesProposalsInDatabase.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                ArrayList<String> routesNames = new ArrayList<>();
-                listAdapterRoutesSenderist =
-                        new ListAdapterRoutesSenderist(MainMenuSenderist.this, routesNames, datesOfRoutes, mainImageOfRoutes, routesWithGuide, difficultyOfRoutes);
-                list=findViewById(R.id.list_of_routes_for_senderist);
-                list.setAdapter(listAdapterRoutesSenderist);
-                for(DataSnapshot snapshotRouteProposal: snapshot.getChildren()) {
-                    RouteProposal routeProposalAux = snapshotRouteProposal.getValue(RouteProposal.class);
-                    if(routeProposalAux.getRouteProposalState().equals(RouteProposalState.PROPOSED)) {
-                        participantsInProposals = database.getReference().child("Participants").child(snapshotRouteProposal.getKey());
-                        participantsInProposals.addListenerForSingleValueEvent(new ValueEventListener() {
-                            @Override
-                            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                                hasAlreadyJoinedThisProposal = false;
-                                if(snapshot.getChildrenCount() != 0) {
-                                    for (DataSnapshot snapshotParticipantsInThisProposal : snapshot.getChildren()) {
-                                        if (snapshotParticipantsInThisProposal.getKey().equals(user.getUid()))
-                                            hasAlreadyJoinedThisProposal = true;
-                                    }
-                                }
-                                if(!hasAlreadyJoinedThisProposal) {
-                                    routesIds.add(routeProposalAux.getRouteId());
-                                    routesProposalsIds.add(snapshotRouteProposal.getKey());
-                                    addDateOfRoute(routeProposalAux);
-                                    addImageOfRoute();
-                                    addGuideOfRoute(routeProposalAux);
-                                    database.getReference().child("Routes").child(routeProposalAux.getRouteId()).addListenerForSingleValueEvent(new ValueEventListener() {
-                                        @Override
-                                        public void onDataChange(@NonNull DataSnapshot snapshot) {
-                                            Route route = snapshot.getValue(Route.class);
-                                            routesNames.add(route.getName());
-                                            addDifficultyToTheList(route);
-                                            listAdapterRoutesSenderist.notifyDataSetChanged();
-
-                                        }
-                                        @Override
-                                        public void onCancelled(@NonNull DatabaseError error) {
-
-                                        }
-                                    });
-                                }
-                            }
-                            @Override
-                            public void onCancelled(@NonNull DatabaseError error) {
-                            }
-                        });
-                    }
-
-                }
-            }
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-            }
-        });
-    }
-
-
-
-    private void addDateOfRoute(RouteProposal routeProposal) {
-        String date = routeProposal.getWhichDay().toString();
-        datesOfRoutes.add(date.replace('-', '/'));
-    }
-
     private void addImageOfRoute() {
         mainImageOfRoutes.add(R.drawable.mountain);
-    }
-
-    private void addGuideOfRoute(RouteProposal routeProposal) {
-        if(routeProposal.getGuide() != null)
-            routesWithGuide.add(R.drawable.icons8_tour_guide_48);
-        else
-            routesWithGuide.add(R.drawable.icons8_tourist_guide_50);
     }
 
     private void addDifficultyToTheList(Route route) {
@@ -255,7 +167,7 @@ public class MainMenuSenderist extends AppCompatActivity {
         }
     }
 
-    private void emptyList() {
+    private void clearList() {
         routesNames.clear();
         routesProposalsIds.clear();
         datesOfRoutes.clear();
@@ -270,19 +182,11 @@ public class MainMenuSenderist extends AppCompatActivity {
     public void onBackPressed() {
         androidx.appcompat.app.AlertDialog.Builder builder = new androidx.appcompat.app.AlertDialog.Builder(this);
         builder.setMessage("Are you sure you want to log out?");
-        builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        AuthUI.getInstance().signOut(getApplicationContext());
-                        startActivity(new Intent(MainMenuSenderist.this, MainActivity.class));
-                    }
-                })
-                .setNegativeButton("No", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.dismiss();
-                    }
-                });
+        builder.setPositiveButton("Yes", (dialog, which) -> {
+            AuthUI.getInstance().signOut(getApplicationContext());
+            startActivity(new Intent(MainMenuSenderist.this, MainActivity.class));
+        })
+                .setNegativeButton("No", (dialog, which) -> dialog.dismiss());
         builder.show();
     }
 

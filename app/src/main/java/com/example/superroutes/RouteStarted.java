@@ -1,6 +1,7 @@
 package com.example.superroutes;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 
@@ -31,6 +32,9 @@ import com.example.superroutes.model.User;
 import com.example.superroutes.model.UserInRoute;
 import com.firebase.ui.auth.AuthUI;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -38,6 +42,14 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 
 import java.time.LocalTime;
 import java.util.ArrayList;
@@ -49,15 +61,15 @@ import javax.net.ssl.SNIHostName;
 public class RouteStarted extends AppCompatActivity {
 
     private FirebaseDatabase database;
-    private FirebaseUser user;
-    private DatabaseReference participantsInRouteProposal;
-    private DatabaseReference routeProposalStarted;
+    private FirebaseFirestore db;
+    private FirebaseUser currentFirebaseUser;
     private TextView timeSpentInRoute;
     private String routeProposalCode;
     private RouteProposal routeProposal;
     private LocationManager locManager;
     private List<UserInRoute> usersInRoute;
-    private Handler handler;
+    private Handler handlerLoadInterfaceSenderist;
+    private Handler handlerSetLocation;
     private Runnable runnable;
     private int hours,minutes,seconds,time=0;
     private Rol rolOfUser;
@@ -65,13 +77,12 @@ public class RouteStarted extends AppCompatActivity {
     private ProgressBar progressBar;
     private TextView waitingForEverybodyTextView;
     private boolean routeHasStarted;
-    private Runnable runnableRouteHasStarted;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        database = FirebaseDatabase.getInstance("https://superroutes-5378d-default-rtdb.europe-west1.firebasedatabase.app/");
-        user = FirebaseAuth.getInstance().getCurrentUser();
+        db = FirebaseFirestore.getInstance();
+        currentFirebaseUser = FirebaseAuth.getInstance().getCurrentUser();
         routeProposalCode = getIntent().getStringExtra("route_proposal_code");
         routeProposal = (RouteProposal) getIntent().getSerializableExtra("route_proposal");
         rolOfUser = Rol.valueOf(this.getIntent().getStringExtra("rol"));
@@ -83,36 +94,40 @@ public class RouteStarted extends AppCompatActivity {
 
         if(rolOfUser == Rol.SENDERIST) {
             everybodyReadyButton.setVisibility(View.GONE);
+            waitingForEverybodyTextView.setText(R.string.waiting_text_view_waiting_room_senderist);
             pushSenderistDataToDatabase();
             waitUntilRouteStarts();
-            Handler handler = new Handler();
-            runnableRouteHasStarted = () -> {
-                if(routeHasStarted) {
-                    loadSenderistInterface();
-                    handler.removeCallbacks(runnableRouteHasStarted);
-                }
-            };
-            handler.postDelayed(runnable, 5000);
+            setLocationUpdater();
         }
         else {
+            progressBar.setVisibility(View.GONE);
+            waitingForEverybodyTextView.setText(R.string.waiting_text_view_waiting_room_guide);
             usersInRoute = new ArrayList<>();
-            loadGuideInterface();
         }
     }
 
     private void waitUntilRouteStarts() {
-        database.getReference().child("RoutesProposals").child(routeProposalCode).addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                RouteProposal routeProposalAux = snapshot.getValue(RouteProposal.class);
-                if (routeProposalAux.getRouteProposalState() == RouteProposalState.STARTED)
-                    routeHasStarted = true;
-            }
+        db.collection("RoutesProposals").document(routeProposalCode).addSnapshotListener((value, error) -> {
+            RouteProposal routeProposalAux = value.toObject(RouteProposal.class);
+            if (routeProposalAux.getRouteProposalState() == RouteProposalState.STARTED)
+                loadSenderistInterface();
+        });
+    }
 
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
+    private void pushSenderistDataToDatabase() {
+        locManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+        //Get permissions to access to user position
+        if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
+                && ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED)
+            ActivityCompat.requestPermissions(this,
+                    new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION, android.Manifest.permission.ACCESS_COARSE_LOCATION}, 123);
+        Location firstLocation = locManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
 
-            }
+        db.collection("Users").document(currentFirebaseUser.getUid()).get().addOnSuccessListener(documentSnapshot -> {
+            User user = documentSnapshot.toObject(User.class);
+            UserInRoute userInRoute = new UserInRoute(user.getName(), firstLocation.getLatitude(), firstLocation.getLongitude());
+            db.collection("SenderistsInRoutes").document(routeProposalCode)
+                    .collection("participants").document(currentFirebaseUser.getUid()).set(userInRoute);
         });
     }
 
@@ -123,23 +138,16 @@ public class RouteStarted extends AppCompatActivity {
 
         //Set name and date of route
         TextView dateOfRoute = findViewById(R.id.date_of_route_in_menu_senerist_in_route);
-        dateOfRoute.setText(routeProposal.getWhichDay().toString());
+        dateOfRoute.setText(routeProposal.getWhichDay());
         TextView nameOfRoute = findViewById(R.id.route_title_in_menu_senerist_in_route);
 
-        database.getReference().child("Routes").child(routeProposal.getRouteId()).addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                Route routeAux = snapshot.getValue(Route.class);
-                nameOfRoute.setText(routeAux.getName());
-            }
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
+        db.collection("Routes").document(routeProposal.getRouteId()).get().addOnSuccessListener(documentSnapshot -> {
+            Route routeAux = documentSnapshot.toObject(Route.class);
+            nameOfRoute.setText(routeAux.getName());
         });
 
         //Set current time in route
-        handler = new Handler();
+        handlerLoadInterfaceSenderist = new Handler();
         Runnable updateTimer = new Runnable() {
             @Override
             public void run() {
@@ -148,11 +156,11 @@ public class RouteStarted extends AppCompatActivity {
                 minutes = (time % 3600) / 60;
                 seconds = time % 60;
                 timeSpentInRoute.setText(String.format("%02d:%02d:%02d", hours, minutes, seconds));
-                handler.postDelayed(this, 1000);
+                handlerLoadInterfaceSenderist.postDelayed(this, 1000);
             }
         };
         //Start task
-        handler.post(updateTimer);
+        handlerLoadInterfaceSenderist.post(updateTimer);
 
         //Add listener to clicks
         ImageView gpsIcon = findViewById(R.id.gps_icon_in_menu_senderist_in_route);
@@ -166,35 +174,8 @@ public class RouteStarted extends AppCompatActivity {
         });
     }
 
-    private void pushSenderistDataToDatabase() {
-        handler = new Handler(Looper.getMainLooper());
-
-        //Set user as ready
-        database.getReference().child("Participants").child(routeProposalCode).child(user.getUid()).child("ready").setValue(true);
-
-        locManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-        //Get permissions to access to user position
-        if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
-                && ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED)
-            ActivityCompat.requestPermissions(this,
-                    new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION, android.Manifest.permission.ACCESS_COARSE_LOCATION}, 123);
-        Location firstLocation = locManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-
-        database.getReference().child("Users").child(user.getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                User currentUser = snapshot.getValue(User.class);
-                //Introduce user values in firebase
-                UserInRoute userInRoute = new UserInRoute(currentUser.getName(), "42.22", "42.3333");
-                database.getReference().child("RouteProposalStarted").child(routeProposalCode).child(user.getUid()).setValue(userInRoute);
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });
-
+    private void setLocationUpdater() {
+        handlerSetLocation = new Handler();
         runnable = new Runnable() {
             @Override
             public void run() {
@@ -204,70 +185,63 @@ public class RouteStarted extends AppCompatActivity {
                     ActivityCompat.requestPermissions(RouteStarted.this,
                             new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION, android.Manifest.permission.ACCESS_COARSE_LOCATION}, 123);
                 Location location = locManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-                database.getReference().child("RouteProposalStarted").child(routeProposalCode).child(user.getUid()).child("latitude").setValue(42.22);
-                database.getReference().child("RouteProposalStarted").child(routeProposalCode).child(user.getUid()).child("longitude").setValue(42.22);
-                handler.postDelayed(this, 5000);
+
+                db.collection("SenderistInRoutes").document(routeProposalCode)
+                        .collection("participants").document(currentFirebaseUser.getUid())
+                                .update("latitude", location.getLatitude());
+                db.collection("SenderistInRoutes").document(routeProposalCode)
+                        .collection("participants").document(currentFirebaseUser.getUid())
+                        .update("longitude", location.getLongitude());
+                handlerSetLocation.postDelayed(this, 5000);
             }
         };
         //Start task
-        handler.post(runnable);
-
-
-    }
-
-    private void loadGuideInterface() {
-        Button everybodyReadyButton = findViewById(R.id.button_start_route_route_started_guide);
-        everybodyReadyButton.setVisibility(View.GONE);
-        database.getReference().child("Participants").child(routeProposalCode).addListenerForSingleValueEvent(new ValueEventListener() {
-        int numberOfParticipantsReady = 0;
-        @Override
-        public void onDataChange(@NonNull DataSnapshot snapshot) {
-            for(DataSnapshot snapshotParticipantsReady: snapshot.getChildren()) {
-                //TODO
-                HashMap<String, Boolean> hashMapAux = (HashMap<String, Boolean>) snapshotParticipantsReady.getValue();
-                if(hashMapAux.containsValue(true))
-                    numberOfParticipantsReady++;
-            }
-            Log.d("numberOfParticipantsReady", String.valueOf(numberOfParticipantsReady));
-            Log.d("getlchildrencount", String.valueOf(snapshot.getChildrenCount()));
-            if(numberOfParticipantsReady == snapshot.getChildrenCount()) {
-                progressBar.setVisibility(View.GONE);
-                everybodyReadyButton.setVisibility(View.VISIBLE);
-            }
-        }
-        @Override
-        public void onCancelled(@NonNull DatabaseError error) {
-
-        }
-    });
+        handlerSetLocation.post(runnable);
 
     }
 
     public void onClickEverybodyReadyButton(View view) {
         setContentView(R.layout.activity_route_started_guide);
-        database.getReference().child("RouteProposalStarted").child(routeProposalCode).addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                for(DataSnapshot userInRouteSnapshot: snapshot.getChildren()) {
-                    Log.d("que hay", userInRouteSnapshot.toString());
-                    UserInRoute userInRouteAux = userInRouteSnapshot.getValue(UserInRoute.class);
+
+        //Set proposal to started
+        db.collection("RoutesProposals").document(routeProposalCode).update("routeProposalState", RouteProposalState.STARTED);
+
+        CollectionReference reference = db.collection("SenderistsInRoutes").document(routeProposalCode).collection("participants");
+
+        /*//Get the initial data
+        reference.get().addOnCompleteListener(task -> {
+            if(task.isSuccessful()) {
+                for(QueryDocumentSnapshot snapshot: task.getResult()) {
+                    UserInRoute userInRouteAux = snapshot.toObject(UserInRoute.class);
                     usersInRoute.add(userInRouteAux);
                 }
                 @NonNull ActivityRouteStartedGuideBinding binding = ActivityRouteStartedGuideBinding.inflate(getLayoutInflater());
                 setContentView(binding.getRoot());
                 binding.listOfParticipantsRouteStartedGuide.setAdapter(new ParticipantsInRouteGuideAdapter(usersInRoute));
             }
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
+        });
+        usersInRoute.clear();*/
 
+        //Now open a listener to listen to every change
+        reference.addSnapshotListener((value, error) -> {
+            usersInRoute.clear();
+            for(QueryDocumentSnapshot document: value) {
+                UserInRoute userInRouteAux = document.toObject(UserInRoute.class);
+                usersInRoute.add(userInRouteAux);
             }
+            Log.d("usersInRoute", String.valueOf(usersInRoute.size()));
+            @NonNull ActivityRouteStartedGuideBinding binding = ActivityRouteStartedGuideBinding.inflate(getLayoutInflater());
+            setContentView(binding.getRoot());
+            binding.listOfParticipantsRouteStartedGuide.setAdapter(new ParticipantsInRouteGuideAdapter(usersInRoute));
+
         });
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        handler.removeCallbacks(runnable);
+        handlerLoadInterfaceSenderist.removeCallbacks(runnable);
+        handlerSetLocation.removeCallbacks(runnable);
     }
 
     @Override

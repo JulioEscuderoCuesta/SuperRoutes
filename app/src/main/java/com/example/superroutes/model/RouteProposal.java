@@ -13,31 +13,31 @@ import java.util.Objects;
 public class RouteProposal implements Serializable {
 
     private String routeId;
-    private LocalDate whichDay;
+    private String whichDay;
     private int maxParticipants;
 
     private RouteProposalState routeProposalState;
 
-    private ArrayList<User> participants;
+    private ArrayList<String> participantsIds;
     private String comments;
-    private User guide;
+    private String idGuide;
 
-    private RouteProposal() {
+    public RouteProposal() {
 
     }
-    public RouteProposal(String routeId, LocalDate whichDay, int maxParticipants, String comments, User guide) {
+    public RouteProposal(String routeId, String whichDay, int maxParticipants, String comments, String idGuide) {
         this.routeId = routeId;
         this.whichDay = whichDay;
         this.maxParticipants = maxParticipants;
         routeProposalState = RouteProposalState.PROPOSED;
-        participants = new ArrayList<>();
+        participantsIds = new ArrayList<>();
         this.comments = comments;
-        this.guide = guide;
+        this.idGuide = idGuide;
     }
 
     public String getRouteId() { return routeId; }
 
-    public LocalDate getWhichDay() {
+    public String getWhichDay() {
         return whichDay;
     }
 
@@ -48,17 +48,16 @@ public class RouteProposal implements Serializable {
     public int getMaxParticipants() {
         return maxParticipants;
     }
-    public ArrayList<User> getParticipants() { return participants; }
+    public ArrayList<String> getParticipantsIds() { return participantsIds; }
     public String getComments() { return comments; }
-    public User getGuide() { return guide; }
+    public String getIdGuide() { return idGuide; }
 
     public void setRouteId(String routeId) { this.routeId = routeId; }
     /*public void setWhichDay(LocalDate whichDay) {
         this.whichDay = whichDay;
     }*/
-    public void setWhichDay(String whichDayString) {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-        this.whichDay = LocalDate.parse(whichDayString, formatter);
+    public void setWhichDay(String whichDay) {
+        this.whichDay = whichDay;
     }
 
     public void setRouteProposalState(RouteProposalState routeProposalState) {
@@ -70,28 +69,15 @@ public class RouteProposal implements Serializable {
     public void setMaxParticipants(int maxParticipants) {
         this.maxParticipants = maxParticipants;
     }
-    public void addParticipant(User participant) {
-        participants.add(participant);
-    }
-    public void setGuide(User guide) { this.guide = guide; }
-    @Exclude
-    public Map<String, Object> toMap() {
-        HashMap<String, Object> result = new HashMap<>();
-        result.put("routeId", routeId);
-        result.put("whichDay", whichDay.toString());
-        result.put("routeProposalState", routeProposalState);
-        result.put("maxParticipants", maxParticipants);
-        result.put("comments", comments);
-        result.put("guide", guide);
-
-        return result;
+    public void setParticipantsIds(ArrayList<String> participantsIds) {
+        this.participantsIds = participantsIds;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if(this == o) return true;
-        if(o == null || getClass() != o.getClass()) return false;
-        RouteProposal that = (RouteProposal) o;
-        return Objects.equals(this.routeId, that.routeId);
+    public void setIdGuide(String idGuide) { this.idGuide = idGuide; }
+
+    public void addParticipantId(String participantsId) {
+        participantsIds.add(participantsId);
     }
+
+
 }

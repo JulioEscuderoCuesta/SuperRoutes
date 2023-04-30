@@ -30,8 +30,14 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -42,7 +48,8 @@ public class MainActivity extends AppCompatActivity {
     private static final String TAG = "FirebaseAuthActivity";
     private static final String ERROR_LOG_IN = "Error login";
     private FirebaseDatabase database;
-    private FirebaseUser currentUser;
+    private FirebaseUser currentFireBaseUser;
+    private FirebaseFirestore db;
     private DatabaseReference users;
 
     private FirebaseAuth mAuth;
@@ -61,8 +68,9 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        db = FirebaseFirestore.getInstance();
         database = FirebaseDatabase.getInstance("https://superroutes-5378d-default-rtdb.europe-west1.firebasedatabase.app/");
-        currentUser = FirebaseAuth.getInstance().getCurrentUser();
+        currentFireBaseUser = FirebaseAuth.getInstance().getCurrentUser();
         mAuth = FirebaseAuth.getInstance();
         //Get permissions to access to user position
         if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED)
@@ -102,7 +110,6 @@ public class MainActivity extends AppCompatActivity {
         else {
             mAuth.signInWithEmailAndPassword(emailString, passwordString).addOnCompleteListener(this, task -> {
                 if (task.isSuccessful()) {
-                    checkNewUser();
                     startActivity(new Intent(MainActivity.this, ChooseRol.class));
                 } else {
                     // If sign in fails, display a message to the user.
@@ -118,7 +125,7 @@ public class MainActivity extends AppCompatActivity {
    */
     private void onSignInResult(FirebaseAuthUIAuthenticationResult result) {
         if (result.getResultCode() == RESULT_OK) {
-            checkNewUser();
+            checkUserExist();
             Toast.makeText(this, "Log in succesful", Toast.LENGTH_SHORT).show();
             startActivity(new Intent(this, ChooseRol.class));
         } else {
@@ -130,31 +137,33 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    private void introduceNewUser() {
-        User user = new User(currentUser.getDisplayName(), currentUser.getEmail(), currentUser.getPhoneNumber());
-        database.getReference().child("Users").child(currentUser.getUid()).setValue(user);
-    }
-
-    private void checkNewUser() {
-        currentUser = FirebaseAuth.getInstance().getCurrentUser();
-        users = database.getReference().child("Users");
-        users.addListenerForSingleValueEvent(new ValueEventListener() {
-            boolean existsInDatabase = false;
+    private void checkUserExist() {
+        currentFireBaseUser = FirebaseAuth.getInstance().getCurrentUser();
+        db.collection("Users").document(currentFireBaseUser.getUid()).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                for(DataSnapshot singleSnapshot: snapshot.getChildren()) {
-                    User user = singleSnapshot.getValue(User.class);
-                    if(user.getEmail().equals(currentUser.getEmail()))
-                        existsInDatabase = true;
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if(task.isSuccessful()) {
+                    if(!task.getResult().exists()) {
+                        introduceNewUser();
+                    }
                 }
-                if(!existsInDatabase)
-                    introduceNewUser();
-            }
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-                //TODO
+                else {
+                }
             }
         });
+    }
+
+    private void introduceNewUser() {
+        String nameAndSurname = currentFireBaseUser.getDisplayName();
+        if(nameAndSurname == null)
+            nameAndSurname = "NoName NoSurname";
+        String telephoneNumber = currentFireBaseUser.getPhoneNumber();
+        if(telephoneNumber == null);
+            telephoneNumber = "NoTelephoneNumber";
+        String[] split = nameAndSurname.split(" ");
+        User currentUser= new User(split[0], split[1], currentFireBaseUser.getEmail(), telephoneNumber);
+        db.collection("Users").document(currentFireBaseUser.getUid()).set(currentUser);
+        startActivity(new Intent(MainActivity.this, ChooseRol.class));
     }
 
     private boolean ValidateCredentials(String email, String password) {

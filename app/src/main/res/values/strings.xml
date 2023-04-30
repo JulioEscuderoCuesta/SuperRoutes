@@ -6,6 +6,7 @@
     <string name="logo_description">Logo de la Aplicación</string>
     <string name="super_routes_text">Super routes</string>
     <string name="email_edit_text_placeholder">Email</string>
+    <string name="telephone_edit_text_placeholder">Telephone</string>
     <string name="password_edit_text_placeholder">Password</string>
     <string name="confirm_password_edit_text_placeholder">Confirm Password</string>
     <string name="ask_for_role">Who are you?</string>
@@ -45,6 +46,7 @@
     Strings in activity main menu senderist
     <string name="select_route_button">Pick!</string>
     <string name="check_out_new_routes">Check out these new routes</string>
+    <string name="text_no_routes_proposed">There are currently no proposals, come back later</string>
     <string name="routes_presentation_text">Or you can sign up for these routes</string>
     <string name="see_my_routes_button">My Routes</string>
     <string name="see_my_groups_button">My Groups</string>
@@ -118,5 +120,8 @@
     <string name="gps_icon_explained_in_menu_senerist_in_route">Check your location</string>
     <string name="camera_icon_explained_in_menu_senerist_in_route">You can send pictures to the group!</string>
 
+    Strings in menu senderist in route
+    <string name="waiting_text_view_waiting_room_guide">Press the button when everybody is ready.</string>
+    <string name="waiting_text_view_waiting_room_senderist">Waiting for the guide to start.</string>
 
 </resources>

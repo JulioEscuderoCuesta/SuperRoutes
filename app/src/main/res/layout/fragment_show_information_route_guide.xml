@@ -99,7 +99,6 @@
         style="@style/textViewHugeTextStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Name of the route"
         card_view:layout_constraintBottom_toTopOf="@+id/guideline_horizontal_date"
         card_view:layout_constraintEnd_toEndOf="parent"
         card_view:layout_constraintStart_toStartOf="parent"
