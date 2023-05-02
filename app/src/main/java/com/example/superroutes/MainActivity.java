@@ -47,11 +47,8 @@ public class MainActivity extends AppCompatActivity {
     private static final String LOGIN_ERROR = "User or password incorrect";
     private static final String TAG = "FirebaseAuthActivity";
     private static final String ERROR_LOG_IN = "Error login";
-    private FirebaseDatabase database;
     private FirebaseUser currentFireBaseUser;
     private FirebaseFirestore db;
-    private DatabaseReference users;
-
     private FirebaseAuth mAuth;
     private TextView signUpText;
 
@@ -69,7 +66,6 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         db = FirebaseFirestore.getInstance();
-        database = FirebaseDatabase.getInstance("https://superroutes-5378d-default-rtdb.europe-west1.firebasedatabase.app/");
         currentFireBaseUser = FirebaseAuth.getInstance().getCurrentUser();
         mAuth = FirebaseAuth.getInstance();
         //Get permissions to access to user position

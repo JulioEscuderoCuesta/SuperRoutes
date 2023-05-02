@@ -25,7 +25,6 @@ public class ListAdapterRoutesSenderist extends ArrayAdapter<String> {
 
     public ListAdapterRoutesSenderist(Activity context, ArrayList<String> routesNames, ArrayList<String> datesOfRoutes, ArrayList<Integer> mainImageOfRoutes, ArrayList<Integer> routesWithGuide, ArrayList<Integer> difficultyOfRoutes) {
         super(context, R.layout.listview_routes_senderist, routesNames);
-        Log.d("En el constructor", "hola");
 
         this.context = context;
         this.routesNames = routesNames;
@@ -37,7 +36,6 @@ public class ListAdapterRoutesSenderist extends ArrayAdapter<String> {
     }
 
     public View getView(int position, View view, ViewGroup parent) {
-        Log.d("Entro en el GetVIEW", "hola");
         LayoutInflater inflater = context.getLayoutInflater();
         View rowView = inflater.inflate(R.layout.listview_routes_senderist, null, true);
 

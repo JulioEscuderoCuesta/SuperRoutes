@@ -90,14 +90,18 @@ public class MainMenuSenderist extends AppCompatActivity {
                 noRoutesTextView.setVisibility(View.GONE);
                 list.setVisibility(View.VISIBLE);
                 list.setAdapter(listAdapterRoutesSenderist);
-                boolean hasJoined = false;
+                boolean hasJoined = false, isGuide = false;
                 for(QueryDocumentSnapshot snapshot: value) {
                     RouteProposal routeProposalAux = snapshot.toObject(RouteProposal.class);
                     for(String id: routeProposalAux.getParticipantsIds()) {
                         if(currentFirebaseUser.getUid().equals(id))
                             hasJoined = true;
+
                     }
-                    if(!hasJoined) {
+                    if(routeProposalAux.getIdGuide().equals(currentFirebaseUser.getUid()))
+                        isGuide = true;
+
+                    if(!hasJoined && !isGuide) {
                         routesProposalsIds.add(snapshot.getId());
                         routesIds.add(routeProposalAux.getRouteId());
                         datesOfRoutes.add(routeProposalAux.getWhichDay());
@@ -111,6 +115,7 @@ public class MainMenuSenderist extends AppCompatActivity {
                         });
                     }
                     hasJoined = false;
+                    isGuide = false;
                 }
                 if(routesNames.isEmpty())
                     noRoutesTextView.setVisibility(View.VISIBLE);
