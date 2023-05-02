@@ -10,7 +10,7 @@
     <LinearLayout
         android:id="@+id/images_route_card_linear_layout"
         android:layout_width="0dp"
-        android:layout_height="109dp"
+        android:layout_height="0dp"
         android:orientation="vertical"
         card_view:layout_constraintBottom_toTopOf="@+id/guideline_horizontal_bottom_images"
         card_view:layout_constraintEnd_toEndOf="parent"
@@ -19,7 +19,7 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="50dp"
+            android:layout_height="72dp"
             android:orientation="horizontal"
             card_view:layout_constraintEnd_toEndOf="parent"
             card_view:layout_constraintStart_toStartOf="@+id/guideline_vertical_center"
@@ -34,21 +34,21 @@
 
             <ImageView
                 android:layout_width="wrap_content"
-                android:layout_height="50dp"
+                android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:scaleType="centerCrop"
                 tools:src="@tools:sample/avatars" />
 
             <ImageView
                 android:layout_width="wrap_content"
-                android:layout_height="50dp"
+                android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:scaleType="centerCrop"
                 tools:src="@tools:sample/avatars" />
 
             <ImageView
                 android:layout_width="wrap_content"
-                android:layout_height="50dp"
+                android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:scaleType="centerCrop"
                 tools:src="@tools:sample/avatars" />
@@ -57,7 +57,7 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="50dp"
+            android:layout_height="72dp"
             android:orientation="horizontal"
             card_view:layout_constraintEnd_toEndOf="parent"
             card_view:layout_constraintStart_toStartOf="@+id/guideline_vertical_center"
@@ -72,21 +72,21 @@
 
             <ImageView
                 android:layout_width="wrap_content"
-                android:layout_height="50dp"
+                android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:scaleType="centerCrop"
                 tools:src="@tools:sample/avatars" />
 
             <ImageView
                 android:layout_width="wrap_content"
-                android:layout_height="50dp"
+                android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:scaleType="centerCrop"
                 tools:src="@tools:sample/avatars" />
 
             <ImageView
                 android:layout_width="wrap_content"
-                android:layout_height="50dp"
+                android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:scaleType="centerCrop"
                 tools:src="@tools:sample/avatars" />
@@ -104,14 +104,7 @@
         card_view:layout_constraintStart_toStartOf="parent"
         card_view:layout_constraintTop_toTopOf="@+id/guideline_horizontal_bottom_images" />
 
-    <ListView
-        android:id="@+id/list_of_participants_card"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        card_view:layout_constraintBottom_toTopOf="@+id/guideline_horizontal_card"
-        card_view:layout_constraintEnd_toStartOf="@+id/guideline_vertical_2"
-        card_view:layout_constraintStart_toStartOf="@+id/guideline_vertical_1"
-        card_view:layout_constraintTop_toTopOf="@+id/guideline_horizontal_date" />
+
 
     <Button
         android:id="@+id/delete_proposal_button"
@@ -119,6 +112,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:text="@string/delete_proposal_button"
+        android:layout_margin="10dp"
         card_view:layout_constraintBottom_toBottomOf="parent"
         card_view:layout_constraintEnd_toStartOf="@+id/guideline_vertical_center"
         card_view:layout_constraintStart_toStartOf="parent" />
@@ -129,21 +123,32 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:text="@string/start_route_button"
+        android:layout_margin="10dp"
         card_view:layout_constraintBottom_toBottomOf="parent"
         card_view:layout_constraintEnd_toEndOf="parent"
         card_view:layout_constraintStart_toStartOf="@+id/guideline_vertical_center" />
-
 
     <TextView
         android:id="@+id/date_of_route_guide_routes"
         style="@style/textViewMediumTextStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="12/12/2023"
         card_view:layout_constraintBottom_toTopOf="@+id/guideline_horizontal_date"
         card_view:layout_constraintEnd_toEndOf="parent"
         card_view:layout_constraintStart_toStartOf="parent"
         card_view:layout_constraintTop_toBottomOf="@+id/name_of_route_inside_card_guide" />
+
+    <TextView
+        android:id="@+id/list_of_participants_names_route_guide"
+        style="@style/textViewApplication14dpStyle"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:gravity="top|center"
+        android:inputType="textMultiLine"
+        card_view:layout_constraintBottom_toTopOf="@+id/guideline_horizontal_card"
+        card_view:layout_constraintEnd_toStartOf="@+id/guideline_vertical_2"
+        card_view:layout_constraintStart_toStartOf="@+id/guideline_vertical_1"
+        card_view:layout_constraintTop_toTopOf="@+id/guideline_horizontal_date" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline_vertical_1"
@@ -186,5 +191,7 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         card_view:layout_constraintGuide_percent="0.9" />
+
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

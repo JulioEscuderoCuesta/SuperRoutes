@@ -23,6 +23,49 @@
         app:spanCount="2"
         tools:listitem="@layout/participants_in_route_guide_adapter" />
 
+    <TextView
+        android:id="@+id/camera_icon_explained_in_menu_guide_in_route"
+        style="@style/textViewApplication14dpStyle"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="@string/camera_icon_explained_in_menu_guide_in_route"
+        android:layout_marginBottom="10dp"
+        app:layout_constraintBottom_toTopOf="@+id/camera_icon_in_menu_senderist_in_route"
+        app:layout_constraintEnd_toStartOf="@+id/guideline_center_list"
+        app:layout_constraintStart_toStartOf="@+id/guideline_margin_left_list" />
+
+    <ImageView
+        android:id="@+id/camera_icon_in_menu_senderist_in_route"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/camera64x64"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/guideline_center_list"
+        app:layout_constraintStart_toStartOf="@+id/guideline_margin_left_list"
+        app:layout_constraintTop_toTopOf="@+id/guideline_second_horizontal" />
+
+    <TextView
+        android:id="@+id/chat_icon_explained_in_menu_guide_in_route"
+        style="@style/textViewApplication14dpStyle"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="@string/chat_icon_explained_in_menu_guide_in_route"
+        android:layout_marginBottom="10dp"
+        app:layout_constraintBottom_toTopOf="@+id/camera_icon_in_menu_senderist_in_route"
+        app:layout_constraintEnd_toStartOf="@+id/guideline_margin_right_list"
+        app:layout_constraintStart_toStartOf="@+id/guideline_center_list" />
+
+    <ImageView
+        android:id="@+id/chat_icon_in_menu_senderist_in_route2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/chat64x64"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/guideline_margin_right_list"
+        app:layout_constraintStart_toStartOf="@+id/guideline_center_list"
+        app:layout_constraintTop_toTopOf="@+id/guideline_second_horizontal" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline_first_horizontal"

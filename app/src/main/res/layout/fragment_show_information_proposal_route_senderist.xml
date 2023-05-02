@@ -10,7 +10,7 @@
     <LinearLayout
         android:id="@+id/images_route_card_linear_layout"
         android:layout_width="0dp"
-        android:layout_height="109dp"
+        android:layout_height="0dp"
         android:orientation="vertical"
         card_view:layout_constraintBottom_toTopOf="@+id/guideline_horizontal_bottom_images"
         card_view:layout_constraintEnd_toEndOf="parent"
@@ -19,7 +19,7 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="50dp"
+            android:layout_height="72dp"
             android:orientation="horizontal"
             card_view:layout_constraintEnd_toEndOf="parent"
             card_view:layout_constraintStart_toStartOf="@+id/guideline_vertical_center"
@@ -34,21 +34,21 @@
 
             <ImageView
                 android:layout_width="wrap_content"
-                android:layout_height="50dp"
+                android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:scaleType="centerCrop"
                 tools:src="@tools:sample/avatars" />
 
             <ImageView
                 android:layout_width="wrap_content"
-                android:layout_height="50dp"
+                android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:scaleType="centerCrop"
                 tools:src="@tools:sample/avatars" />
 
             <ImageView
                 android:layout_width="wrap_content"
-                android:layout_height="50dp"
+                android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:scaleType="centerCrop"
                 tools:src="@tools:sample/avatars" />
@@ -57,7 +57,7 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="50dp"
+            android:layout_height="72dp"
             android:orientation="horizontal"
             card_view:layout_constraintEnd_toEndOf="parent"
             card_view:layout_constraintStart_toStartOf="@+id/guideline_vertical_center"
@@ -72,21 +72,21 @@
 
             <ImageView
                 android:layout_width="wrap_content"
-                android:layout_height="50dp"
+                android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:scaleType="centerCrop"
                 tools:src="@tools:sample/avatars" />
 
             <ImageView
                 android:layout_width="wrap_content"
-                android:layout_height="50dp"
+                android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:scaleType="centerCrop"
                 tools:src="@tools:sample/avatars" />
 
             <ImageView
                 android:layout_width="wrap_content"
-                android:layout_height="50dp"
+                android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:scaleType="centerCrop"
                 tools:src="@tools:sample/avatars" />
@@ -199,33 +199,29 @@
         card_view:layout_constraintStart_toStartOf="@+id/guideline_vertical_1"
         card_view:layout_constraintTop_toBottomOf="@+id/guide_image_route_senderist_card" />
 
-    <ScrollView
+    <TextView
+        android:id="@+id/comment_senderist_routes_text"
+        style="@style/textViewApplication12dpStyle"
         android:layout_width="0dp"
         android:layout_height="0dp"
+        android:layout_gravity="top|left"
+        android:inputType="textMultiLine"
+        android:maxLines="10"
+        android:scrollbars="vertical"
+        android:text="some comments"
+        android:layout_marginTop="8dp"
         card_view:layout_constraintBottom_toTopOf="@+id/guideline_horizontal_card"
         card_view:layout_constraintEnd_toStartOf="@+id/guideline_vertical_2"
         card_view:layout_constraintStart_toStartOf="@+id/guideline_vertical_1"
-        card_view:layout_constraintTop_toBottomOf="@+id/guide_information_senderist_routes_text">
-
-        <TextView
-            android:id="@+id/comment_senderist_routes_text"
-            style="@style/textViewApplication12dpStyle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="some comments"
-            android:layout_gravity="top|center"
-            card_view:layout_constraintEnd_toStartOf="@+id/guideline_vertical_2"
-            card_view:layout_constraintStart_toStartOf="@+id/guideline_vertical_1"
-            card_view:layout_constraintTop_toBottomOf="@+id/guide_information_senderist_routes_text" />
-    </ScrollView>
+        card_view:layout_constraintTop_toBottomOf="@+id/guide_information_senderist_routes_text" />
 
     <ImageView
         android:id="@+id/guide_image_route_senderist_card"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:src="@drawable/icons8_tour_guide_48"
         android:layout_marginTop="10dp"
-        android:scaleType="centerCrop"
+        android:scaleType="fitXY"
+        android:src="@drawable/icons8_tour_guide_48"
         card_view:layout_constraintBottom_toTopOf="@+id/guideline_guide_top_image"
         card_view:layout_constraintEnd_toStartOf="@+id/guideline_guide_start_image"
         card_view:layout_constraintHorizontal_bias="0.448"
@@ -238,6 +234,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:text="@string/close_route_button"
+        android:layout_margin="10dp"
         card_view:layout_constraintBottom_toBottomOf="parent"
         card_view:layout_constraintEnd_toStartOf="@+id/guideline_vertical_center"
         card_view:layout_constraintStart_toStartOf="parent" />
@@ -248,6 +245,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:text="@string/join_route_button"
+        android:layout_margin="10dp"
         card_view:layout_constraintBottom_toBottomOf="parent"
         card_view:layout_constraintEnd_toEndOf="parent"
         card_view:layout_constraintStart_toStartOf="@+id/guideline_vertical_center" />

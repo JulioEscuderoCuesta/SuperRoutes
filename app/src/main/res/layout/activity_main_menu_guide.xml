@@ -46,15 +46,15 @@
 
     <Button
         android:id="@+id/create_new_route_guide_menu"
+        style="@style/MainButtonsStyle"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:onClick="createNewRoute"
         android:text="@string/create_new_route_guide_menu"
-        style="@style/MainButtonsStyle"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/guideline_fifth_horizontal"
         app:layout_constraintEnd_toStartOf="@+id/guideline_margin_right"
         app:layout_constraintStart_toStartOf="@+id/guideline_margin_left"
-        app:layout_constraintTop_toTopOf="@+id/guideline_fifth_horizontal" />
+        app:layout_constraintTop_toTopOf="@+id/guideline_fourth_horizontal" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline_top_image_horizontal"

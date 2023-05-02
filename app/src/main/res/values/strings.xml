@@ -111,9 +111,10 @@
     <string name="join_route_button">Join</string>
     <string name="close_route_button">Close</string>
 
-    Strings in menu senderist in route
+    Strings in waiting room before route starts
     <string name="button_start_route_route_started_guide">Everybody Ready!</string>
-
+    <string name="waiting_text_view_waiting_room_senderist">Waiting for the guide to start.</string>
+    <string name="waiting_text_view_waiting_room_guide">Press the button when everybody is ready.</string>
 
     Strings in menu senderist in route
     <string name="accelerometer_icon_explained_in_menu_senerist_in_route">If activated, it will catch it if you fall down.</string>
@@ -121,8 +122,7 @@
     <string name="gps_icon_explained_in_menu_senerist_in_route">Check your location</string>
     <string name="camera_icon_explained_in_menu_senerist_in_route">You can send pictures to the group!</string>
 
-    Strings in menu senderist in route
-    <string name="waiting_text_view_waiting_room_guide">Press the button when everybody is ready.</string>
-    <string name="waiting_text_view_waiting_room_senderist">Waiting for the guide to start.</string>
-
+    Strings in route started guide
+    <string name="chat_icon_explained_in_menu_guide_in_route">Send pictures to the group</string>
+    <string name="camera_icon_explained_in_menu_guide_in_route">Open chat</string>
 </resources>

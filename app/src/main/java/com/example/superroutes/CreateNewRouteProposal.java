@@ -44,6 +44,7 @@ import java.util.Map;
 
 public class CreateNewRouteProposal extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
 
+    private static final String NO_DAY_OR_PARTICIPANTS = "You need to specify a day and the number of participants";
     private static final String ERROR_NEW_ROUTE = "There was an error creating the new route";
     private static final String SUCCESS_NEW_ROUTE = "New route created";
     private FirebaseDatabase database;
@@ -68,15 +69,24 @@ public class CreateNewRouteProposal extends AppCompatActivity implements Adapter
     }
 
     public void confirmNewRoute(View view) {
-        int numberParticipants = Integer.parseInt(((EditText)findViewById(R.id.max_participants_text)).getText().toString());
-        LocalDate formatDate = getDateOfRoute();
-        String formatDateString = reverseFormat(formatDate);
-        String comments = ((EditText)findViewById(R.id.comments_edit_text)).getText().toString();
-        RouteProposal newProposal = new RouteProposal("-NRPcSEhgsyYGjTPhoMh", formatDateString, numberParticipants, comments, currentFireBaseUser.getUid());
-        db.collection("RoutesProposals").add(newProposal).addOnCompleteListener(task -> {
-            Toast.makeText(CreateNewRouteProposal.this, SUCCESS_NEW_ROUTE, Toast.LENGTH_SHORT).show();
-            startActivity(new Intent(CreateNewRouteProposal.this, MainMenuGuide.class));
-        }).addOnFailureListener(e -> Toast.makeText(CreateNewRouteProposal.this, ERROR_NEW_ROUTE, Toast.LENGTH_SHORT).show());
+        EditText numberParticipantsEditText = findViewById(R.id.max_participants_text);
+        EditText commentsEditText = findViewById(R.id.max_participants_text);
+
+        if(numberParticipantsEditText.getText().toString().isEmpty()
+                || dateOfRoute.getText().toString().isEmpty()) {
+            Toast.makeText(this, NO_DAY_OR_PARTICIPANTS, Toast.LENGTH_SHORT).show();
+        }
+        else {
+            int numberParticipants = Integer.parseInt(((EditText) findViewById(R.id.max_participants_text)).getText().toString());
+            LocalDate formatDate = getDateOfRoute();
+            String formatDateString = reverseFormat(formatDate);
+            String comments = ((EditText) findViewById(R.id.comments_edit_text)).getText().toString();
+            RouteProposal newProposal = new RouteProposal("-NRPcSEhgsyYGjTPhoMh", formatDateString, numberParticipants, comments, currentFireBaseUser.getUid());
+            db.collection("RoutesProposals").add(newProposal).addOnCompleteListener(task -> {
+                Toast.makeText(CreateNewRouteProposal.this, SUCCESS_NEW_ROUTE, Toast.LENGTH_SHORT).show();
+                startActivity(new Intent(CreateNewRouteProposal.this, MainMenuGuide.class));
+            }).addOnFailureListener(e -> Toast.makeText(CreateNewRouteProposal.this, ERROR_NEW_ROUTE, Toast.LENGTH_SHORT).show());
+        }
     }
 
     @Override

@@ -114,7 +114,6 @@ public class MainMenuGuide extends AppCompatActivity {
             if(value != null && !value.isEmpty()) {
                 for(QueryDocumentSnapshot snapshot: value) {
                     RouteProposal routeProposalAux = snapshot.toObject(RouteProposal.class);
-                    Log.d("routeProposalAux", routeProposalAux.getWhichDay());
                     routesProposalsIds.add(snapshot.getId());
                     routesIds.add(routeProposalAux.getRouteId());
                     showNumberOfParticipantsSlashTotal(routeProposalAux.getParticipantsIds().size(), routeProposalAux.getMaxParticipants());

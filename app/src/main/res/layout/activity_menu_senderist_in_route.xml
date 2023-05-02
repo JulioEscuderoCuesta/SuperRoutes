@@ -12,11 +12,10 @@
 
     <TextView
         android:id="@+id/route_title_in_menu_senerist_in_route"
-        style="@style/textViewMediumTextStyle"
+        style="@style/textViewTitleMainActivityStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Example text"
-        android:textColor="@color/black"
         app:layout_constraintBottom_toTopOf="@+id/guideline_first_horizontal"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -46,12 +45,12 @@
 
     <TextView
         android:id="@+id/chat_icon_explained_in_menu_senerist_in_route"
-        style="@style/textViewTinyTextStyle"
+        style="@style/textViewApplication14dpStyle"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:gravity="center"
         android:text="@string/chat_icon_explained_in_menu_senerist_in_route"
-        app:layout_constraintBottom_toTopOf="@+id/chat_icon_in_menu_senderist_in_route2"
+        android:layout_marginTop="20dp"
         app:layout_constraintEnd_toStartOf="@+id/guideline_margin_right"
         app:layout_constraintStart_toStartOf="@+id/guideline_middle_vertical"
         app:layout_constraintTop_toTopOf="@+id/guideline_third_horizontal" />
@@ -60,20 +59,20 @@
         android:id="@+id/chat_icon_in_menu_senderist_in_route2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@drawable/chat32x32"
+        android:src="@drawable/chat64x64"
         app:layout_constraintBottom_toTopOf="@+id/guideline_fourth_horizontal"
         app:layout_constraintEnd_toStartOf="@+id/guideline_margin_right"
         app:layout_constraintStart_toStartOf="@+id/guideline_middle_vertical"
-        app:layout_constraintTop_toTopOf="@+id/guideline_third_horizontal" />
+        app:layout_constraintTop_toBottomOf="@+id/chat_icon_explained_in_menu_senerist_in_route" />
 
     <TextView
         android:id="@+id/gps_icon_explained_in_menu_senerist_in_route"
-        style="@style/textViewTinyTextStyle"
+        style="@style/textViewApplication14dpStyle"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:gravity="center"
         android:text="@string/gps_icon_explained_in_menu_senerist_in_route"
-        app:layout_constraintBottom_toTopOf="@+id/gps_icon_in_menu_senderist_in_route"
+        android:layout_marginTop="20dp"
         app:layout_constraintEnd_toStartOf="@+id/guideline_middle_vertical"
         app:layout_constraintStart_toStartOf="@+id/guideline_margin_left"
         app:layout_constraintTop_toTopOf="@+id/guideline_third_horizontal" />
@@ -82,20 +81,20 @@
         android:id="@+id/gps_icon_in_menu_senderist_in_route"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@drawable/map32x32"
+        android:src="@drawable/mapa64x64"
         app:layout_constraintBottom_toTopOf="@+id/guideline_fourth_horizontal"
         app:layout_constraintEnd_toStartOf="@+id/guideline_middle_vertical"
         app:layout_constraintStart_toStartOf="@+id/guideline_margin_left"
-        app:layout_constraintTop_toTopOf="@+id/guideline_third_horizontal" />
+        app:layout_constraintTop_toBottomOf="@+id/gps_icon_explained_in_menu_senerist_in_route" />
 
     <TextView
         android:id="@+id/accelerometer_icon_explained_in_menu_senerist_in_route"
-        style="@style/textViewTinyTextStyle"
+        style="@style/textViewApplication14dpStyle"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:gravity="center"
         android:text="@string/accelerometer_icon_explained_in_menu_senerist_in_route"
-        app:layout_constraintBottom_toTopOf="@+id/accelerometer_icon_in_menu_senderist_in_route"
+        android:layout_marginTop="20dp"
         app:layout_constraintEnd_toStartOf="@+id/guideline_middle_vertical"
         app:layout_constraintStart_toStartOf="@+id/guideline_margin_left"
         app:layout_constraintTop_toTopOf="@+id/guideline_second_horizontal" />
@@ -104,20 +103,20 @@
         android:id="@+id/accelerometer_icon_in_menu_senderist_in_route"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@drawable/fall32x32"
+        android:src="@drawable/acelerometer64x64"
         app:layout_constraintBottom_toTopOf="@+id/guideline_third_horizontal"
         app:layout_constraintEnd_toStartOf="@+id/guideline_middle_vertical"
         app:layout_constraintStart_toStartOf="@+id/guideline_margin_left"
-        app:layout_constraintTop_toTopOf="@+id/guideline_second_horizontal" />
+        app:layout_constraintTop_toBottomOf="@+id/accelerometer_icon_explained_in_menu_senerist_in_route" />
 
     <TextView
         android:id="@+id/camera_icon_explained_in_menu_senerist_in_route"
-        style="@style/textViewTinyTextStyle"
+        style="@style/textViewApplication14dpStyle"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:gravity="center"
         android:text="@string/camera_icon_explained_in_menu_senerist_in_route"
-        app:layout_constraintBottom_toTopOf="@+id/camera_icon_in_menu_senderist_in_route"
+        android:layout_marginTop="20dp"
         app:layout_constraintEnd_toStartOf="@+id/guideline_margin_right"
         app:layout_constraintStart_toStartOf="@+id/guideline_middle_vertical"
         app:layout_constraintTop_toTopOf="@+id/guideline_second_horizontal" />
@@ -126,11 +125,11 @@
         android:id="@+id/camera_icon_in_menu_senderist_in_route"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@drawable/camera"
+        android:src="@drawable/camera64x64"
         app:layout_constraintBottom_toTopOf="@+id/guideline_third_horizontal"
         app:layout_constraintEnd_toStartOf="@+id/guideline_margin_right"
         app:layout_constraintStart_toStartOf="@+id/guideline_middle_vertical"
-        app:layout_constraintTop_toTopOf="@+id/guideline_second_horizontal" />
+        app:layout_constraintTop_toBottomOf="@+id/camera_icon_explained_in_menu_senerist_in_route" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline_header_horizontal"
@@ -144,7 +143,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.24" />
+        app:layout_constraintGuide_percent="0.26" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline_second_horizontal"
@@ -158,21 +157,21 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.53" />
+        app:layout_constraintGuide_percent="0.6" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline_fourth_horizontal"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.72" />
+        app:layout_constraintGuide_percent="0.84" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline_margin_left"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        app:layout_constraintGuide_percent="0.28" />
+        app:layout_constraintGuide_percent="0.2" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline_middle_vertical"
@@ -186,7 +185,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        app:layout_constraintGuide_percent="0.72" />
+        app:layout_constraintGuide_percent="0.8" />
 
 
 

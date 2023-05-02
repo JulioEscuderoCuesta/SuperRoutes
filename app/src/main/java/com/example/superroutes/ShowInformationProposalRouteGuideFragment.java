@@ -38,6 +38,8 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -45,17 +47,15 @@ import java.util.List;
 public class ShowInformationProposalRouteGuideFragment extends DialogFragment {
 
     private static final String PROPOSAL_DELETED = "Proposal deleted";
-    private ListView listViewOfParticipantsCard;
-    private List<String> listOfParticipantsCard;
+
+    private int numberOfParticipants;
+    private int maxNumberOfParticipants;
+    private TextView listOfParticipantsNames;
     private String routeProposalCode;
     private String routeCode;
-    private RouteProposal routeProposal;
-    private FirebaseDatabase database;
-    private FirebaseUser currentFirebaseUser;
-    private DatabaseReference routeProposalReference;
     private FirebaseFirestore db;
-    private DatabaseReference route;
-    private DatabaseReference participants;
+    private FirebaseUser currentFirebaseUser;
+
     public ShowInformationProposalRouteGuideFragment() {
         // Required empty public constructor
     }
@@ -64,13 +64,11 @@ public class ShowInformationProposalRouteGuideFragment extends DialogFragment {
     @Override
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
         db = FirebaseFirestore.getInstance();
-        database = FirebaseDatabase.getInstance("https://superroutes-5378d-default-rtdb.europe-west1.firebasedatabase.app/");
         currentFirebaseUser = FirebaseAuth.getInstance().getCurrentUser();
         Bundle args = getArguments();
         routeCode = args.getString("route_code");
         routeProposalCode = args.getString("route_proposal_code");
-        Log.d("routePRoposalCode", routeProposalCode);
-        return showCardInformationProposal(routeCode, routeProposalCode);
+        return showCardInformationProposal();
     }
 
 
@@ -87,7 +85,7 @@ public class ShowInformationProposalRouteGuideFragment extends DialogFragment {
     }
 
 
-    private Dialog showCardInformationProposal(String routeCode, String routeProposalCode) {
+    private Dialog showCardInformationProposal() {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
 
         LayoutInflater inflater = getActivity().getLayoutInflater();
@@ -96,21 +94,22 @@ public class ShowInformationProposalRouteGuideFragment extends DialogFragment {
 
         Button startRouteButton = v.findViewById(R.id.start_route_guide_button);
         Button deleteProposalButton = v.findViewById(R.id.delete_proposal_button);
+        listOfParticipantsNames = v.findViewById(R.id.list_of_participants_names_route_guide);
         startRouteButton.setOnClickListener(view -> {
-            //confirmStartProposalDialog();
-            startProposal();
+            if(numberOfParticipants == 0) {
+                dialogNumberParticipantsIsZero();
+            }
+            else if (numberOfParticipants < maxNumberOfParticipants)
+                dialogNumberParticipantsLessThanMaxParticipants();
+            else
+                confirmStartProposalDialog();
         });
         deleteProposalButton.setOnClickListener(view -> {
-            //confirmDeleteProposalDialog();
-            deleteProposal();
-            dismiss();
+            confirmDeleteProposalDialog();
+            //deleteProposal();
         });
-        getRouteProposalData(v);
 
-        listOfParticipantsCard = new ArrayList<>();
-        listViewOfParticipantsCard = v.findViewById(R.id.list_of_participants_card);
-        ListOfParticipantsCardAdapter adapter = new ListOfParticipantsCardAdapter(listOfParticipantsCard, getContext());
-        listViewOfParticipantsCard.setAdapter(adapter);
+        getRouteProposalData(v);
 
         return builder.create();
     }
@@ -118,21 +117,28 @@ public class ShowInformationProposalRouteGuideFragment extends DialogFragment {
     private void getRouteProposalData(View v) {
         db.collection("RoutesProposals").document(routeProposalCode).get().addOnSuccessListener(documentSnapshot -> {
             RouteProposal routeProposalAux = documentSnapshot.toObject(RouteProposal.class);
-
+            numberOfParticipants = routeProposalAux.getParticipantsIds().size();
+            maxNumberOfParticipants = routeProposalAux.getMaxParticipants();
             TextView dateOfRoute = v.findViewById(R.id.date_of_route_guide_routes);
             String dateOfRouteString = routeProposalAux.getWhichDay();
             dateOfRoute.setText(dateOfRouteString);
 
             List<String> participantsIds = routeProposalAux.getParticipantsIds();
-            for(String id: participantsIds) {
-                db.collection("Users").document(id).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-                    @Override
-                    public void onSuccess(DocumentSnapshot documentSnapshot) {
-                        User userAux = documentSnapshot.toObject(User.class);
-                        listOfParticipantsCard.add(userAux.getName());
+            StringBuilder sb = new StringBuilder();
+            db.collection("Users").get().addOnCompleteListener(task -> {
+                User userAux;
+                if (task.isSuccessful()) {
+                    for(QueryDocumentSnapshot document: task.getResult()) {
+                        for(String id : participantsIds) {
+                            if(document.getId().equals(id)) {
+                                userAux = document.toObject(User.class);
+                                sb.append(userAux.getName()).append("\n");
+                            }
+                        }
                     }
-                });
-            }
+                    listOfParticipantsNames.setText(sb.toString());
+                }
+            });
         });
 
         db.collection("Routes").document(routeCode).get().addOnSuccessListener(documentSnapshot -> {
@@ -142,41 +148,60 @@ public class ShowInformationProposalRouteGuideFragment extends DialogFragment {
         });
     }
 
-    private AlertDialog confirmStartProposalDialog() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+    private void dialogNumberParticipantsIsZero() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+        builder.setTitle("There are no participants in this proposal")
+                .setMessage("You can't start a proposal with 0 participants")
+                .setPositiveButton("Ok", (dialogInterface, i) -> dismiss());
+        builder.show();
+    }
+
+    private void dialogNumberParticipantsLessThanMaxParticipants() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+        builder.setTitle("There is still room for more people ")
+                .setMessage("Do you still want to start?")
+                .setNegativeButton("I'll wait", ((dialogInterface, i) -> dismiss()))
+                .setPositiveButton("Go!", (dialogInterface, i) -> startProposal());
+        builder.show();
+
+    }
+
+    private void confirmStartProposalDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
         builder.setTitle("Are you sure?")
                 .setMessage("Once you select this option, the route will start.")
                 .setNegativeButton("Cancel", (dialogInterface, i) -> dismiss())
                 .setPositiveButton("Go!", (dialogInterface, i) -> startProposal());
-        return builder.create();
+        builder.show();
+
     }
 
     private void startProposal() {
         db.collection("RoutesProposals").document(routeProposalCode)
-                .update("routeProposalState", String.valueOf(RouteProposalState.WAITING)).addOnSuccessListener(new OnSuccessListener<Void>() {
-                    @Override
-                    public void onSuccess(Void unused) {
-                        Intent intent = new Intent(getContext(), RouteStarted.class);
-                        intent.putExtra("route_proposal_code", routeProposalCode);
-                        intent.putExtra("rol", "GUIDE");
-                        startActivity(intent);
-                    }
+                .update("routeProposalState", String.valueOf(RouteProposalState.WAITING)).addOnSuccessListener(unused -> {
+                    Intent intent = new Intent(getContext(), RouteStarted.class);
+                    intent.putExtra("route_proposal_code", routeProposalCode);
+                    intent.putExtra("rol", "GUIDE");
+                    startActivity(intent);
                 });
     }
 
-    private AlertDialog confirmDeleteProposalDialog() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+    private void confirmDeleteProposalDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
         builder.setTitle("Are you sure?")
                 .setMessage("Once you delete the proposal, it can't be undone")
                 .setNegativeButton("Cancel", (dialogInterface, i) -> dismiss())
-                .setPositiveButton("Delete", (dialogInterface, i) -> deleteProposal());
-        return builder.create();
+                .setPositiveButton("Yes", (dialogInterface, i) -> {
+                    deleteProposal();
+                    dismiss();
+                });
+        builder.show();
     }
 
     private void deleteProposal() {
         db.collection("RoutesProposals").document(routeProposalCode)
                 .delete().addOnSuccessListener(unused -> {
-                    Toast.makeText(getContext(), PROPOSAL_DELETED, Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(getContext(), PROPOSAL_DELETED, Toast.LENGTH_SHORT).show();
                 });
     }
 }
