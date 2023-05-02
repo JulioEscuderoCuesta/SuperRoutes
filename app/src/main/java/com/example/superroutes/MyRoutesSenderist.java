@@ -48,6 +48,7 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 public class MyRoutesSenderist extends AppCompatActivity {
 
     private ListView list;
+    private TextView noRoutesTextView;
     private ArrayList<String> routesIds;
     private ArrayList<String> routesProposalsIds;
 
@@ -81,8 +82,10 @@ public class MyRoutesSenderist extends AppCompatActivity {
         difficultyOfRoutes = new ArrayList<>();
         progressBar = findViewById(R.id.progressBar_in_main_menu_senderist);
         list=findViewById(R.id.list_of_routes_for_senderist);
+        noRoutesTextView = findViewById(R.id.text_no_routes_joined);
+        noRoutesTextView.setVisibility(View.GONE);
+        list.setVisibility(View.GONE);
 
-        ArrayList<String> routesNames = new ArrayList<>();
         listAdapterRoutesSenderist =
                 new ListAdapterRoutesSenderist(this, routesNames, datesOfRoutes, mainImageOfRoutes, routesWithGuide, difficultyOfRoutes);
 
@@ -107,11 +110,12 @@ public class MyRoutesSenderist extends AppCompatActivity {
                     clearList();
                     if(value != null && !value.isEmpty()) {
                         progressBar.setVisibility(View.GONE);
-                        //noRoutesTextView.setVisibility(View.GONE);
+                        noRoutesTextView.setVisibility(View.GONE);
                         list.setVisibility(View.VISIBLE);
                         list.setAdapter(listAdapterRoutesSenderist);
                         for(QueryDocumentSnapshot snapshot: value) {
                             RouteProposal routeProposalAux = snapshot.toObject(RouteProposal.class);
+                            routesProposalsIds.add(snapshot.getId());
                             routesIds.add(routeProposalAux.getRouteId());
                             datesOfRoutes.add(routeProposalAux.getWhichDay());
                             addImageOfRoute();
@@ -126,7 +130,7 @@ public class MyRoutesSenderist extends AppCompatActivity {
                     }
                     else {
                         list.setVisibility(View.GONE);
-                        //noRoutesTextView.setVisibility(View.VISIBLE);
+                        noRoutesTextView.setVisibility(View.VISIBLE);
                     }
                 });
     }

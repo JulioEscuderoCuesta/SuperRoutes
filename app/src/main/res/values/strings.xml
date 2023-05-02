@@ -53,6 +53,7 @@
 
     Strings in activity my routes senderist
     <string name="my_routes_senderist_text">These are the routes you sign up for</string>
+    <string name="text_no_routes_joined">You didn\'t sing up for any route yet</string>
 
 
     Strings in menu activity

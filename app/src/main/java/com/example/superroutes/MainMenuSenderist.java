@@ -117,8 +117,10 @@ public class MainMenuSenderist extends AppCompatActivity {
                     hasJoined = false;
                     isGuide = false;
                 }
-                if(routesNames.isEmpty())
-                    noRoutesTextView.setVisibility(View.VISIBLE);
+            }
+            else {
+                list.setVisibility(View.GONE);
+                noRoutesTextView.setVisibility(View.VISIBLE);
             }
         });
     }
