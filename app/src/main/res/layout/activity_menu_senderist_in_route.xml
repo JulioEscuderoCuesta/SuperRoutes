@@ -12,13 +12,13 @@
 
     <TextView
         android:id="@+id/route_title_in_menu_senerist_in_route"
-        style="@style/textViewTitleMainActivityStyle"
+        style="@style/textViewHugeTextStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Example text"
         app:layout_constraintBottom_toTopOf="@+id/guideline_first_horizontal"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/guideline_margin_right"
+        app:layout_constraintStart_toStartOf="@+id/guideline_margin_left"
         app:layout_constraintTop_toTopOf="@+id/guideline_header_horizontal" />
 
     <TextView

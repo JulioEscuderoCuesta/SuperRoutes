@@ -125,8 +125,8 @@ public class RouteStarted extends AppCompatActivity {
 
         db.collection("Users").document(currentFirebaseUser.getUid()).get().addOnSuccessListener(documentSnapshot -> {
             User user = documentSnapshot.toObject(User.class);
-            UserInRoute userInRoute = new UserInRoute(user.getName(), firstLocation.getLatitude(), firstLocation.getLongitude());
-            db.collection("SenderistsInRoutes").document(routeProposalCode)
+            UserInRoute userInRoute = new UserInRoute(user.getName(), 42.2, 62.2);
+            db.collection("ParticipantsInRoutes").document(routeProposalCode)
                     .collection("participants").document(currentFirebaseUser.getUid()).set(userInRoute);
         });
     }
@@ -186,12 +186,12 @@ public class RouteStarted extends AppCompatActivity {
                             new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION, android.Manifest.permission.ACCESS_COARSE_LOCATION}, 123);
                 Location location = locManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
 
-                db.collection("SenderistInRoutes").document(routeProposalCode)
+                db.collection("ParticipantsInRoutes").document(routeProposalCode)
                         .collection("participants").document(currentFirebaseUser.getUid())
-                                .update("latitude", location.getLatitude());
-                db.collection("SenderistInRoutes").document(routeProposalCode)
+                                .update("latitude", 52.2);
+                db.collection("ParticipantsInRoutes").document(routeProposalCode)
                         .collection("participants").document(currentFirebaseUser.getUid())
-                        .update("longitude", location.getLongitude());
+                        .update("longitude", 42.2);
                 handlerSetLocation.postDelayed(this, 5000);
             }
         };
@@ -206,7 +206,7 @@ public class RouteStarted extends AppCompatActivity {
         //Set proposal to started
         db.collection("RoutesProposals").document(routeProposalCode).update("routeProposalState", RouteProposalState.STARTED);
 
-        CollectionReference reference = db.collection("SenderistsInRoutes").document(routeProposalCode).collection("participants");
+        CollectionReference reference = db.collection("ParticipantsInRoutes").document(routeProposalCode).collection("participants");
 
         /*//Get the initial data
         reference.get().addOnCompleteListener(task -> {

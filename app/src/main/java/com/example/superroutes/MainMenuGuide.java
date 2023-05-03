@@ -126,7 +126,6 @@ public class MainMenuGuide extends AppCompatActivity {
                     });
                 }
             } else {
-                Log.d("no hay nada", "hola");
             }
         });
     }

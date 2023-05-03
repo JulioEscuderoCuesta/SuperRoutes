@@ -61,9 +61,6 @@ public class MainMenuSenderist extends AppCompatActivity {
         noRoutesTextView.setVisibility(View.GONE);
         list.setVisibility(View.GONE);
 
-        listAdapterRoutesSenderist =
-                new ListAdapterRoutesSenderist(this, routesNames, datesOfRoutes, mainImageOfRoutes, routesWithGuide, difficultyOfRoutes);
-
         showRoutesInformation();
         checkRouteProposalStarted();
 
@@ -88,6 +85,8 @@ public class MainMenuSenderist extends AppCompatActivity {
             if(value != null && !value.isEmpty()) {
                 progressBar.setVisibility(View.GONE);
                 noRoutesTextView.setVisibility(View.GONE);
+                listAdapterRoutesSenderist =
+                        new ListAdapterRoutesSenderist(this, routesNames, datesOfRoutes, mainImageOfRoutes, routesWithGuide, difficultyOfRoutes);
                 list.setVisibility(View.VISIBLE);
                 list.setAdapter(listAdapterRoutesSenderist);
                 boolean hasJoined = false, isGuide = false;
