@@ -59,7 +59,7 @@
         <item name="android:textStyle">bold</item>
         <item name="android:textColor">@color/white</item>
         <item name="android:fontFamily">@font/fonts_style</item>
-        <item name="android:background">@drawable/main_button</item>
+        <item name="android:drawable">@drawable/main_button</item>
     </style>
 
     <style name="SecondaryButtonsStyle" parent="Widget.AppCompat.Button">

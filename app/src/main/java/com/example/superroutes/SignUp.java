@@ -39,7 +39,6 @@ public class SignUp extends AppCompatActivity {
     private static final String SIGN_UP_SUCCESSFUL = "Sign up successfull";
     private FirebaseAuth mAuth;
     private FirebaseUser currentFireBaseUser;
-    private FirebaseDatabase database;
 
     private FirebaseFirestore db;
 
@@ -49,7 +48,6 @@ public class SignUp extends AppCompatActivity {
         setContentView(R.layout.activity_sign_up);
         mAuth = FirebaseAuth.getInstance();
         db = FirebaseFirestore.getInstance();
-        database = FirebaseDatabase.getInstance("https://superroutes-5378d-default-rtdb.europe-west1.firebasedatabase.app/");
 
     }
 

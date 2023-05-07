@@ -10,25 +10,26 @@
     <color name="green_login">#81B622</color>
 
     App colors
-    <color name="text_color">#333333</color>
-    <color name="nav_white_mode">#BFF28D</color>
-    <color name="green_gray_white_mode">#43BD41</color>
-    <color name="background_color">#DFFCD8</color>
-    <color name="editText_background_color">#FFFFFF</color>
-    <color name="editText_border_color">#AAADAA</color>
-    <color name="black_text_clicked">#AAADAA</color>
-    <color name="choose_rol_explanation_text_background">#36F723</color>
+    <color name="text_color">#FF333333</color>
+    <color name="nav_white_mode">#FFBFF28D</color>
+    <color name="green_gray_white_mode">#FF43BD41</color>
+    <color name="green_gray_white_mode_2">#FF33A232</color>
+    <color name="background_color">#FFDFFCD8</color>
+    <color name="editText_background_color">#FFFFFFFF</color>
+    <color name="editText_border_color">#FFAAADAA</color>
+    <color name="black_text_clicked">#FFAAADAA</color>
+    <color name="choose_rol_explanation_text_background">#FF36F723</color>
 
-    <color name="difficulty_expert">#031202</color>
-    <color name="difficulty_hard">#F12211</color>
-    <color name="difficulty_moderate">#DCE21D</color>
-    <color name="difficulty_easy">#27EF1D</color>
-
-
-
+    <color name="difficulty_expert">#FF031202</color>
+    <color name="difficulty_hard">#FFF12211</color>
+    <color name="difficulty_moderate">#FFDCE21D</color>
+    <color name="difficulty_easy">#FF27EF1D</color>
 
 
-    <color name="little_gray">#687E6F</color>
 
-    <drawable name="item_selected_gray">#C3C2C3</drawable>
+
+
+    <color name="little_gray">#FF687E6F</color>
+
+    <drawable name="item_selected_gray">#FFC3C2C3</drawable>
 </resources>

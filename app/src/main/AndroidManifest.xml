@@ -17,6 +17,9 @@
         tools:replace="android:appComponentFactory"
         tools:targetApi="31">
         <activity
+            android:name=".CreateNewGroup"
+            android:exported="false" />
+        <activity
             android:name=".MyRoutesSenderist"
             android:exported="false" />
 
@@ -29,9 +32,8 @@
             android:name=".RouteStarted"
             android:exported="false" />
         <activity
-            android:name=".MyGroups"
+            android:name=".MyGroupsSenderist"
             android:exported="false">
-
             <meta-data
                 android:name="android.app.searchable"
                 android:resource="@xml/searchable" />
@@ -90,6 +92,7 @@
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>

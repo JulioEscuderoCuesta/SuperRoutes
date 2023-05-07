@@ -2,10 +2,8 @@ package com.example.superroutes;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.ListView;
 import android.widget.ProgressBar;
@@ -75,6 +73,14 @@ public class MainMenuSenderist extends AppCompatActivity {
             fragment.show(getSupportFragmentManager(), "tag");
 
         });
+    }
+
+    public void onClickMyRoutesSenderist(View view) {
+        startActivity(new Intent(this, MyRoutesSenderist.class));
+    }
+
+    public void onClickMyGroupsSenderist(View view) {
+        startActivity(new Intent(this, MyGroupsSenderist.class));
     }
 
     private void showRoutesInformation() {
@@ -181,9 +187,7 @@ public class MainMenuSenderist extends AppCompatActivity {
         difficultyOfRoutes.clear();
         mainImageOfRoutes.clear();
     }
-    public void onClickMyRoutesSenderist(View view) {
-        startActivity(new Intent(this, MyRoutesSenderist.class));
-    }
+
     @Override
     public void onBackPressed() {
         androidx.appcompat.app.AlertDialog.Builder builder = new androidx.appcompat.app.AlertDialog.Builder(this);

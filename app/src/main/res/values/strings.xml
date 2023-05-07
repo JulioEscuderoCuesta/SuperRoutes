@@ -125,4 +125,14 @@
     Strings in route started guide
     <string name="chat_icon_explained_in_menu_guide_in_route">Send pictures to the group</string>
     <string name="camera_icon_explained_in_menu_guide_in_route">Open chat</string>
+
+    Strings in my groups (senderist)
+    <string name="create_new_group">Create new group</string>
+
+    Strings in create new group
+    <string name="name_of_new_group_edittext">Name of the group</string>
+    <string name="list_invitation_new_members">Invite new members</string>
+    <string name="add_new_member">Send</string>
+    <string name="create_new_group_button">Done</string>
+
 </resources>

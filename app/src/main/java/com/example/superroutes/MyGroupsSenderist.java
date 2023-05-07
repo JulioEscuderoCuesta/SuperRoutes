@@ -4,11 +4,10 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.SearchView;
 
-import com.firebase.ui.auth.AuthUI;
-
-public class MyGroups extends AppCompatActivity implements SearchView.OnQueryTextListener {
+public class MyGroupsSenderist extends AppCompatActivity implements SearchView.OnQueryTextListener {
 
     private SearchView searchBar;
     @Override
@@ -17,6 +16,10 @@ public class MyGroups extends AppCompatActivity implements SearchView.OnQueryTex
         setContentView(R.layout.activity_my_groups);
         searchBar = findViewById(R.id.searchview_my_groups);
         searchBar.setOnQueryTextListener(this);
+    }
+
+    public void onClickCreateNewRoute(View view) {
+        startActivity(new Intent(this, CreateNewGroup.class));
     }
 
     @Override
@@ -31,6 +34,6 @@ public class MyGroups extends AppCompatActivity implements SearchView.OnQueryTex
 
     @Override
     public void onBackPressed() {
-        startActivity(new Intent(MyGroups.this, MainActivity.class));
+        startActivity(new Intent(MyGroupsSenderist.this, MainActivity.class));
     }
 }

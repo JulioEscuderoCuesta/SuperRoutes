@@ -53,6 +53,7 @@
         <item name="android:textColor">@color/white</item>
         <item name="android:fontFamily">@font/fonts_style</item>
         <item name="android:background">@drawable/main_button</item>
+
     </style>
 
     <style name="MainButtonsStyle" parent="Widget.AppCompat.Button">

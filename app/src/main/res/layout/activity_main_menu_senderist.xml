@@ -51,11 +51,10 @@
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:text="@string/see_my_routes_button"
+        style="@style/MainButtonsStyle"
         android:onClick="onClickMyRoutesSenderist"
-        android:textColor="@color/white"
         app:layout_constraintBottom_toTopOf="@+id/guideline_fourth_horizontal"
         app:layout_constraintEnd_toStartOf="@+id/guideline_margin_right_button"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="@+id/guideline_margin_left_button"
         app:layout_constraintTop_toTopOf="@+id/guideline_third_horizontal" />
 
@@ -66,8 +65,8 @@
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:text="@string/see_my_groups_button"
-        android:onClick="onClickMyRoutesSenderist"
-        android:textColor="@color/white"
+        android:onClick="onClickMyGroupsSenderist"
+        style="@style/MainButtonsStyle"
         app:layout_constraintBottom_toTopOf="@+id/guideline_fifth_horizontal"
         app:layout_constraintEnd_toStartOf="@+id/guideline_margin_right_button"
         app:layout_constraintStart_toStartOf="@+id/guideline_margin_left_button"

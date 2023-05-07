@@ -6,7 +6,7 @@
     android:layout_height="match_parent">
 
     <TextView
-        android:id="@+id/name_of_the_route"
+        android:id="@+id/name_of_the_route_my_groups"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         style="@style/textViewApplication14dpStyle"
@@ -16,37 +16,37 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <ListView
-        android:layout_width="161dp"
-        android:layout_height="45dp"
-        android:layout_marginStart="10dp"
-        android:layout_marginTop="10dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/name_of_the_route" />
+    <TextView
+        android:id="@+id/list_of_participants_my_groups"
+        style="@style/textViewApplication12dpStyle"
+        android:layout_width="124dp"
+        android:layout_height="62dp"
+        android:layout_marginTop="8dp"
+        android:text="TextView"
+        android:scrollbars="vertical"
+        android:inputType="textMultiLine"
+        android:layout_gravity="top|start"
+        app:layout_constraintStart_toStartOf="@+id/name_of_the_route_my_groups"
+        app:layout_constraintTop_toBottomOf="@+id/name_of_the_route_my_groups" />
 
     <ImageView
-        android:id="@+id/imageView3"
+        android:id="@+id/image_of_route_my_groups"
         android:layout_width="111dp"
         android:layout_height="70dp"
         android:layout_marginTop="16dp"
+        android:layout_marginEnd="18dp"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:layout_editor_absoluteX="259dp"
         tools:srcCompat="@tools:sample/avatars" />
 
     <TextView
         android:id="@+id/textView2"
+        style="@style/textViewSmall"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="TextView"
-        tools:layout_editor_absoluteX="275dp"
-        tools:layout_editor_absoluteY="89dp" />
+        android:layout_marginTop="8dp"
+        app:layout_constraintStart_toStartOf="@+id/image_of_route_my_groups"
+        app:layout_constraintTop_toBottomOf="@+id/image_of_route_my_groups" />
 
-    <TextView
-        android:id="@+id/textView3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="16dp"
-        android:text="TextView"
-        app:layout_constraintEnd_toEndOf="parent"
-        tools:layout_editor_absoluteY="101dp" />
 </androidx.constraintlayout.widget.ConstraintLayout>

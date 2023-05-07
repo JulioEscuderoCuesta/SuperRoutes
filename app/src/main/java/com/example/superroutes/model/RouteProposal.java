@@ -1,14 +1,9 @@
 package com.example.superroutes.model;
 
-import com.google.firebase.database.Exclude;
 
 import java.io.Serializable;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Objects;
+
 
 public class RouteProposal implements Serializable {
 
