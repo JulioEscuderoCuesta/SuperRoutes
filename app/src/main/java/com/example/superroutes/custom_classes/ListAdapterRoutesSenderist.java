@@ -11,23 +11,24 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.superroutes.R;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
 public class ListAdapterRoutesSenderist extends ArrayAdapter<String> {
 
     private final Activity context;
-    private ArrayList<String> routesNames;
+    private ArrayList<String> namesOfRoutes;
     private ArrayList<String> datesOfRoutes;
-    private ArrayList<Integer> mainImageOfRoutes;
+    private ArrayList<String> mainImageOfRoutes;
     private ArrayList<Integer> routesWithGuide;
     private ArrayList<Integer> difficultyOfRoutes;
 
-    public ListAdapterRoutesSenderist(Activity context, ArrayList<String> routesNames, ArrayList<String> datesOfRoutes, ArrayList<Integer> mainImageOfRoutes, ArrayList<Integer> routesWithGuide, ArrayList<Integer> difficultyOfRoutes) {
-        super(context, R.layout.listview_routes_senderist, routesNames);
+    public ListAdapterRoutesSenderist(Activity context, ArrayList<String> namesOfRoutes, ArrayList<String> datesOfRoutes, ArrayList<String> mainImageOfRoutes, ArrayList<Integer> routesWithGuide, ArrayList<Integer> difficultyOfRoutes) {
+        super(context, R.layout.listview_routes_senderist, namesOfRoutes);
 
         this.context = context;
-        this.routesNames = routesNames;
+        this.namesOfRoutes = namesOfRoutes;
         this.datesOfRoutes = datesOfRoutes;
         this.mainImageOfRoutes = mainImageOfRoutes;
         this.routesWithGuide = routesWithGuide;
@@ -46,8 +47,12 @@ public class ListAdapterRoutesSenderist extends ArrayAdapter<String> {
         ImageView routesWithGuideImage = rowView.findViewById(R.id.icon_guide_routes_senderist);
         ImageView difficultyOfRoutesImage = rowView.findViewById(R.id.icon_difficulty_routes_senderist);
 
-        nameOfRouteText.setText(routesNames.get(position));
-        mainImageOfRouteImage.setImageResource(mainImageOfRoutes.get(position));
+        nameOfRouteText.setText(namesOfRoutes.get(position));
+        String imageURL = mainImageOfRoutes.get(position);
+        if(imageURL == null)
+            Picasso.get().load(R.drawable.mountain).into(mainImageOfRouteImage);
+        else
+            Picasso.get().load(imageURL).into(mainImageOfRouteImage);
         routesWithGuideImage.setImageResource(routesWithGuide.get(position));
         difficultyOfRoutesImage.setImageResource(difficultyOfRoutes.get(position));
         dateOfRouteText.setText(datesOfRoutes.get(position));

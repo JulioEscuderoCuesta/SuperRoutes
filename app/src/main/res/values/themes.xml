@@ -9,15 +9,36 @@
         <item name="windowActionBar">false</item>
     </style>
 
-    <style name="textViewApplicationTitleStyle" parent="@android:style/TextAppearance">
-        <item name="android:textSize">16sp</item>
+
+    <style name="textViewApplication14dpStyle" parent="@android:style/TextAppearance">
+        <item name="android:textSize">20sp</item>
         <item name="android:fontFamily">@font/fonts_style</item>
         <item name="android:textStyle">bold</item>
         <item name="android:textColor">@color/black</item>
     </style>
 
-    <style name="textViewApplication14dpStyle" parent="@android:style/TextAppearance">
+    <style name="textViewApplication14dpNoBoldStyle" parent="@android:style/TextAppearance">
+        <item name="android:textSize">14sp</item>
+        <item name="android:fontFamily">@font/fonts_style</item>
+        <item name="android:textColor">@color/black</item>
+    </style>
+
+    <style name="textViewApplication14dpItalicStyle" parent="@android:style/TextAppearance">
         <item name="android:textSize">20sp</item>
+        <item name="android:fontFamily">@font/fonts_style</item>
+        <item name="android:textStyle">italic</item>
+        <item name="android:textColor">@color/black</item>
+    </style>
+
+    <style name="textViewApplication16dpStyle" parent="@android:style/TextAppearance">
+        <item name="android:textSize">22sp</item>
+        <item name="android:fontFamily">@font/fonts_style</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">@color/black</item>
+    </style>
+
+    <style name="textViewApplication10dpStyle" parent="@android:style/TextAppearance">
+        <item name="android:textSize">10sp</item>
         <item name="android:fontFamily">@font/fonts_style</item>
         <item name="android:textStyle">bold</item>
         <item name="android:textColor">@color/black</item>
@@ -52,6 +73,7 @@
     <style name="textViewTitleMainActivityStyle" parent="@android:style/TextAppearance">
         <item name="android:textSize">48sp</item>
         <item name="android:fontFamily">@font/fonts_style</item>
+        <item name="android:textStyle">bold</item>
     </style>
 
     <style name="MainButtonsStyle" parent="Widget.AppCompat.Button">
@@ -60,6 +82,7 @@
         <item name="android:textColor">@color/white</item>
         <item name="android:fontFamily">@font/fonts_style</item>
         <item name="android:drawable">@drawable/main_button</item>
+        <item name="android:padding">10dp</item>
     </style>
 
     <style name="SecondaryButtonsStyle" parent="Widget.AppCompat.Button">
@@ -68,6 +91,10 @@
         <item name="android:textColor">@color/white</item>
         <item name="android:fontFamily">@font/fonts_style</item>
         <item name="android:background">@drawable/main_button</item>
+    </style>
+
+    <style name="SendMessageButtonStyle" parent="Widget.AppCompat.Button">
+        <item name="android:background">@drawable/send_message_button</item>
     </style>
 
     <style name="textViewSmall" parent="@android:style/TextAppearance">
@@ -82,6 +109,15 @@
         <item name="android:layout_marginBottom">5dp</item>
         <item name="android:fontFamily">@font/fonts_style</item>
         <item name="android:background">@drawable/edittext</item>
+    </style>
+
+    <style name="textBoxMessageStyle" parent="Widget.AppCompat.EditText">
+        <item name="android:textSize">16sp</item>
+        <item name="android:padding">10dp</item>
+        <item name="android:layout_marginTop">10dp</item>
+        <item name="android:layout_marginBottom">5dp</item>
+        <item name="android:fontFamily">@font/fonts_style</item>
+        <item name="android:background">@drawable/text_box_background</item>
     </style>
 
     <style name="choose_rol_information_text" parent="@android:style/TextAppearance">

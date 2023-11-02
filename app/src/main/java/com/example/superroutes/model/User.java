@@ -3,6 +3,7 @@ import com.google.firebase.database.Exclude;
 
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
@@ -14,16 +15,20 @@ public class User implements Serializable {
     private String email;
     private Rol rol;
     private String telephoneNumber;
+    private ArrayList<String> listOfGroups;
+    private String imageURL;
 
     public User() {
 
     }
-    public User(String name, String surname, String email, String telephoneNumber) {
+    public User(String name, String surname, String email, String telephoneNumber, String imageURL) {
         this.name = name;
         this.email = email;
         this.surname = surname;
         this.rol = Rol.SENDERIST;
         this.telephoneNumber = telephoneNumber;
+        this.imageURL = imageURL;
+        listOfGroups = new ArrayList<>();
     }
 
     public String getName() {
@@ -44,7 +49,13 @@ public class User implements Serializable {
         return telephoneNumber;
     }
 
+    public ArrayList<String> getListOfGroups() {
+        return listOfGroups;
+    }
 
+    public String getImageURL() {
+        return imageURL;
+    }
 
     public void setName(String name) {
         this.name = name;
@@ -63,6 +74,14 @@ public class User implements Serializable {
     public void setTelephoneNumber(String telephoneNumber) {
         this.telephoneNumber = telephoneNumber;
     }
+    public void setListOfGroups(ArrayList<String> listOfGroups) {
+        this.listOfGroups = listOfGroups;
+    }
+
+    public void setImageURL(String imageURL) {
+        this.imageURL = imageURL;
+    }
+
     @Override
     public boolean equals(Object o) {
         if(this == o) return true;

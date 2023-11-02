@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".RouteStarted">
+    android:background="@color/background_color"
+    tools:context=".RouteStartedGuide">
 
     <include
         android:id="@+id/toolbar"
@@ -60,6 +61,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:src="@drawable/chat64x64"
+        android:onClick="onClickChatIcon"
         app:layout_constraintBottom_toTopOf="@+id/guideline_fourth_horizontal"
         app:layout_constraintEnd_toStartOf="@+id/guideline_margin_right"
         app:layout_constraintStart_toStartOf="@+id/guideline_middle_vertical"

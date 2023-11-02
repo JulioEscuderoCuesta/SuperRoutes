@@ -18,16 +18,18 @@ public class Route implements Serializable{
     private String location;
     private Difficulty difficulty;
     private double durationInHours;
+    private String imageURL;
 
-    private Route() {
+    public Route() {
 
     }
 
-    public Route(String name, String location, Difficulty difficulty, double durationInHours) {
+    public Route(String name, String location, Difficulty difficulty, double durationInHours, String imageURL) {
         this.name = name;
         this.location = location;
         this.difficulty = difficulty;
         this.durationInHours = durationInHours;
+        this.imageURL = imageURL;
     }
 
     public String getName() {
@@ -40,13 +42,13 @@ public class Route implements Serializable{
     public double getDurationInHours() {
         return durationInHours;
     }
-
+    public String getImageURL() {return imageURL;}
 
     public void setName(String name) { this.name = name; }
     public void setLocation(String location) { this.location = location; }
 
     public void setDifficulty(Difficulty difficulty) { this.difficulty = difficulty; }
-
+    public void setImageURL(String imageURL) { this.imageURL = imageURL; }
 
     public void setDurationInHours(double durationInHours) {
         this.durationInHours = durationInHours;

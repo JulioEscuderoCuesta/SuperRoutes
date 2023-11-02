@@ -9,24 +9,28 @@ import java.util.Objects;
 public class UserInRoute {
 
     private String name;
+    public String imageURL;
     private double latitude;
     private double longitude;
     private boolean fall;
-
+    private boolean accelerometerActivated;
     private UserInRoute() {
 
     }
 
-    public UserInRoute(String name, double latitude, double longitude) {
+    public UserInRoute(String name, String imageURL, double latitude, double longitude) {
         this.name = name;
+        this.imageURL = imageURL;
         this.latitude = latitude;
         this.longitude = longitude;
         this.fall = false;
+        accelerometerActivated = true;
     }
 
     public String getName() {
         return name;
     }
+    public String getImageURL() { return imageURL;}
 
     public double getLatitude() {
         return latitude;
@@ -40,7 +44,16 @@ public class UserInRoute {
         return fall;
     }
 
+    public boolean getAccelerometerActivated() {
+        return accelerometerActivated;
+    }
+
     public void setName(String name) { this.name = name; }
+
+    public void setImageURL(String imageURL) {
+        this.imageURL = imageURL;
+    }
+
     public void setLatitude(double latitude) {
         this.latitude = latitude;
     }
@@ -51,7 +64,7 @@ public class UserInRoute {
     public void setFall(boolean fall) {
         this.fall = fall;
     }
-
+    public void setAccelerometerActivated(boolean accelerometerActivated) { this.accelerometerActivated = accelerometerActivated;}
     @Exclude
     public Map<String, Object> toMap() {
         HashMap<String, Object> result = new HashMap<>();

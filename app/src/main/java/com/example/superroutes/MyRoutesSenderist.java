@@ -1,47 +1,23 @@
 package com.example.superroutes;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.content.res.ResourcesCompat;
 
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.res.Resources;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.os.Handler;
-import android.util.Log;
-import android.util.Pair;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.Button;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
 
 import com.example.superroutes.custom_classes.ListAdapterRoutesSenderist;
 import com.example.superroutes.model.Route;
 import com.example.superroutes.model.RouteProposal;
 import com.example.superroutes.model.RouteProposalState;
-import com.example.superroutes.model.User;
-import com.firebase.ui.auth.AuthUI;
+
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.ChildEventListener;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 
@@ -54,7 +30,7 @@ public class MyRoutesSenderist extends AppCompatActivity {
 
     private ArrayList<String> routesNames;
     private ArrayList<String> datesOfRoutes;
-    private ArrayList<Integer> mainImageOfRoutes;
+    private ArrayList<String> mainImageOfRoutes;
     private ArrayList<Integer> routesWithGuide;
     private ArrayList<Integer> difficultyOfRoutes;
 
@@ -94,7 +70,7 @@ public class MyRoutesSenderist extends AppCompatActivity {
 
         //Make the items clikeable
         /*list.setOnItemClickListener((adapterView, view, i, l) -> {
-            Intent intent = new Intent(getApplicationContext(), RouteStarted.class);
+            Intent intent = new Intent(getApplicationContext(), RouteStartedGuide.class);
             intent.putExtra("rol", "SENDERIST");
             intent.putExtra("route_proposal", routesIds.get(i));
             intent.putExtra("route_proposal_code", routesProposalsIds.get(i));
@@ -118,7 +94,7 @@ public class MyRoutesSenderist extends AppCompatActivity {
                             routesProposalsIds.add(snapshot.getId());
                             routesIds.add(routeProposalAux.getRouteId());
                             datesOfRoutes.add(routeProposalAux.getWhichDay());
-                            addImageOfRoute();
+                            addImageOfRoute(routeProposalAux);
                             routesWithGuide.add(R.drawable.icons8_tour_guide_48);
                             db.collection("Routes").document(routeProposalAux.getRouteId()).get().addOnSuccessListener(documentSnapshot -> {
                                 Route routeAux = documentSnapshot.toObject(Route.class);
@@ -140,8 +116,11 @@ public class MyRoutesSenderist extends AppCompatActivity {
         datesOfRoutes.add(date.replace('-', '/'));
     }
 
-    private void addImageOfRoute() {
-        mainImageOfRoutes.add(R.drawable.mountain);
+    private void addImageOfRoute(RouteProposal routeProposalAux) {
+        db.collection("Routes").document(routeProposalAux.getRouteId()).get().addOnSuccessListener(documentSnapshot -> {
+            Route route = documentSnapshot.toObject(Route.class);
+            mainImageOfRoutes.add(route.getImageURL());
+        });
     }
 
     private void addDifficultyToTheList(Route route) {

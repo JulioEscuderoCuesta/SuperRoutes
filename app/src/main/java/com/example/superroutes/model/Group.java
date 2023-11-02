@@ -11,18 +11,20 @@ public class Group implements Serializable{
     private String name;
     private List<String> listOfMembers;
     private String creationDate;
-
     private List<String> listOfIdsRoutesProposals;
+    private String dateLastMessage;
+    private String imageURL;
 
     private Group() {
 
     }
 
-    public Group(String name, List<String> listOfMembers, String creationDate) {
+    public Group(String name, List<String> listOfMembers, String creationDate, String imageURL) {
         this.name = name;
         this.listOfMembers = listOfMembers;
         this.creationDate = creationDate;
         listOfIdsRoutesProposals = new ArrayList<>();
+        this.imageURL = imageURL;
 
     }
 
@@ -37,6 +39,13 @@ public class Group implements Serializable{
         return listOfIdsRoutesProposals;
     }
 
+    public String getDateLastMessage() {
+        return dateLastMessage;
+    }
+
+    public String getImageURL() {
+        return imageURL;
+    }
 
     public void setName(String name) { this.name = name; }
     public void setListOfMembers(List<String> listOfMembers) { this.listOfMembers = listOfMembers; }
@@ -48,6 +57,12 @@ public class Group implements Serializable{
         this.listOfIdsRoutesProposals = listOfIdsRoutesProposals;
     }
 
+    public void setDateLastMessage(String dateLastMessage) {
+        this.dateLastMessage = dateLastMessage;
+    }
+    public void setImageURL(String imageURL) {
+        this.imageURL = imageURL;
+    }
     @Override
     public boolean equals(Object o) {
         if(this == o) return true;

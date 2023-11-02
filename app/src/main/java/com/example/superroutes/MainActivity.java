@@ -68,19 +68,10 @@ public class MainActivity extends AppCompatActivity {
         db = FirebaseFirestore.getInstance();
         currentFireBaseUser = FirebaseAuth.getInstance().getCurrentUser();
         mAuth = FirebaseAuth.getInstance();
-        //Get permissions to access to user position
-        if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED)
-            ActivityCompat.requestPermissions(this,
-                    new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION, android.Manifest.permission.ACCESS_COARSE_LOCATION}, 123);
 
         signUpText = findViewById(R.id.sign_up_text);
 
-        signUpText.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startActivity(new Intent(MainActivity.this, SignUp.class));
-            }
-        });
+        signUpText.setOnClickListener(view -> startActivity(new Intent(MainActivity.this, SignUp.class)));
     }
 
     /**
@@ -102,7 +93,9 @@ public class MainActivity extends AppCompatActivity {
         EditText password = findViewById(R.id.password_edit_text);
         String emailString = email.getText().toString();
         String passwordString = password.getText().toString();
-        if(!ValidateCredentials(emailString, passwordString)) Toast.makeText(this, LOGIN_ERROR, Toast.LENGTH_SHORT).show();
+        if(!ValidateCredentials(emailString, passwordString)) {
+            Toast.makeText(this, LOGIN_ERROR, Toast.LENGTH_SHORT).show();
+        }
         else {
             mAuth.signInWithEmailAndPassword(emailString, passwordString).addOnCompleteListener(this, task -> {
                 if (task.isSuccessful()) {
@@ -111,6 +104,8 @@ public class MainActivity extends AppCompatActivity {
                     // If sign in fails, display a message to the user.
                     Toast.makeText(MainActivity.this, LOGIN_ERROR,
                             Toast.LENGTH_SHORT).show();
+                    email.setText("");
+                    password.setText("");
                 }
             });
         }
@@ -135,16 +130,13 @@ public class MainActivity extends AppCompatActivity {
 
     private void checkUserExist() {
         currentFireBaseUser = FirebaseAuth.getInstance().getCurrentUser();
-        db.collection("Users").document(currentFireBaseUser.getUid()).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                if(task.isSuccessful()) {
-                    if(!task.getResult().exists()) {
-                        introduceNewUser();
-                    }
+        db.collection("Users").document(currentFireBaseUser.getUid()).get().addOnCompleteListener(task -> {
+            if(task.isSuccessful()) {
+                if(!task.getResult().exists()) {
+                    introduceNewUser();
                 }
-                else {
-                }
+            }
+            else {
             }
         });
     }
@@ -154,10 +146,10 @@ public class MainActivity extends AppCompatActivity {
         if(nameAndSurname == null)
             nameAndSurname = "NoName NoSurname";
         String telephoneNumber = currentFireBaseUser.getPhoneNumber();
-        if(telephoneNumber == null);
+        if(telephoneNumber == null)
             telephoneNumber = "NoTelephoneNumber";
         String[] split = nameAndSurname.split(" ");
-        User currentUser= new User(split[0], split[1], currentFireBaseUser.getEmail(), telephoneNumber);
+        User currentUser= new User(split[0], split[1], currentFireBaseUser.getEmail(), telephoneNumber, null);
         db.collection("Users").document(currentFireBaseUser.getUid()).set(currentUser);
         startActivity(new Intent(MainActivity.this, ChooseRol.class));
     }

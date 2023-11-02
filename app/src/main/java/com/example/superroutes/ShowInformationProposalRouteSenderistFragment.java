@@ -16,10 +16,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.superroutes.custom_classes.ListAdapterRoutesAvailable;
 import com.example.superroutes.model.Route;
+import com.example.superroutes.model.RouteInformation;
 import com.example.superroutes.model.RouteProposal;
 import com.example.superroutes.model.RouteProposalState;
 import com.example.superroutes.model.User;
@@ -32,6 +35,7 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
@@ -82,9 +86,7 @@ public class ShowInformationProposalRouteSenderistFragment extends DialogFragmen
         Button joinRouteButton = v.findViewById(R.id.join_route_senderist_button);
         Button cancelProposalButton = v.findViewById(R.id.close_proposal_button);
         joinRouteButton.setOnClickListener(view -> {
-            //confirmJoinRouteProposal();
-            joinRouteProposal();
-            dismiss();
+            confirmJoinRouteProposal();
         });
         cancelProposalButton.setOnClickListener(view -> {
             dismiss();
@@ -96,14 +98,12 @@ public class ShowInformationProposalRouteSenderistFragment extends DialogFragmen
     }
 
     private AlertDialog confirmJoinRouteProposal() {
-        Log.d("entro en el método dialgo", "dialog");
-        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-        Log.d("entro en el método dialgo", "diaaaa");
+        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
         builder.setTitle("Are you sure?")
-                .setMessage("Once you select this option, the route will start.")
+                .setMessage("Once you select this option, you will be a participant of the route.")
                 .setNegativeButton("Cancel", (dialogInterface, i) -> dismiss())
                 .setPositiveButton("Go!", (dialogInterface, i) -> joinRouteProposal());
-        return builder.create();
+        return builder.show();
     }
 
 
@@ -113,8 +113,8 @@ public class ShowInformationProposalRouteSenderistFragment extends DialogFragmen
             RouteProposal routeProposalAux = documentSnapshot.toObject(RouteProposal.class);
             List<String> participantsIds = routeProposalAux.getParticipantsIds();
             participantsIds.add(currentFirebaseUser.getUid());
-
             reference.update("participantsIds", participantsIds);
+            startActivity(new Intent(requireContext(), MyRoutesSenderist.class));
         });
     }
 
@@ -124,6 +124,7 @@ public class ShowInformationProposalRouteSenderistFragment extends DialogFragmen
             TextView dateOfRoute = v.findViewById(R.id.date_of_route_senderist_routes);
             TextView guideNameOfRoute = v.findViewById(R.id.guide_information_senderist_routes_text);
             TextView commentOfRoute = v.findViewById(R.id.comment_senderist_routes_text);
+            ImageView guideImage = v.findViewById(R.id.guide_image_route_senderist_card);
             String dateOfRouteString = routeProposalAux.getWhichDay();
             dateOfRoute.setText(dateOfRouteString);
             commentOfRoute.setText(routeProposalAux.getComments());
@@ -131,6 +132,10 @@ public class ShowInformationProposalRouteSenderistFragment extends DialogFragmen
             db.collection("Users").document(routeProposalAux.getIdGuide()).get().addOnSuccessListener(documentSnapshot1 -> {
                 User guide = documentSnapshot1.toObject(User.class);
                 guideNameOfRoute.setText(guide.getName());
+                if(guide.getImageURL() != null)
+                    Picasso.get().load(guide.getImageURL()).into(guideImage);
+                else
+                    Picasso.get().load(R.drawable.default_profile_pic_man).into(guideImage);
             });
         });
 
@@ -138,9 +143,34 @@ public class ShowInformationProposalRouteSenderistFragment extends DialogFragmen
             Route routeAux = documentSnapshot.toObject(Route.class);
             TextView nameOfRoute = v.findViewById(R.id.name_of_route_inside_card_senderist);
             TextView locationOfRoute = v.findViewById(R.id.location_information_senderist_routes_text);
+            ImageView imageRoute = v.findViewById(R.id.image_of_route_inside_card_senderist);
+            ImageView difficultyRoute = v.findViewById(R.id.difficulty_icon_route_senderist_card);
+            TextView durationRoute = v.findViewById(R.id.duration_of_route_senderist_routes);
+            durationRoute.setText(routeAux.getDurationInHours() + " h");
             nameOfRoute.setText(routeAux.getName());
             locationOfRoute.setText(routeAux.getLocation());
+            addDifficultyToTheList(difficultyRoute, String.valueOf(routeAux.getDifficulty()));
+            if(routeAux.getImageURL() != null)
+                Picasso.get().load(routeAux.getImageURL()).into(imageRoute);
+            else
+                Picasso.get().load(R.drawable.mountain).into(imageRoute);
         });
+    }
 
+    private void addDifficultyToTheList(ImageView difficultyRoute, String difficulty) {
+        switch (difficulty) {
+            case "EASY":
+                difficultyRoute.setImageResource(R.drawable.difficulty_easy);
+                break;
+            case "MEDIUM":
+                difficultyRoute.setImageResource(R.drawable.difficulty_moderate);
+                break;
+            case "HARD":
+                difficultyRoute.setImageResource(R.drawable.difficulty_hard);
+                break;
+            case "EXPERIENCED":
+                difficultyRoute.setImageResource(R.drawable.difficulty_expert);
+                break;
+        }
     }
 }

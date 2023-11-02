@@ -3,50 +3,55 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@drawable/route_card_background">
 
     <TextView
-        android:id="@+id/name_of_the_route_my_groups"
+        android:id="@+id/name_of_the_group"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        style="@style/textViewApplication14dpStyle"
+        style="@style/textViewApplication16dpStyle"
         android:text="TextView"
         android:layout_marginStart="10dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="10dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintWidth_max="160dp"/>
 
     <TextView
-        android:id="@+id/list_of_participants_my_groups"
-        style="@style/textViewApplication12dpStyle"
-        android:layout_width="124dp"
-        android:layout_height="62dp"
-        android:layout_marginTop="8dp"
-        android:text="TextView"
-        android:scrollbars="vertical"
-        android:inputType="textMultiLine"
+        android:id="@+id/list_of_participants_group"
+        style="@style/textViewApplication10dpStyle"
+        android:layout_width="199dp"
+        android:layout_height="59dp"
         android:layout_gravity="top|start"
-        app:layout_constraintStart_toStartOf="@+id/name_of_the_route_my_groups"
-        app:layout_constraintTop_toBottomOf="@+id/name_of_the_route_my_groups" />
+        android:layout_marginTop="4dp"
+        android:inputType="textMultiLine"
+        android:maxLines="3"
+        android:scrollbars="vertical"
+        app:layout_constraintStart_toStartOf="@+id/name_of_the_group"
+        app:layout_constraintTop_toBottomOf="@+id/name_of_the_group"
+        app:layout_constraintWidth_max="200dp"/>
 
     <ImageView
-        android:id="@+id/image_of_route_my_groups"
-        android:layout_width="111dp"
-        android:layout_height="70dp"
+        android:id="@+id/image_group"
+        android:layout_width="140dp"
+        android:layout_height="80dp"
         android:layout_marginTop="16dp"
-        android:layout_marginEnd="18dp"
+        android:layout_marginEnd="30dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:srcCompat="@tools:sample/avatars" />
 
     <TextView
-        android:id="@+id/textView2"
+        android:id="@+id/date_last_message"
         style="@style/textViewSmall"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
         android:text="TextView"
-        android:layout_marginTop="8dp"
-        app:layout_constraintStart_toStartOf="@+id/image_of_route_my_groups"
-        app:layout_constraintTop_toBottomOf="@+id/image_of_route_my_groups" />
+        app:layout_constraintEnd_toEndOf="@+id/image_group"
+        app:layout_constraintStart_toStartOf="@+id/image_group"
+        app:layout_constraintTop_toBottomOf="@+id/image_group" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

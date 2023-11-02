@@ -9,28 +9,39 @@
 
     <include
         android:id="@+id/toolbar"
-        layout="@layout/toolbar"/>
+        layout="@layout/toolbar" />
+
+    <ImageView
+        android:id="@+id/group_image"
+        android:layout_width="136dp"
+        android:layout_height="136dp"
+        android:layout_marginBottom="4dp"
+        android:onClick="selectNewImage"
+        android:src="@drawable/icons8_c_mara_compacta_100"
+        app:layout_constraintBottom_toTopOf="@+id/guideline_first_horizontal"
+        app:layout_constraintEnd_toStartOf="@+id/guideline_margin_right"
+        app:layout_constraintStart_toStartOf="@+id/guideline_margin_left" />
 
     <EditText
         android:id="@+id/name_of_new_group_edittext"
+        style="@style/editTextViewStyle"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:inputType="text"
-        style="@style/editTextViewStyle"
         android:hint="@string/name_of_new_group_edittext"
+        android:inputType="text"
         app:layout_constraintBottom_toTopOf="@+id/guideline_second_horizontal"
         app:layout_constraintEnd_toStartOf="@+id/guideline_margin_right"
         app:layout_constraintStart_toStartOf="@+id/guideline_margin_left"
-        app:layout_constraintTop_toTopOf="@+id/guideline_first_horizontal" />
+        app:layout_constraintTop_toBottomOf="@+id/group_image" />
 
     <EditText
         android:id="@+id/list_invitation_new_members"
         style="@style/editTextViewStyle"
         android:layout_width="0dp"
         android:layout_height="0dp"
+        android:layout_marginEnd="102dp"
         android:hint="@string/list_invitation_new_members"
         android:inputType="textEmailAddress"
-        android:layout_marginEnd="102dp"
         app:layout_constraintBottom_toTopOf="@+id/guideline_third_horizontal"
         app:layout_constraintEnd_toStartOf="@+id/guideline_margin_right"
         app:layout_constraintStart_toStartOf="@+id/guideline_margin_left"
@@ -51,13 +62,15 @@
         app:layout_constraintTop_toTopOf="@+id/list_invitation_new_members" />
 
     <TextView
-        android:id="@+id/list_of_new_members"
+        android:id="@+id/list_of_members_invited"
         style="@style/textViewApplicationTitleStyle"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:scrollbars="vertical"
         android:inputType="textMultiLine"
         android:layout_gravity="top|left"
+        android:background="@drawable/text_box_background"
+        android:paddingLeft="2dp"
         app:layout_constraintBottom_toTopOf="@+id/guideline_fourth_horizontal"
         app:layout_constraintEnd_toStartOf="@+id/guideline_margin_right"
         app:layout_constraintStart_toStartOf="@+id/guideline_margin_left"
@@ -68,41 +81,47 @@
         style="@style/MainButtonsStyle"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
         android:onClick="confirmNewGroup"
         android:text="@string/create_new_group_button"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/guideline_margin_right"
         app:layout_constraintStart_toStartOf="@+id/guideline_margin_left"
         app:layout_constraintTop_toTopOf="@+id/guideline_fourth_horizontal" />
 
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline_zero_horizontal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.08" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline_first_horizontal"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.38" />
+        app:layout_constraintGuide_percent="0.28" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline_second_horizontal"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.45" />
+        app:layout_constraintGuide_percent="0.38" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline_third_horizontal"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.52" />
+        app:layout_constraintGuide_percent="0.48" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline_fourth_horizontal"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.8" />
+        app:layout_constraintGuide_percent="0.68" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline_margin_left"
@@ -117,6 +136,8 @@
         android:layout_height="wrap_content"
         android:orientation="vertical"
         app:layout_constraintGuide_percent="0.85" />
+
+
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

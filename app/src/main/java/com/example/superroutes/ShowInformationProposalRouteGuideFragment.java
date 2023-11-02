@@ -3,7 +3,6 @@ package com.example.superroutes;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 
@@ -16,43 +15,33 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.ListView;
+import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.example.superroutes.custom_classes.ListOfParticipantsCardAdapter;
-import com.example.superroutes.model.Rol;
 import com.example.superroutes.model.Route;
 import com.example.superroutes.model.RouteProposal;
 import com.example.superroutes.model.RouteProposalState;
 import com.example.superroutes.model.User;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
-import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
-import com.google.firebase.firestore.QuerySnapshot;
+import com.squareup.picasso.Picasso;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class ShowInformationProposalRouteGuideFragment extends DialogFragment {
 
     private static final String PROPOSAL_DELETED = "Proposal deleted";
 
+    private ImageView imageRoute;
     private int numberOfParticipants;
     private int maxNumberOfParticipants;
+    private String commentsOfRoute;
     private TextView listOfParticipantsNames;
     private String routeProposalCode;
     private String routeCode;
+    private RouteProposal routeProposal;
     private FirebaseFirestore db;
     private FirebaseUser currentFirebaseUser;
 
@@ -94,6 +83,7 @@ public class ShowInformationProposalRouteGuideFragment extends DialogFragment {
 
         Button startRouteButton = v.findViewById(R.id.start_route_guide_button);
         Button deleteProposalButton = v.findViewById(R.id.delete_proposal_button);
+        imageRoute = v.findViewById(R.id.image_of_route_inside_card_guide);
         listOfParticipantsNames = v.findViewById(R.id.list_of_participants_names_route_guide);
         startRouteButton.setOnClickListener(view -> {
             if(numberOfParticipants == 0) {
@@ -116,14 +106,16 @@ public class ShowInformationProposalRouteGuideFragment extends DialogFragment {
 
     private void getRouteProposalData(View v) {
         db.collection("RoutesProposals").document(routeProposalCode).get().addOnSuccessListener(documentSnapshot -> {
-            RouteProposal routeProposalAux = documentSnapshot.toObject(RouteProposal.class);
-            numberOfParticipants = routeProposalAux.getParticipantsIds().size();
-            maxNumberOfParticipants = routeProposalAux.getMaxParticipants();
-            TextView dateOfRoute = v.findViewById(R.id.date_of_route_guide_routes);
-            String dateOfRouteString = routeProposalAux.getWhichDay();
+            routeProposal = documentSnapshot.toObject(RouteProposal.class);
+            numberOfParticipants = routeProposal.getParticipantsIds().size();
+            maxNumberOfParticipants = Integer.valueOf(routeProposal.getMaxParticipants());
+            TextView commentsOfRoute = v.findViewById(R.id.comments_of_route_inside_guide_routes);
+            TextView dateOfRoute = v.findViewById(R.id.date_of_route_inside_guide_routes);
+            String dateOfRouteString = routeProposal.getWhichDay();
             dateOfRoute.setText(dateOfRouteString);
+            commentsOfRoute.setText(routeProposal.getComments());
 
-            List<String> participantsIds = routeProposalAux.getParticipantsIds();
+            List<String> participantsIds = routeProposal.getParticipantsIds();
             StringBuilder sb = new StringBuilder();
             db.collection("Users").get().addOnCompleteListener(task -> {
                 User userAux;
@@ -144,7 +136,14 @@ public class ShowInformationProposalRouteGuideFragment extends DialogFragment {
         db.collection("Routes").document(routeCode).get().addOnSuccessListener(documentSnapshot -> {
             Route routeAux = documentSnapshot.toObject(Route.class);
             TextView nameOfRoute = v.findViewById(R.id.name_of_route_inside_card_guide);
+            TextView locationOfRoute = v.findViewById(R.id.location_of_route_inside_card_guide);
+            ImageView imageRoute = v.findViewById(R.id.image_of_route_inside_card_guide);
             nameOfRoute.setText(routeAux.getName());
+            locationOfRoute.setText(routeAux.getLocation());
+            if(routeAux.getImageURL() != null)
+                Picasso.get().load(routeAux.getImageURL()).into(imageRoute);
+            else
+                Picasso.get().load(R.drawable.mountain).into(imageRoute);
         });
     }
 
@@ -179,8 +178,10 @@ public class ShowInformationProposalRouteGuideFragment extends DialogFragment {
     private void startProposal() {
         db.collection("RoutesProposals").document(routeProposalCode)
                 .update("routeProposalState", String.valueOf(RouteProposalState.WAITING)).addOnSuccessListener(unused -> {
-                    Intent intent = new Intent(getContext(), RouteStarted.class);
+                    Intent intent = new Intent(getContext(), RouteStartedGuide.class);
                     intent.putExtra("route_proposal_code", routeProposalCode);
+                    intent.putExtra("route_proposal", routeProposal);
+                    Log.d("routeProposalShowInformatioProposal", routeProposal.toString());
                     intent.putExtra("rol", "GUIDE");
                     startActivity(intent);
                 });

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     xmlns:card_view="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
@@ -7,92 +8,15 @@
     android:background="@drawable/route_card_background"
     tools:context=".ShowInformationProposalRouteSenderistFragment">
 
-    <LinearLayout
-        android:id="@+id/images_route_card_linear_layout"
+    <ImageView
+        android:id="@+id/image_of_route_inside_card_senderist"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:orientation="vertical"
+        android:scaleType="fitXY"
         card_view:layout_constraintBottom_toTopOf="@+id/guideline_horizontal_bottom_images"
         card_view:layout_constraintEnd_toEndOf="parent"
         card_view:layout_constraintStart_toStartOf="parent"
-        card_view:layout_constraintTop_toTopOf="parent">
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="72dp"
-            android:orientation="horizontal"
-            card_view:layout_constraintEnd_toEndOf="parent"
-            card_view:layout_constraintStart_toStartOf="@+id/guideline_vertical_center"
-            card_view:layout_constraintTop_toTopOf="parent">
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:scaleType="centerCrop"
-                tools:src="@tools:sample/avatars" />
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:scaleType="centerCrop"
-                tools:src="@tools:sample/avatars" />
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:scaleType="centerCrop"
-                tools:src="@tools:sample/avatars" />
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:scaleType="centerCrop"
-                tools:src="@tools:sample/avatars" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="72dp"
-            android:orientation="horizontal"
-            card_view:layout_constraintEnd_toEndOf="parent"
-            card_view:layout_constraintStart_toStartOf="@+id/guideline_vertical_center"
-            card_view:layout_constraintTop_toTopOf="parent">
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:scaleType="centerCrop"
-                tools:src="@tools:sample/avatars" />
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:scaleType="centerCrop"
-                tools:src="@tools:sample/avatars" />
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:scaleType="centerCrop"
-                tools:src="@tools:sample/avatars" />
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:scaleType="centerCrop"
-                tools:src="@tools:sample/avatars" />
-
-        </LinearLayout>
-    </LinearLayout>
+        card_view:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/name_of_route_inside_card_senderist"
@@ -112,7 +36,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:text="@string/location_of_route_senderist_routes_label_text"
-        card_view:layout_constraintStart_toStartOf="@+id/guideline_vertical_1"
+        card_view:layout_constraintStart_toStartOf="@+id/name_of_route_inside_card_senderist"
         card_view:layout_constraintTop_toBottomOf="@+id/name_of_route_inside_card_senderist" />
 
     <TextView
@@ -124,7 +48,8 @@
         card_view:layout_constraintBottom_toBottomOf="@+id/location_of_route_senderist_routes_label"
         card_view:layout_constraintEnd_toStartOf="@+id/guideline_guide_end_location"
         card_view:layout_constraintStart_toStartOf="@+id/guideline_vertical_center"
-        card_view:layout_constraintTop_toTopOf="@+id/location_of_route_senderist_routes_label" />
+        card_view:layout_constraintTop_toTopOf="@+id/location_of_route_senderist_routes_label"
+        app:layout_constraintWidth_max="100dp"/>
 
     <TextView
         android:id="@+id/difficulty_of_route_senderist_routes_label"
@@ -133,7 +58,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:text="@string/difficulty_of_route_senderist_routes_label_text"
-        card_view:layout_constraintStart_toStartOf="@+id/guideline_vertical_1"
+        card_view:layout_constraintStart_toStartOf="@+id/location_of_route_senderist_routes_label"
         card_view:layout_constraintTop_toBottomOf="@+id/location_of_route_senderist_routes_label" />
 
     <ImageView
@@ -141,9 +66,9 @@
         android:layout_width="25dp"
         android:layout_height="25dp"
         android:src="@drawable/difficulty_easy"
+        app:layout_constraintEnd_toEndOf="@+id/location_information_senderist_routes_text"
+        app:layout_constraintStart_toStartOf="@+id/location_information_senderist_routes_text"
         card_view:layout_constraintBottom_toBottomOf="@+id/difficulty_of_route_senderist_routes_label"
-        card_view:layout_constraintEnd_toStartOf="@+id/guideline_vertical_2"
-        card_view:layout_constraintStart_toEndOf="@+id/difficulty_of_route_senderist_routes_label"
         card_view:layout_constraintTop_toTopOf="@+id/difficulty_of_route_senderist_routes_label" />
 
     <TextView
@@ -153,7 +78,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:text="@string/date_of_route_senderist_routes_label_text"
-        card_view:layout_constraintStart_toStartOf="@+id/guideline_vertical_1"
+        card_view:layout_constraintStart_toStartOf="@+id/duration_of_route_senderist_routes_label"
         card_view:layout_constraintTop_toBottomOf="@+id/duration_of_route_senderist_routes_label" />
 
     <TextView
@@ -162,9 +87,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="8 h"
+        app:layout_constraintEnd_toEndOf="@+id/location_information_senderist_routes_text"
+        app:layout_constraintStart_toStartOf="@+id/location_information_senderist_routes_text"
         card_view:layout_constraintBottom_toBottomOf="@+id/duration_of_route_senderist_routes_label"
-        card_view:layout_constraintEnd_toStartOf="@+id/guideline_vertical_2"
-        card_view:layout_constraintStart_toStartOf="@+id/guideline_vertical_center"
         card_view:layout_constraintTop_toTopOf="@+id/duration_of_route_senderist_routes_label" />
 
     <TextView
@@ -173,9 +98,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="12/12/2023"
+        app:layout_constraintEnd_toEndOf="@+id/location_information_senderist_routes_text"
         card_view:layout_constraintBottom_toBottomOf="@+id/date_of_route_senderist_routes_label"
-        card_view:layout_constraintEnd_toStartOf="@+id/guideline_vertical_2"
-        card_view:layout_constraintStart_toStartOf="@+id/guideline_vertical_center"
+        card_view:layout_constraintStart_toStartOf="@+id/location_information_senderist_routes_text"
         card_view:layout_constraintTop_toTopOf="@+id/date_of_route_senderist_routes_label" />
 
     <TextView
@@ -185,7 +110,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:text="@string/duration_of_route_senderist_routes_label_text"
-        card_view:layout_constraintStart_toStartOf="@+id/guideline_vertical_1"
+        card_view:layout_constraintStart_toStartOf="@+id/difficulty_of_route_senderist_routes_label"
         card_view:layout_constraintTop_toBottomOf="@+id/difficulty_of_route_senderist_routes_label" />
 
     <TextView
@@ -193,7 +118,7 @@
         style="@style/textViewApplication14dpStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="guide's name"
+        android:text=""
         android:layout_marginTop="10dp"
         card_view:layout_constraintEnd_toStartOf="@+id/guideline_vertical_2"
         card_view:layout_constraintStart_toStartOf="@+id/guideline_vertical_1"
@@ -220,11 +145,9 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginTop="10dp"
-        android:scaleType="fitXY"
         android:src="@drawable/icons8_tour_guide_48"
         card_view:layout_constraintBottom_toTopOf="@+id/guideline_guide_top_image"
         card_view:layout_constraintEnd_toStartOf="@+id/guideline_guide_start_image"
-        card_view:layout_constraintHorizontal_bias="0.448"
         card_view:layout_constraintStart_toStartOf="@+id/guideline_guide_end_image"
         card_view:layout_constraintTop_toBottomOf="@+id/date_of_route_senderist_routes_label" />
 
@@ -312,4 +235,5 @@
         android:layout_height="wrap_content"
         android:orientation="vertical"
         card_view:layout_constraintGuide_percent="0.86" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

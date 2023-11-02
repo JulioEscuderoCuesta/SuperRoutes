@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/background_color"
     tools:context=".MyRoutesSenderist">
 
     <include
@@ -37,7 +38,7 @@
         android:id="@+id/list_of_routes_for_senderist"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:divider="@color/white"
+        android:divider="@color/background_color"
         android:dividerHeight="8dp"
         app:layout_constraintBottom_toTopOf="@+id/guideline_third_horizontal"
         app:layout_constraintEnd_toStartOf="@+id/guideline_margin_right"

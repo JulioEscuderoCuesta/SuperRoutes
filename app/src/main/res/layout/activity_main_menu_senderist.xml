@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/background_color"
     tools:context=".MainMenuSenderist">
 
     <include
@@ -30,19 +31,18 @@
         app:layout_constraintBottom_toTopOf="@+id/guideline_third_horizontal"
         app:layout_constraintEnd_toStartOf="@+id/guideline_margin_right"
         app:layout_constraintStart_toStartOf="@+id/guideline_margin_left"
-        app:layout_constraintTop_toTopOf="@+id/guideline_first_horizontal" />
+        app:layout_constraintTop_toTopOf="@+id/list_of_routes_main_menu_senderist" />
 
     <TextView
-        android:id="@+id/welcome_text"
+        android:id="@+id/title_text_menu_senderist"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/check_out_new_routes"
-        android:textColor="@color/black"
-        android:textStyle="italic|bold"
+        style="@style/textViewApplication14dpItalicStyle"
         app:layout_constraintBottom_toTopOf="@+id/guideline_second_horizontal"
         app:layout_constraintEnd_toStartOf="@+id/guideline_margin_right"
         app:layout_constraintStart_toStartOf="@+id/guideline_margin_left"
-        app:layout_constraintTop_toTopOf="@+id/guideline_first_horizontal" />
+        app:layout_constraintTop_toBottomOf="@+id/image_main_menu_senderist" />
 
     <Button
         android:id="@+id/button_see_my_routes"
@@ -73,10 +73,10 @@
         app:layout_constraintTop_toTopOf="@+id/guideline_fourth_horizontal" />
 
     <ListView
-        android:id="@+id/list_of_routes_for_senderist"
+        android:id="@+id/list_of_routes_main_menu_senderist"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:divider="@color/white"
+        android:divider="@color/background_color"
         android:dividerHeight="8dp"
         app:layout_constraintBottom_toTopOf="@+id/guideline_third_horizontal"
         app:layout_constraintEnd_toStartOf="@+id/guideline_margin_right"

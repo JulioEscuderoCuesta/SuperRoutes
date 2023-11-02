@@ -4,7 +4,12 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/background_color"
     tools:context=".MyGroupsSenderist">
+
+    <include
+        android:id="@+id/toolbar"
+        layout="@layout/toolbar" />
 
     <SearchView
         android:id="@+id/searchview_my_groups"
@@ -17,31 +22,43 @@
         app:layout_constraintTop_toTopOf="@+id/guideline_top_searchview" />
 
     <ListView
-        android:id="@+id/list_of_routes_for_senderist"
+        android:id="@+id/list_of_groups_for_senderist"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:divider="@color/white"
+        android:divider="@color/background_color"
         android:dividerHeight="8dp"
         app:layout_constraintBottom_toTopOf="@+id/guideline_list_bototm"
         app:layout_constraintEnd_toStartOf="@+id/guideline_margin_list_right"
         app:layout_constraintStart_toStartOf="@+id/guideline_margin_list_left"
         app:layout_constraintTop_toTopOf="@+id/guideline_list_top">
 
+
     </ListView>
+
+    <TextView
+        android:id="@+id/no_groups_text"
+        style="@style/textViewApplication14dpStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/text_no_groups_yet"
+        app:layout_constraintBottom_toBottomOf="@+id/list_of_groups_for_senderist"
+        app:layout_constraintEnd_toStartOf="@+id/guideline_margin_right"
+        app:layout_constraintStart_toStartOf="@+id/guideline_margin_left"
+        app:layout_constraintTop_toTopOf="@+id/list_of_groups_for_senderist" />
 
     <Button
         android:id="@+id/button_see_my_routes"
+        style="@style/MainButtonsStyle"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:onClick="onClickCreateNewRoute"
+        android:onClick="onClickCreateNewGroup"
         android:text="@string/create_new_group"
-        style="@style/MainButtonsStyle"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/guideline_margin_right"
         app:layout_constraintStart_toStartOf="@+id/guideline_margin_left"
-        app:layout_constraintTop_toBottomOf="@+id/list_of_routes_for_senderist" />
+        app:layout_constraintTop_toBottomOf="@+id/list_of_groups_for_senderist" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline_margin_left"

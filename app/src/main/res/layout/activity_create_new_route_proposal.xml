@@ -4,8 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:label="New Route"
-    android:background="#DFFCD8"
+    android:background="@color/background_color"
     tools:context=".CreateNewRouteProposal">
 
     <include
@@ -13,14 +12,64 @@
         layout="@layout/toolbar" />
 
     <SearchView
-        android:id="@+id/searchview_my_groups"
+        android:id="@+id/searchView_my_groups"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:background="@drawable/route_card_background"
+        android:background="@drawable/text_box_background"
+        android:queryHint="@string/hint_search_view_create_route"
+        android:iconifiedByDefault="false"
         app:layout_constraintBottom_toTopOf="@+id/guideline_bottom_searchview"
         app:layout_constraintEnd_toStartOf="@+id/guideline_margin_right"
         app:layout_constraintStart_toStartOf="@+id/guideline_margin_left"
         app:layout_constraintTop_toTopOf="@+id/guideline_top_searchview" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerView_my_groups"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:elevation="2dp"
+        android:background="@drawable/text_box_background"
+        app:layout_constraintBottom_toTopOf="@+id/guideline_third_horizontal"
+        app:layout_constraintEnd_toStartOf="@+id/guideline_margin_right"
+        app:layout_constraintStart_toStartOf="@+id/guideline_margin_left"
+        app:layout_constraintTop_toBottomOf="@+id/searchView_my_groups" />
+
+    <ImageView
+        android:id="@+id/image_route_selected"
+        android:layout_width="140dp"
+        android:layout_height="140dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/searchView_my_groups"
+        tools:srcCompat="@tools:sample/avatars" />
+
+    <TextView
+        android:id="@+id/name_route_selected"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        style="@style/textViewApplication14dpItalicStyle"
+        app:layout_constraintEnd_toStartOf="@+id/guideline_margin_right"
+        app:layout_constraintStart_toStartOf="@+id/guideline_margin_left"
+        app:layout_constraintTop_toBottomOf="@+id/image_route_selected" />
+
+    <TextView
+        android:id="@+id/location_route_selected"
+        style="@style/textViewApplication12dpStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toStartOf="@+id/guideline_margin_right"
+        app:layout_constraintStart_toStartOf="@+id/guideline_margin_left"
+        app:layout_constraintTop_toBottomOf="@+id/name_route_selected" />
+
+    <ImageView
+        android:id="@+id/difficulty_route_selected"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_marginStart="16dp"
+        app:layout_constraintBottom_toBottomOf="@+id/name_route_selected"
+        app:layout_constraintStart_toEndOf="@+id/name_route_selected"
+        app:layout_constraintTop_toTopOf="@+id/name_route_selected"
+        tools:srcCompat="@tools:sample/avatars" />
 
     <EditText
         android:id="@+id/date_route"
@@ -29,6 +78,7 @@
         android:clickable="true"
         style="@style/editTextViewStyle"
         android:hint="@string/date_route"
+        android:focusable="false"
         app:layout_constraintBottom_toTopOf="@+id/guideline_fourth_horizontal"
         app:layout_constraintEnd_toStartOf="@+id/guideline_margin_right"
         app:layout_constraintStart_toStartOf="@+id/guideline_margin_left"
@@ -47,12 +97,12 @@
         app:layout_constraintTop_toTopOf="@+id/guideline_fourth_horizontal" />
 
     <CheckBox
-        android:id="@+id/checkBox"
+        android:id="@+id/max_participants_checkbox"
         style="@style/textViewApplication12dpStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/accept_participants_check_box"
-        app:layout_constraintBottom_toTopOf="@+id/guideline_fith_horizontal"
+        app:layout_constraintBottom_toBottomOf="@+id/max_participants_text"
         app:layout_constraintEnd_toStartOf="@+id/guideline_margin_right"
         app:layout_constraintStart_toStartOf="@+id/guideline_number_participants_right"
         app:layout_constraintTop_toTopOf="@+id/max_participants_text" />
@@ -115,21 +165,21 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.42" />
+        app:layout_constraintGuide_percent="0.44" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline_fourth_horizontal"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.5" />
+        app:layout_constraintGuide_percent="0.52" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline_fith_horizontal"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.56" />
+        app:layout_constraintGuide_percent="0.6" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline_sixth_horizontal"
