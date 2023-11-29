@@ -1,0 +1,242 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background_color"
+    tools:context=".GroupChat">
+
+    <include
+        android:id="@+id/toolbar"
+        layout="@layout/toolbar" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:id="@+id/ll0"
+        android:layout_marginTop="70dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:id="@+id/ll1"
+            android:gravity="center|left">
+
+            <ImageView
+                android:id="@+id/group_image"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                app:civ_border_color="@color/white"
+                app:civ_border_width="2dp"
+                android:layout_marginStart="10dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                android:contentDescription="Image of group" />
+
+            <TextView
+                android:id="@+id/group_name"
+                style="@style/textViewMediumTextStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="6dp"
+                android:layout_marginTop="10dp"
+                android:gravity="bottom"
+                android:text="texto prueba" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:id="@+id/ll12">
+
+            <TextView
+                android:id="@+id/date_route_proposal_group"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:gravity="center"
+                style="@style/textViewApplication16dpStyle"
+                android:text="Date" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center"
+                android:layout_marginTop="10dp"
+                android:id="@+id/ll13">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:id="@+id/ll14">
+
+                    <TextView
+                        android:id="@+id/name_route_proposal_group"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:gravity="center"
+                        style="@style/textViewApplication14dpStyle"
+                        android:text="Name" />
+
+                    <TextView
+                        android:id="@+id/location_route_proposal_group"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:gravity="center"
+                        style="@style/textViewApplication14dpStyle"
+                        android:text="Location" />
+
+                </LinearLayout>
+
+                <ImageView
+                    android:id="@+id/image_new_route_proposal_group"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:layout_gravity="center|bottom"
+                    android:contentDescription="Image of route"
+                    app:srcCompat="@drawable/iconoruta"
+                    android:layout_marginStart="20dp"
+                    android:scaleType="centerCrop" />
+
+            </LinearLayout>
+        </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:id="@+id/ll3"
+        android:gravity="center"
+        android:layout_marginTop="70dp">
+
+        <TextView
+            android:id="@+id/no_proposals_for_group_yet"
+            style="@style/textViewApplication14dpStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:layout_marginTop="120dp"
+            android:text="@string/no_proposals_for_group_yet_text" />
+
+        <Button
+            android:id="@+id/button_new_proposal_group"
+            style="@style/MainButtonsStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:layout_marginTop="10dp"
+            android:text="@string/text_button_propose_root_group"
+            android:onClick="onClickCreateNewActivity"/>
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:id="@+id/ll4"
+        android:gravity="center"
+        android:layout_marginTop="300dp">
+
+        <Button
+            android:id="@+id/agree_activity_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/agree_button"
+            android:onClick="agreeButton"/>
+
+        <TextView
+            android:id="@+id/text_activity_confirmed"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="@style/textViewMediumTextStyle"
+            android:gravity="center"
+            android:text="@string/text_activity_voted"/>
+
+        <Button
+            android:id="@+id/disagree_activity_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:background="@drawable/disagree_button" />
+    </LinearLayout>
+
+
+<androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/message_adapter"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/ll2"
+        android:layout_below="@+id/ll0"
+        android:layout_marginTop="60dp"
+        android:layout_marginBottom="-7dp"
+        android:padding="10dp" />
+
+    <LinearLayout
+        android:id="@+id/ll2"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_alignParentBottom="true"
+        android:layout_marginStart="2dp"
+        android:layout_marginTop="2dp"
+        android:layout_marginEnd="2dp"
+        android:layout_marginBottom="2dp"
+        android:orientation="horizontal">
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+            android:layout_marginStart="4dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginEnd="7dp"
+            android:layout_weight="1"
+            app:cardBackgroundColor="@color/white"
+            app:cardCornerRadius="25dp">
+
+            <EditText
+                android:id="@+id/text_message"
+                android:layout_width="338dp"
+                android:layout_height="48dp"
+                android:layout_marginStart="20dp"
+                android:layout_gravity="center"
+                android:background="@null"
+                android:hint="@string/hint_send_message"
+                android:paddingStart="13.00dp" />
+
+        </androidx.cardview.widget.CardView>
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/send_button"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginEnd="5dp"
+            app:cardBackgroundColor="@color/white"
+            app:cardCornerRadius="25dp">
+
+            <ImageView
+                android:layout_width="22dp"
+                android:layout_height="22dp"
+                android:layout_gravity="center"
+                android:background="@drawable/send_message_icon" />
+
+        </androidx.cardview.widget.CardView>
+
+
+    </LinearLayout>
+
+
+
+</RelativeLayout>

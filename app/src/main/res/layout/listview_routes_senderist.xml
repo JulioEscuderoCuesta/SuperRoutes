@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/route_card_background">
+
+    <TextView
+        android:id="@+id/name_of_route_routes_senderist"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="12dp"
+        style="@style/textViewMediumTextStyle"
+        android:text="texto de ejemplo"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintWidth_max="200dp"/>
+
+    <TextView
+        android:id="@+id/date_of_route_routes_senderist"
+        style="@style/textViewApplication12dpStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="6dp"
+        android:text="fecha de ejemplo"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/name_of_route_routes_senderist" />
+
+    <ImageView
+        android:id="@+id/main_image_of_route_routes_senderist"
+        android:layout_width="140dp"
+        android:layout_height="80dp"
+        android:layout_marginEnd="40dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:srcCompat="@tools:sample/avatars" />
+
+    <ImageView
+        android:id="@+id/icon_guide_routes_senderist"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_marginStart="8dp"
+        app:layout_constraintStart_toEndOf="@+id/icon_difficulty_routes_senderist"
+        app:layout_constraintTop_toTopOf="@+id/icon_difficulty_routes_senderist" />
+
+    <ImageView
+        android:id="@+id/icon_difficulty_routes_senderist"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="2dp"
+        app:layout_constraintStart_toStartOf="@+id/date_of_route_routes_senderist"
+        app:layout_constraintTop_toBottomOf="@+id/date_of_route_routes_senderist" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

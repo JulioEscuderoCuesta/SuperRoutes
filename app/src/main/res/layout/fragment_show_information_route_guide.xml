@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/route_card_background"
+    tools:context=".ShowInformationProposalRouteGuideFragment">
+
+    <ImageView
+        android:id="@+id/image_of_route_inside_card_guide"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:scaleType="fitXY"
+        card_view:layout_constraintBottom_toTopOf="@+id/guideline_horizontal_bottom_images"
+        card_view:layout_constraintEnd_toEndOf="parent"
+        card_view:layout_constraintStart_toStartOf="parent"
+        card_view:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/name_of_route_inside_card_guide"
+        style="@style/textViewHugeTextStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Name of the route"
+        android:layout_marginTop="30dp"
+        card_view:layout_constraintEnd_toEndOf="parent"
+        card_view:layout_constraintStart_toStartOf="parent"
+        card_view:layout_constraintTop_toTopOf="@+id/guideline_horizontal_bottom_images" />
+
+    <TextView
+        android:id="@+id/location_of_route_inside_card_guide"
+        style="@style/textViewApplication14dpStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="location of the route"
+        android:layout_marginTop="4dp"
+        card_view:layout_constraintEnd_toEndOf="parent"
+        card_view:layout_constraintStart_toStartOf="parent"
+        card_view:layout_constraintTop_toBottomOf="@+id/name_of_route_inside_card_guide" />
+
+    <TextView
+        android:id="@+id/comments_label_of_route_inside_guide_routes"
+        style="@style/textViewApplication14dpNoBoldStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:text="@string/comments_label_of_route_inside_guide_routes"
+        card_view:layout_constraintEnd_toEndOf="parent"
+        card_view:layout_constraintStart_toStartOf="parent"
+        card_view:layout_constraintTop_toBottomOf="@+id/location_of_route_inside_card_guide" />
+
+    <TextView
+        android:id="@+id/comments_of_route_inside_guide_routes"
+        style="@style/textViewApplication12dpStyle"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="2dp"
+        android:gravity="center"
+        android:text="comments about the route"
+        card_view:layout_constraintEnd_toStartOf="@+id/guideline_vertical_2"
+        card_view:layout_constraintStart_toStartOf="@+id/guideline_vertical_1"
+        card_view:layout_constraintTop_toBottomOf="@+id/comments_label_of_route_inside_guide_routes" />
+
+    <TextView
+        android:id="@+id/date_of_route_inside_guide_routes"
+        style="@style/textViewHugeTextStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="date of the route"
+        android:layout_marginTop="20dp"
+        card_view:layout_constraintEnd_toEndOf="parent"
+        card_view:layout_constraintStart_toStartOf="parent"
+        card_view:layout_constraintTop_toBottomOf="@+id/comments_of_route_inside_guide_routes" />
+
+    <TextView
+        android:id="@+id/participants_label_of_route_inside_guide_routes"
+        style="@style/textViewMediumTextStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Participants"
+        android:layout_marginTop="20dp"
+        card_view:layout_constraintEnd_toEndOf="parent"
+        card_view:layout_constraintStart_toStartOf="parent"
+        card_view:layout_constraintTop_toBottomOf="@+id/date_of_route_inside_guide_routes" />
+
+    <Button
+        android:id="@+id/delete_proposal_button"
+        style="@style/MainButtonsStyle"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="@string/delete_proposal_button"
+        android:layout_margin="4dp"
+        android:layout_marginTop="10dp"
+        card_view:layout_constraintBottom_toBottomOf="parent"
+        card_view:layout_constraintEnd_toStartOf="@+id/guideline_vertical_center"
+        card_view:layout_constraintStart_toStartOf="parent"
+        card_view:layout_constraintTop_toBottomOf="@+id/list_of_participants_names_route_guide" />
+
+    <Button
+        android:id="@+id/start_route_guide_button"
+        style="@style/MainButtonsStyle"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="@string/start_route_button"
+        android:layout_margin="4dp"
+        android:layout_marginTop="10dp"
+        card_view:layout_constraintBottom_toBottomOf="parent"
+        card_view:layout_constraintEnd_toEndOf="parent"
+        card_view:layout_constraintStart_toStartOf="@+id/guideline_vertical_center"
+        card_view:layout_constraintTop_toBottomOf="@+id/list_of_participants_names_route_guide" />
+
+    <TextView
+        android:id="@+id/list_of_participants_names_route_guide"
+        style="@style/textViewApplication14dpStyle"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:gravity="top|center"
+        android:inputType="textMultiLine"
+        android:layout_marginTop="10dp"
+        card_view:layout_constraintBottom_toTopOf="@+id/guideline_horizontal_card"
+        card_view:layout_constraintEnd_toStartOf="@+id/guideline_vertical_2"
+        card_view:layout_constraintStart_toStartOf="@+id/guideline_vertical_1"
+        card_view:layout_constraintTop_toBottomOf="@+id/participants_label_of_route_inside_guide_routes" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline_vertical_1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        card_view:layout_constraintGuide_percent="0.25" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline_vertical_2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        card_view:layout_constraintGuide_percent="0.75" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline_vertical_center"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        card_view:layout_constraintGuide_percent="0.5" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline_horizontal_bottom_images"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        card_view:layout_constraintGuide_percent="0.26" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline_horizontal_date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        card_view:layout_constraintGuide_percent="0.7" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline_horizontal_card"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        card_view:layout_constraintGuide_percent="0.9" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

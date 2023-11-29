@@ -1,18 +1,61 @@
 <resources>
     <string name="app_name">Super Routes</string>
+    <string name="database_url">https://superroutes-5378d-default-rtdb.europe-west1.firebasedatabase.app/</string>
 
-    Strings in sing in activity
+    Strings in main activity
     <string name="logo_description">Logo de la Aplicación</string>
-    <string name="title_sing_in">Super routes</string>
-    <string name="user_edit_text_placeholder">User</string>
+    <string name="super_routes_text">Super routes</string>
+    <string name="email_edit_text_placeholder">Email</string>
+    <string name="telephone_edit_text_placeholder">Telephone</string>
     <string name="password_edit_text_placeholder">Password</string>
-    <string name="text_button_ok">Ok</string>
-    <string name="text_button_cancel">Cancel</string>
+    <string name="confirm_password_edit_text_placeholder">Confirm Password</string>
+    <string name="ask_for_role">Who are you?</string>
+    <string name="guide_option">Guide</string>
+    <string name="senderist_option">Senderist</string>
+    <string name="text_button_ok">Log in</string>
+    <string name="forgot_password_text">Forgot password?</string>
+    <string name="button_sign_in_google">Log in using Google</string>
+    <string name="ask_no_account_yet">Don´t have an account?</string>
+    <string name="sign_up_text">Sign up</string>
 
-    Strings in routes activity
+    Strings in sign up activity
+    <string name="name_edit_text_placeholder">Name</string>
+    <string name="surname_edit_text_placeholder">Surname</string>
+
+
+    Strings in toolbar
+    <string name="text_toolbar_super">SUPER</string>
+    <string name="text_toolbar_routes">ROUTES</string>
+
+    Strings in sign in activity
+    <string name="ask_already_account">Already have an account?</string>
+
+    Strings in choose rol activity
+    <string name="welcome_text">Welcome to</string>
+    <string name="choose_rol_information">You need to choose a rol to continue.</string>
+    <string name="choose_rol_explanation">If you log in as Guide, you\'ll be able to propose routes, but people may request you to be the guide in their routes.</string>
+    <string name="choose_rol_text">Choose a rol</string>
+    <string name="button_text_go">Go!</string>
+
+    Strings in main menu guide activity
+    <string name="routes_of_the_guide">You signed up as guide for these routes</string>
+    <string name="see_my_routes_guide_menu">My Routes</string>
+    <string name="see_previous_routes_guide_menu">See routes done</string>
+    <string name="create_new_route_guide_menu">Create new route</string>
+    <string name="no_routes_assigned_menu_guide">You do not have any route yet</string>
+
+    Strings in activity main menu senderist
     <string name="select_route_button">Pick!</string>
-    <string name="welcome_text">Welcome back </string>
-    <string name="routes_presentation_text">Check out the routes available today!</string>
+    <string name="check_out_new_routes">Check out these new routes</string>
+    <string name="text_no_routes_proposed">There are currently no proposals, come back later</string>
+    <string name="routes_presentation_text">Or you can sign up for these routes</string>
+    <string name="see_my_routes_button">My Routes</string>
+    <string name="see_my_groups_button">My Groups</string>
+
+    Strings in activity my routes senderist
+    <string name="my_routes_senderist_text">These are the routes you sign up for</string>
+    <string name="text_no_routes_joined">You didn\'t sing up for any route yet</string>
+
 
     Strings in menu activity
     <string name="menu_text">What do you want to check?</string>
@@ -34,5 +77,84 @@
     <string name="latitude_label">Latitude</string>
     <string name="longitude_label">Longitude</string>
     <string name="button_position_location">See position on map</string>
+
+    Strings in create new route
+    <string name="name_route_hint">Name</string>
+    <string name="duration_hint">Duration (hours)</string>
+    <string name="max_participants_hint">Nº participants</string>
+    <string name="accept_participants_check_box">Accept participants</string>
+    <string name="comments_edit_hint">Write more information...</string>
+    <string name="hint_search_view_create_route">Pick a route</string>
+    List of difficulty routes
+    <string-array name="levels_of_difficulty_route">
+        <item>Select difficulty</item>
+        <item>Easy</item>
+        <item>Medium</item>
+        <item>Hard</item>
+        <item>Experienced</item>
+    </string-array>
+    <string name="date_route">Date</string>
+    <string name="confirm_new_route_button">Done</string>
+
+    Strings in search bar
+    <string name="search_hint">Search new groups</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    Strings in fragment card routes guide
+    <string name="start_route_button">Start!</string>
+    <string name="delete_proposal_button">Delete</string>
+    <string name="comments_label_of_route_inside_guide_routes">Some comments</string>
+
+    String in fragment card routes senderist
+    <string name="difficulty_of_route_senderist_routes_label_text">Difficulty: </string>
+    <string name="date_of_route_senderist_routes_label_text">Date: </string>
+    <string name="duration_of_route_senderist_routes_label_text">Duration: </string>
+    <string name="location_of_route_senderist_routes_label_text">Location: </string>
+    <string name="join_route_button">Join</string>
+    <string name="close_route_button">Close</string>
+
+    Strings in waiting room before route starts
+    <string name="button_start_route_route_started_guide">Everybody Ready!</string>
+    <string name="waiting_text_view_waiting_room_senderist">Waiting for the guide to start.</string>
+    <string name="waiting_text_view_waiting_room_guide">Press the button when everybody is ready.</string>
+
+    Strings in menu senderist in route
+    <string name="accelerometer_icon_explained_in_menu_senerist_in_route">If activated, it will catch it if you fall down.</string>
+    <string name="chat_icon_explained_in_menu_senerist_in_route">You can chat with your fellows too!</string>
+    <string name="gps_icon_explained_in_menu_senerist_in_route">Check your location</string>
+    <string name="camera_icon_explained_in_menu_senerist_in_route">You can send pictures to the group!</string>
+
+    Strings in waiting room senderist
+    <string name="title_waiting_room_senderist">Waiting for the guide to start</string>
+
+    Strings in route started guide
+    <string name="chat_icon_explained_in_menu_guide_in_route">Open chat</string>
+    <string name="camera_icon_explained_in_menu_guide_in_route">Send pictures to the group</string>
+    <string name="finish_route_route_started_guide">Finish route</string>
+
+    Strings in my groups (senderist)
+    <string name="create_new_group">Create new group</string>
+    <string name="text_no_groups_yet">You aren\'t part of any group yet </string>
+
+    Strings in create new group
+    <string name="name_of_new_group_edittext">Name of the group</string>
+    <string name="list_invitation_new_members">Invite new members</string>
+    <string name="add_new_member">Add</string>
+    <string name="select_new_image">Select image</string>
+    <string name="create_new_group_button">Done</string>
+
+    Strings in chat
+    <string name="hint_send_message">Write a message</string>
+    <string name="content_description_send_message_icon">Send message</string>
+    <string name="text_button_propose_root_group">New activity</string>
+    <string name="no_proposals_for_group_yet_text">There is not a proposal yet...</string>
+    <string name="text_activity_declined">There were not enough votes</string>
+    <string name="text_activity_confirmed">Confirmed activity!</string>
+    <string name="text_activity_voted">You already voted</string>
+
+    Strings in search bar
+    <string name="search_route_search_bar">Search Route</string>
+
 
 </resources>
